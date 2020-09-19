@@ -1,14 +1,14 @@
 [tool.poetry]
-name = "scxu"
+name = "sxcu"
 version = "0.1.0a0"
-description = "Python API wraper for scxu.net"
+description = "Python API wraper for sxcu.net"
 authors = [
     "Naveen M K <naveen@syrusdark.website>"
 ]
 license = "Apache-2.0"
 readme = "README.md"
 packages = [
-    { include = "scxu" }
+    { include = "sxcu" }
 ]
 
 [tool.poetry.dependencies]
@@ -28,8 +28,8 @@ target-python = "3.6"
 
 [tool.isort]
 profile = "black"
-src_paths = ["scxu", "test"]
-known_first_party = "scxu"
+src_paths = ["sxcu", "test"]
+known_first_party = "sxcu"
 
 [tool.pytest.ini_options]
 minversion = "6.0"
@@ -86,7 +86,7 @@ parallel = true
 data_file = ".coverage/data"
 # we only care about these packages
 source = [
-    "scxu",
+    "sxcu",
 ]
 omit = [
     "tests/*",
@@ -95,7 +95,7 @@ omit = [
 [tool.coverage.paths]
 # ensure these paths are treated as equivalents
 source = [
-    "scxu/",
+    "sxcu/",
     "*/site-packages"
 ]
 

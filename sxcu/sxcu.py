@@ -6,7 +6,7 @@ import json
 # token=d6208525-a58a-4b91-8dc3-bcb7ad086445
 # dom=pls.click-if-you-da.re
 
-
+__all__=["og_properties","SXCU"]
 class og_properties(object):
     def __init__(self, color=None, description=None, title=None):
         self.color = color
