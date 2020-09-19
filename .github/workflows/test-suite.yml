@@ -1,14 +1,12 @@
 name: Test Suite
 
 on:
-  pull_request: {}
   push:
-    branches: [master]
 
 jobs:
-  Tests:
-    name: ${{ matrix.os }} / ${{ matrix.python-version }}
-    runs-on: ${{ matrix.os }}-latest
+  tests:
+    name: ${{ matrix.os }} - ${{ matrix.python-version }}
+    runs-on: ${{ matrix.os }}
     strategy:
       matrix:
         os: [ubuntu-latest, macos-latest, windows-latest]
