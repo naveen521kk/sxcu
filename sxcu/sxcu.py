@@ -76,7 +76,6 @@ class SXCU:
         :class:`dict`
             The returned JSON from the request.
         """
-        files = {"image": open(file, "rb")}
         data = {}
         if self.upload_token:
             data["token"] = self.upload_token
@@ -93,7 +92,9 @@ class SXCU:
             if self.subdomain[-1] == "/"
             else self.subdomain + "/upload"
         )
-        res = requests.post(url=url, files=files, data=data)
+        with open(file, "rb") as f:
+            files = {"image": f}
+            res = requests.post(url=url, files=files, data=data)
         return res.json()
 
     def create_collection(
@@ -196,12 +197,14 @@ class SXCU:
             The returned JSON from the request.
         """
         con = requests.get("https://sxcu.net/api?action=domains")
-        conJson = con.text
-        with open("d.txt", "wb") as f:
-            f.write(con.content)
-        return con.json()
-
         if count == -1:
-            return con.json()
+            toEncode = con.json()
         else:
-            return con.json()
+            toEncode = con.json()[:count]
+        for i in range(len(toEncode)):
+            temp={}
+            for j in toEncode[i]:
+                if type(toEncode[i][j])==str:
+                    temp[j]=toEncode[i][j].encode()
+            toEncode[i]=temp
+        return toEncode
