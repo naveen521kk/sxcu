@@ -1,0 +1,9 @@
+[flake8]
+ignore = E501, W503, ANN101, ANN102
+max-line-length = 80
+max-complexity = 18
+select = A, B,C,E,F,W,T4,B9
+extend-exclude =
+    .venv/
+suppress-dummy-args = true
+allow-untyped-def = true

@@ -1,0 +1,134 @@
+[tool.poetry]
+name = "scxu"
+version = "0.1.0a0"
+description = "Python API wraper for scxu.net"
+authors = [
+    "Naveen M K <naveen@syrusdark.website>"
+]
+license = "Apache-2.0"
+readme = "README.md"
+packages = [
+    { include = "scxu" }
+]
+
+[tool.poetry.dependencies]
+python = "^3.6"
+importlib-metadata = {version = "*", python = "<3.8"}
+tox = "^3.20.0"
+pytest = "^6.0.2"
+requests = "^2.24.0"
+
+[tool.poetry.dev-dependencies]
+pre-commit = {version = "^2.7.1", python = ">=3.6.1"}
+coverage = {version = "^5.2.1", extras = ["toml"]}
+
+[tool.black]
+line-length = 88
+target-python = "3.6"
+
+[tool.isort]
+profile = "black"
+src_paths = ["scxu", "test"]
+known_first_party = "scxu"
+
+[tool.pytest.ini_options]
+minversion = "6.0"
+addopts = "-ra"
+testpaths = [
+    "tests",
+]
+
+[tool.tox]
+legacy_tox_ini = """
+[tox]
+minversion = 3.13.0
+isolated_build = True
+envlist = py
+
+[testenv]
+whitelist_externals = poetry
+setenv =COVERAGE_FILE=.coverage/data.{envname}
+commands =
+    poetry install --no-root
+    pytest--cov --cov-report=term {posargs}
+
+[testenv:lint]
+skip_install = True
+deps =
+    pre-commit
+commands =
+    pre-commit run --all-files {posargs}
+
+[testenv:report]
+skip_install = true
+deps =
+    coverage[toml]
+setenv =
+    COVERAGE_FILE=.coverage/data
+commands =
+    coverage combine
+    coverage report
+    coverage html
+
+[testenv:clean]
+skip_install = true
+deps =
+    coverage[toml]
+setenv =
+    COVERAGE_FILE=.coverage/data
+commands = coverage erase
+
+"""
+
+[tool.coverage.run]
+branch = true
+parallel = true
+data_file = ".coverage/data"
+# we only care about these packages
+source = [
+    "scxu",
+]
+omit = [
+    "tests/*",
+]
+
+[tool.coverage.paths]
+# ensure these paths are treated as equivalents
+source = [
+    "scxu/",
+    "*/site-packages"
+]
+
+[tool.coverage.report]
+skip_empty = true
+ignore_errors = true
+exclude_lines = [
+    # Have to re-enable the standard pragma
+    "pragma: no cover",
+
+    # Don't complain about missing debug-only code:
+    "def __repr__",
+    "if self.debug",
+
+    # Don't complain if tests don't hit defensive assertion code:
+    "raise AssertionError",
+    "raise NotImplementedError",
+
+    # Don't complain if non-runnable code isn't run:
+    "if 0:",
+    "if __name__ == .__main__.:",
+    "if TYPE_CHECKING:"
+]
+
+[tool.coverage.html]
+directory = ".coverage/html"
+
+[tool.coverage.xml]
+output = ".coverage/coverage.xml"
+
+[tool.coverage.json]
+output = ".coverage/coverage.json"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
