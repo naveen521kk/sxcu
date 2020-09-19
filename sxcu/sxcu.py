@@ -6,7 +6,9 @@ import json
 # token=d6208525-a58a-4b91-8dc3-bcb7ad086445
 # dom=pls.click-if-you-da.re
 
-__all__=["og_properties","SXCU"]
+__all__ = ["og_properties", "SXCU"]
+
+
 class og_properties(object):
     def __init__(self, color=None, description=None, title=None):
         self.color = color
@@ -202,9 +204,28 @@ class SXCU:
         else:
             toEncode = con.json()[:count]
         for i in range(len(toEncode)):
-            temp={}
+            temp = {}
             for j in toEncode[i]:
-                if type(toEncode[i][j])==str:
-                    temp[j]=toEncode[i][j].encode()
-            toEncode[i]=temp
+                if type(toEncode[i][j]) == str:
+                    temp[j] = toEncode[i][j].encode()
+            toEncode[i] = temp
         return toEncode
+
+    @staticmethod
+    def delete_image(delete_url: str):
+        """Deletes images from sxcu.net
+
+        Parameters
+        ==========
+        delete_url : :class:`str`
+            The delete URL returned from sxcu.net while uploading.
+        Returns
+        =======
+        :class:`bool`
+            Deleted or not
+        """
+        con = requests.get(delete_url)
+        if con.status_code == 200:
+            return True
+        else:
+            return False
