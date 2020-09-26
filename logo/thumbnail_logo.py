@@ -1,3 +1,10 @@
+"""
+    :copyright: Copyright 2020 by Naveen M K
+    :license: Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0). See https://creativecommons.org/licenses/by-nc-nd/4.0/ for more information.
+"""
+# Copyright 2020 Naveen M K
+# Thanks to Merienda licensed under SIL OPEN FONT LICENSE Version 1.1. SEE LICENSE.FONT for More details.
+
 import cairocffi as cairo
 
 def logo(ctx,sep_btn_lines=0.5,width=5,height=5,square_width=1,start_x=0,start_y=0):
@@ -5,7 +12,7 @@ def logo(ctx,sep_btn_lines=0.5,width=5,height=5,square_width=1,start_x=0,start_y
     if __name__ == "__main__":
         text_color = 0,0,0
     #logo samll rectangle
-    ctx.set_line_width(0.06)
+    ctx.set_line_width(0.09)
     ctx.move_to(start_x+(width/2)-(square_width/2),start_y+(height/2)-(square_width/2))
     ctx.line_to(start_x+(width/2)-(square_width/2) +1 ,start_y+(height/2)-(square_width/2))
     ctx.line_to(start_x+(width/2)-(square_width/2) +1 ,start_y+(height/2)-(square_width/2) +1)
