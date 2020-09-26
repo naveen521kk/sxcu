@@ -21,6 +21,8 @@ requests = "^2.24.0"
 [tool.poetry.dev-dependencies]
 pre-commit = {version = "^2.7.1", python = ">=3.6.1"}
 coverage = {version = "^5.2.1", extras = ["toml"]}
+sphinx = "^3.2.1"
+sphinx-rtd-theme = "^0.5.0"
 
 [tool.black]
 line-length = 88

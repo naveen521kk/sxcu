@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="500pt" height="500pt" viewBox="0 0 500 500" version="1.1">
+<defs>
+<linearGradient id="linear0" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="5" y2="5" gradientTransform="matrix(100,0,0,100,0,0)">
+<stop offset="0.2" style="stop-color:rgb(29.803922%,15.686275%,61.176471%);stop-opacity:1;"/>
+<stop offset="1" style="stop-color:rgb(87.45098%,60%,84.705882%);stop-opacity:1;"/>
+</linearGradient>
+</defs>
+<g id="surface1">
+<rect x="0" y="0" width="500" height="500" style="fill:url(#linear0);stroke:none;"/>
+<path style="fill:none;stroke-width:0.06;stroke-linecap:butt;stroke-linejoin:miter;stroke:rgb(100%,100%,100%);stroke-opacity:1;stroke-miterlimit:10;" d="M 2 2 L 3 2 L 3 3 L 2 3 Z M 2 2 " transform="matrix(100,0,0,100,0,0)"/>
+<path style="fill:none;stroke-width:0.06;stroke-linecap:butt;stroke-linejoin:miter;stroke:rgb(100%,100%,100%);stroke-opacity:1;stroke-miterlimit:10;" d="M 0.5 0.5 L 4.5 0.5 L 4 1 L 1 1 L 1 4 L 4 4 L 4.5 4.5 L 0.5 4.5 Z M 0.5 0.5 " transform="matrix(100,0,0,100,0,0)"/>
+</g>
+</svg>
