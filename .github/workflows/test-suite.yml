@@ -37,4 +37,6 @@ jobs:
 
       - name: Run pytest
         shell: bash
-        run: tox -e py
+        run: |
+           poetry install
+           poetry run pytest
