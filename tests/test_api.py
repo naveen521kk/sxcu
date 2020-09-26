@@ -1,9 +1,11 @@
 import json
 import os
-import pytest
 import time
 
-def test_ogproperties():
+import pytest
+
+
+def test_ogproperties() -> None:
     from sxcu import og_properties
 
     og = og_properties(
@@ -19,7 +21,7 @@ def test_ogproperties():
     assert con == og.export()
 
 
-def test_upload_keys_default_domain():
+def test_upload_keys_default_domain() -> None:
     from sxcu import SXCU
 
     pathFile = os.path.dirname(os.path.abspath(__file__))
@@ -32,10 +34,11 @@ def test_upload_keys_default_domain():
     )  # sorting because keys are arraged different
 
 
-@pytest.mark.xfail(run=False,reason="sxcu optimises images")
-def test_upload_image_default_domain():
-    from sxcu import SXCU
+@pytest.mark.xfail(run=False, reason="sxcu optimises images")
+def test_upload_image_default_domain() -> None:
     import requests
+
+    from sxcu import SXCU
 
     pathFile = os.path.dirname(os.path.abspath(__file__))
     img_loc = os.path.join(pathFile, "assets", "yoonjae-baik-F8ZR9BmWD3E-unsplash.jpg")
@@ -50,14 +53,14 @@ def test_upload_image_default_domain():
 # TODO: Test subdomains
 
 
-def test_delete_image():
+def test_delete_image() -> None:
+
     from sxcu import SXCU
-    import requests
 
     pathFile = os.path.dirname(os.path.abspath(__file__))
     img_loc = os.path.join(pathFile, "assets", "yoonjae-baik-F8ZR9BmWD3E-unsplash.jpg")
-    time.sleep(30) #to prevent overloading server
+    time.sleep(30)  # to prevent overloading server
     t = SXCU()
     con = t.upload_image(file=img_loc, noembed=True)
-    a=SXCU.delete_image(con["del_url"])
-    assert a==True
+    a = SXCU.delete_image(con["del_url"])
+    assert a is True

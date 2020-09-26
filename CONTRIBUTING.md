@@ -2,7 +2,7 @@
 
 ### Development Environment
 #### Poetry
-This project uses [Poetry](https://python-poetry.org/docs/) for management. You need to have `poetry` installed and 
+This project uses [Poetry](https://python-poetry.org/docs/) for management. You need to have `poetry` installed and
 available in your environment.
 
 ```sh

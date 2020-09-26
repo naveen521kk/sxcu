@@ -1,21 +1,22 @@
 """Python API wrapper for sxcu.net subdomains
 """
-import requests
 import json
+from typing import Union
 
-# token=d6208525-a58a-4b91-8dc3-bcb7ad086445
-# dom=pls.click-if-you-da.re
+import requests
 
 __all__ = ["og_properties", "SXCU"]
 
 
 class og_properties(object):
-    def __init__(self, color=None, description=None, title=None):
+    def __init__(
+        self, color: str = None, description: str = None, title: str = None
+    ) -> None:
         self.color = color
         self.description = description
         self.title = title
 
-    def export(self):
+    def export(self) -> str:
         return json.dumps(
             {
                 "color": self.color,
@@ -30,7 +31,7 @@ class SXCU:
 
     def __init__(
         self, subdomain: str = None, upload_token: str = None, file_sxcu: str = None
-    ):
+    ) -> None:
         """This initialise the class
 
         Parameters
@@ -57,7 +58,7 @@ class SXCU:
         collection_token: str = None,
         noembed: bool = False,
         og_properties: og_properties = None,
-    ):
+    ) -> Union[dict, list]:
         """This uploads image to sxcu
 
         Parameters
@@ -75,7 +76,7 @@ class SXCU:
 
         Returns
         =======
-        :class:`dict`
+        :class:`dict` or :class:`list`
             The returned JSON from the request.
         """
         data = {}
@@ -105,7 +106,7 @@ class SXCU:
         private: bool = False,
         unlisted: bool = False,
         desc: str = None,
-    ):
+    ) -> Union[dict, list]:
         """Create a new collection on sxcu.net.
         Note:If you are creating one time / bot collections you must make them unlisted!
 
@@ -121,7 +122,7 @@ class SXCU:
             The description of the collection.
         Returns
         =======
-        :class:`dict`
+        :class:`dict` or :class:`list`
             The returned JSON from the request.
         """
         data = {
@@ -135,7 +136,7 @@ class SXCU:
         con = requests.post("https://sxcu.net/api/", data=data)
         return con.json()
 
-    def collection_details(self, CollectionId: str):
+    def collection_details(self, CollectionId: str) -> Union[dict, list]:
         """Get collection details and list of images (if any are uploaded) for a given collection
 
         Parameters
@@ -145,13 +146,13 @@ class SXCU:
 
         Returns
         =======
-        :class:`dict`
+        :class:`dict` or :class:`list`
             The returned JSON from the request.
         """
         con = requests.get(f"https://sxcu.net/c/{CollectionId}.json")
         return con.json()
 
-    def create_link(self, link: str):
+    def create_link(self, link: str) -> Union[dict, list]:
         """Creates a new link.
 
         Parameters
@@ -161,13 +162,13 @@ class SXCU:
 
         Returns
         =======
-        :class:`dict`
+        :class:`dict` or :class:`list`
             The returned JSON from the request.
         """
         con = requests.post(self.subdomain, data={"link": link})
         return con.json()
 
-    def upload_text(self, text: str):
+    def upload_text(self, text: str) -> Union[dict, list]:
         """Uploads an text to sxcu.net (via cancer-co.de)
 
         Parameters
@@ -177,14 +178,14 @@ class SXCU:
 
         Returns
         =======
-        :class:`dict`
+        :class:`dict` or :class:`list`
             The returned JSON from the request.
         """
         con = requests.post("https://cancer-co.de/upload", data={"text": text})
         return con.json()
 
     @staticmethod
-    def domain_list(count: int = -1):
+    def domain_list(count: int = -1) -> list:
         # todo
         """This lists all the public domains available, sorted by upload count.
 
@@ -212,7 +213,7 @@ class SXCU:
         return toEncode
 
     @staticmethod
-    def delete_image(delete_url: str):
+    def delete_image(delete_url: str) -> bool:
         """Deletes images from sxcu.net
 
         Parameters
