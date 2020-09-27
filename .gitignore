@@ -10,6 +10,8 @@ auto-save-list
 tramp
 .\#*
 
+docs/build/**
+*.pickle
 # Org-mode
 .org-id-locations
 *_archive
