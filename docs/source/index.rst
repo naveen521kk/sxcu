@@ -10,10 +10,22 @@ SCXU is an API wrapper for api located at `sxcu.net <https://sxcu.net/api/docs/i
 much this documentation covers with some example and API reference. Currently the documentation
 is in building stage.
 
+Installation
+************
+
+SXCU can be installed using ``pip``
+
+.. code-block:: powershell
+
+    pip install sxcu
+
+
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 4
    :caption: Contents:
 
+   examples
+   reference
 
 
 Indices and tables

@@ -10,20 +10,21 @@
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
 #
-# import os
-# import sys
-# sys.path.insert(0, os.path.abspath('.'))
+import os
+import sys
+
+sys.path.insert(0, os.path.abspath("../.."))
 
 
 # -- Project information -----------------------------------------------------
-import sphinx_rtd_theme
+import sphinx_rtd_theme  # noqa:E402,F401
 
-project = 'SXCU'
-copyright = '2020, Naveen M K'
-author = 'Naveen M K'
+project = "SXCU"
+copyright = "2020, Naveen M K"
+author = "Naveen M K"
 
 # The full version, including alpha/beta/rc tags
-release = 'v0.1.0a0'
+release = "v0.1.0a0"
 
 
 # -- General configuration ---------------------------------------------------
@@ -32,11 +33,21 @@ release = 'v0.1.0a0'
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
 extensions = [
-    "sphinx_rtd_theme"
+    "sphinx.ext.autosectionlabel",
+    "sphinx.ext.intersphinx",
+    "sphinx.ext.autodoc",
+    "sphinx_rtd_theme",
+    "sphinx.ext.napoleon",
+    "sphinx.ext.autosummary",
 ]
 
+
+intersphinx_mapping = {
+    "python": ("https://docs.python.org/3", None),
+}
+
 # Add any paths that contain templates here, relative to this directory.
-templates_path = ['_templates']
+templates_path = ["_templates"]
 
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.
@@ -48,26 +59,28 @@ exclude_patterns = []
 
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
-#
-html_theme = 'sphinx_rtd_theme'
+
+html_theme = "sphinx_rtd_theme"
 
 html_theme_options = {
-    'analytics_id': 'UA-140820927-3',  #  Provided by Google in your dashboard
-    'logo_only': False,
-    'display_version': True,
-    'prev_next_buttons_location': 'bottom',
-    'style_external_links': True,
-    'style_nav_header_background': 'cyan',
+    "analytics_id": "UA-140820927-3",
+    "logo_only": False,
+    "display_version": True,
+    "prev_next_buttons_location": "bottom",
+    "style_external_links": True,
+    "style_nav_header_background": "black",
     # Toc options
-    'collapse_navigation': True,
-    'sticky_navigation': True,
-    'navigation_depth': 4,
+    "collapse_navigation": True,
+    "sticky_navigation": True,
+    "navigation_depth": 4,
 }
 
 
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
 # so a file named "default.css" will overwrite the builtin "default.css".
-html_static_path = ['_static']
+html_static_path = ["_static"]
 html_logo = "logo.png"
 html_favicon = "favicon.ico"
+
+autosummary_generate = True

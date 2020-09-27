@@ -17,6 +17,13 @@ class og_properties(object):
         self.title = title
 
     def export(self) -> str:
+        """Exports the Property set to a JSON file.
+
+        Returns
+        =======
+        :class:`str`
+            Using ``json.dumps`` the content of JSON file is dumped.
+        """
         return json.dumps(
             {
                 "color": self.color,
