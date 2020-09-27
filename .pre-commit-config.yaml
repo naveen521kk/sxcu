@@ -1,3 +1,4 @@
+exclude: 'logo'
 repos:
   - repo: https://github.com/timothycrosley/isort
     rev: 5.4.2
