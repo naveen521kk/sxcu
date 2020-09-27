@@ -39,6 +39,5 @@ How to use it?
 Using the class
 
 .. autosummary::
-   :recursive:
 
     ~og_properties
