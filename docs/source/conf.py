@@ -17,8 +17,6 @@ sys.path.insert(0, os.path.abspath("../.."))
 
 
 # -- Project information -----------------------------------------------------
-import sphinx_rtd_theme  # noqa:E402,F401
-
 project = "SXCU"
 copyright = "2020, Naveen M K"
 author = "Naveen M K"
@@ -60,8 +58,10 @@ exclude_patterns = []
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
 
-html_theme = "sphinx_rtd_theme"
+import sphinx_rtd_theme  # noqa:E402,F401
 
+html_theme = "sphinx_rtd_theme"
+html_theme_path = [sphinx_rtd_theme.get_html_theme_path()]
 html_theme_options = {
     "analytics_id": "UA-140820927-3",
     "logo_only": False,
@@ -84,3 +84,4 @@ html_logo = "logo.png"
 html_favicon = "favicon.ico"
 
 autosummary_generate = True
+master_doc = "index"
