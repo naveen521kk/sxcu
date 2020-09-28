@@ -8,7 +8,12 @@ import requests
 __all__ = ["og_properties", "SXCU"]
 
 
-class og_properties(object):
+class og_properties:
+    """
+    This is a helper class for main SXCU function. This helps you to reuse
+    the ``og_properties``.
+    """
+
     def __init__(
         self, color: str = None, description: str = None, title: str = None
     ) -> None:
@@ -54,8 +59,8 @@ class SXCU:
         self.upload_token = upload_token
         self.file_sxcu = file_sxcu
         if file_sxcu:
-            with open(file_sxcu) as f:
-                con = json.load(f)
+            with open(file_sxcu) as sxcu_file:
+                con = json.load(sxcu_file)
             self.subdomain = con["RequestURL"]
 
     def upload_image(
@@ -77,9 +82,11 @@ class SXCU:
         collection_token : :class:`str`, optional
             The collection upload token if one is required by the collection you're uploading to.
         noembed : :class:`bool`, optional
-            If ``True``, the uploader will return a direct URL to the uploaded image, instead of a dedicated page.
+            If ``True``, the uploader will return a direct URL to the uploaded image, instead of
+            a dedicated page.
         og_properties : :class:`og_properties`, optional
-            This will configure the OpenGraph properties of the file's page, effectively changing the way it embeds in various websites and apps.
+            This will configure the OpenGraph properties of the file's page, effectively
+            changing the way it embeds in various websites and apps.
 
         Returns
         =======
@@ -102,13 +109,13 @@ class SXCU:
             if self.subdomain[-1] == "/"
             else self.subdomain + "/upload"
         )
-        with open(file, "rb") as f:
-            files = {"image": f}
+        with open(file, "rb") as img_file:
+            files = {"image": img_file}
             res = requests.post(url=url, files=files, data=data)
         return res.json()
 
+    @staticmethod
     def create_collection(
-        self,
         title: str,
         private: bool = False,
         unlisted: bool = False,
@@ -143,20 +150,21 @@ class SXCU:
         con = requests.post("https://sxcu.net/api/", data=data)
         return con.json()
 
-    def collection_details(self, CollectionId: str) -> Union[dict, list]:
+    @staticmethod
+    def collection_details(collection_id: str) -> Union[dict, list]:
         """Get collection details and list of images (if any are uploaded) for a given collection
 
         Parameters
         ==========
-        CollectionId : :class:`str`
-            CollectionId returned when creating a collection.
+        collection_id : :class:`str`
+            collection_id returned when creating a collection.
 
         Returns
         =======
         :class:`dict` or :class:`list`
             The returned JSON from the request.
         """
-        con = requests.get(f"https://sxcu.net/c/{CollectionId}.json")
+        con = requests.get(f"https://sxcu.net/c/{collection_id}.json")
         return con.json()
 
     def create_link(self, link: str) -> Union[dict, list]:
@@ -175,7 +183,8 @@ class SXCU:
         con = requests.post(self.subdomain, data={"link": link})
         return con.json()
 
-    def upload_text(self, text: str) -> Union[dict, list]:
+    @staticmethod
+    def upload_text(text: str) -> Union[dict, list]:
         """Uploads an text to sxcu.net (via cancer-co.de)
 
         Parameters
@@ -192,8 +201,35 @@ class SXCU:
         return con.json()
 
     @staticmethod
+    def image_details(image_id: str = None, image_url: str = None) -> Union[dict, list]:
+        """Get basic details about an image on sxcu.net or any of its subdomain
+
+        Parameters
+        ==========
+        image_id : :class:`str`
+            The id of the image. For example, if ``https://sxcu.net/QNeo92`` is the
+            image URL then ``QNeo92`` will be the ``image_id``.
+            .. note :: This supports only ``sxcu.net``.
+
+        imageUrl : :class:`str`
+            The image URL returned of sucessful upload.For example, ``https://sxcu.net/QNeo92``.
+
+        Returns
+        =======
+        :class:`dict` or :class:`list`
+            The returned JSON from the request.
+        """
+        if image_url is None and image_id is None:
+            raise AttributeError("Either one of image_id or image_url is necessary")
+        if image_url is None:
+            image_url = f"https://sxcu.net/{image_id}.json"
+        if image_url[-5:-1] != ".json":
+            image_url += ".json"
+        con = requests.get(image_url)
+        return con.json()
+
+    @staticmethod
     def domain_list(count: int = -1) -> list:
-        # todo
         """This lists all the public domains available, sorted by upload count.
 
         Parameters
@@ -208,16 +244,16 @@ class SXCU:
         """
         con = requests.get("https://sxcu.net/api?action=domains")
         if count == -1:
-            toEncode = con.json()
+            to_encode = con.json()
         else:
-            toEncode = con.json()[:count]
-        for i in range(len(toEncode)):
+            to_encode = con.json()[:count]
+        for i in enumerate(to_encode):
             temp = {}
-            for j in toEncode[i]:
-                if type(toEncode[i][j]) == str:
-                    temp[j] = toEncode[i][j].encode()
-            toEncode[i] = temp
-        return toEncode
+            for j in i[1]:
+                if isinstance(i[1][j], str):
+                    temp[j] = i[1][j].encode()
+            to_encode[i[0]] = temp
+        return to_encode
 
     @staticmethod
     def delete_image(delete_url: str) -> bool:
@@ -233,7 +269,4 @@ class SXCU:
             Deleted or not
         """
         con = requests.get(delete_url)
-        if con.status_code == 200:
-            return True
-        else:
-            return False
+        return bool(con.status_code == 200)

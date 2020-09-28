@@ -64,3 +64,28 @@ def test_delete_image() -> None:
     con = t.upload_image(file=img_loc, noembed=True)
     a = SXCU.delete_image(con["del_url"])
     assert a is True
+
+
+def test_image_info() -> None:
+    from sxcu import SXCU
+
+    pathFile = os.path.dirname(os.path.abspath(__file__))
+    img_loc = os.path.join(pathFile, "assets", "yoonjae-baik-F8ZR9BmWD3E-unsplash.jpg")
+    # upload image first
+    t = SXCU()
+    con = t.upload_image(file=img_loc, noembed=True)
+
+    details = SXCU.image_details(image_url=con["url"])
+
+    assert con["url"] == details["url"]
+    # Now try using id
+    id_url = con["url"].split("/")[-1].split(".")[0]
+    details_id = SXCU.image_details(image_id=id_url)
+
+    assert details_id["url"] == con["url"]
+
+    try:
+        SXCU.image_details()
+        assert False
+    except AttributeError:
+        assert True
