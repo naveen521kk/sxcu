@@ -122,7 +122,10 @@ class SXCU:
         desc: str = None,
     ) -> Union[dict, list]:
         """Create a new collection on sxcu.net.
-        Note:If you are creating one time / bot collections you must make them unlisted!
+
+        .. note:: 
+
+            If you are creating one time / bot collections you must make them unlisted!
 
         Parameters
         ==========
@@ -209,7 +212,10 @@ class SXCU:
         image_id : :class:`str`
             The id of the image. For example, if ``https://sxcu.net/QNeo92`` is the
             image URL then ``QNeo92`` will be the ``image_id``.
-            .. note :: This supports only ``sxcu.net``.
+            
+            .. note :: 
+                
+                The ``image_id`` can be from any subdomain also as alway the id would be same.
 
         imageUrl : :class:`str`
             The image URL returned of sucessful upload.For example, ``https://sxcu.net/QNeo92``.
