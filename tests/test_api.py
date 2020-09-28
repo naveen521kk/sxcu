@@ -74,11 +74,12 @@ def test_image_info() -> None:
     # upload image first
     t = SXCU()
     con = t.upload_image(file=img_loc, noembed=True)
-
+    time.sleep(10)
     details = SXCU.image_details(image_url=con["url"])
 
     assert con["url"] == details["url"]
     # Now try using id
+    time.sleep(30)
     id_url = con["url"].split("/")[-1].split(".")[0]
     details_id = SXCU.image_details(image_id=id_url)
 
