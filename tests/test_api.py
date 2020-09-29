@@ -4,9 +4,12 @@ import time
 
 import pytest
 
+pathFile = os.path.dirname(os.path.abspath(__file__))
+img_loc = os.path.join(pathFile, "assets", "sharex.png")
+
 
 def test_ogproperties() -> None:
-    from sxcu import og_properties
+    from sxcu import SXCU, og_properties
 
     og = og_properties(
         color="#000", title="Some title", description="A cool description!"
@@ -19,13 +22,15 @@ def test_ogproperties() -> None:
         }
     )
     assert con == og.export()
+    t = SXCU()
+    a = t.upload_image(file=img_loc, og_properties=og)
+
+    assert a is not None
 
 
 def test_upload_keys_default_domain() -> None:
     from sxcu import SXCU
 
-    pathFile = os.path.dirname(os.path.abspath(__file__))
-    img_loc = os.path.join(pathFile, "assets", "glen-ardi-ljXFGnvmlno-unsplash.jpg")
     t = SXCU()
     con = t.upload_image(file=img_loc)
     expected_keys = ["url", "del_url", "thumb"]
@@ -39,9 +44,6 @@ def test_upload_image_default_domain() -> None:
     import requests
 
     from sxcu import SXCU
-
-    pathFile = os.path.dirname(os.path.abspath(__file__))
-    img_loc = os.path.join(pathFile, "assets", "yoonjae-baik-F8ZR9BmWD3E-unsplash.jpg")
 
     t = SXCU()
     con = t.upload_image(file=img_loc, noembed=True)
@@ -57,8 +59,6 @@ def test_delete_image() -> None:
 
     from sxcu import SXCU
 
-    pathFile = os.path.dirname(os.path.abspath(__file__))
-    img_loc = os.path.join(pathFile, "assets", "yoonjae-baik-F8ZR9BmWD3E-unsplash.jpg")
     time.sleep(30)  # to prevent overloading server
     t = SXCU()
     con = t.upload_image(file=img_loc, noembed=True)
@@ -69,8 +69,6 @@ def test_delete_image() -> None:
 def test_image_info() -> None:
     from sxcu import SXCU
 
-    pathFile = os.path.dirname(os.path.abspath(__file__))
-    img_loc = os.path.join(pathFile, "assets", "yoonjae-baik-F8ZR9BmWD3E-unsplash.jpg")
     # upload image first
     t = SXCU()
     time.sleep(60)
@@ -90,3 +88,54 @@ def test_image_info() -> None:
         assert False
     except AttributeError:
         assert True
+
+
+def test_sxcu_file_parser() -> None:
+    from sxcu import SXCU
+
+    sxcu_file = os.path.join(pathFile, "assets", "sxcu.net - python.is-ne.at.sxcu")
+
+    t = SXCU(file_sxcu=sxcu_file)
+    con = t.upload_image(file=img_loc, noembed=True)
+
+    # test domain
+    assert con["url"].startswith("https://python.is-ne.at")
+
+    # test keys
+    expected_keys = ["url", "del_url", "thumb"]
+    assert list(con.keys()).sort() == expected_keys.sort()
+
+
+def test_collections() -> None:
+    time.sleep(60)
+    from sxcu import SXCU
+
+    a = SXCU.create_collection(
+        "Python Test", unlisted=True, desc="Testing from sxcu Python Library"
+    )
+    b = SXCU.collection_details(a["collection_id"])
+    to_check = ["title", "desc", "id"]
+    for i in to_check:
+        assert a[to_check] == b[to_check]
+
+
+def test_upload_test() -> None:
+    time.sleep(60)
+    import requests
+
+    from sxcu import SXCU
+
+    b = SXCU.upload_text("Hello, from sxcu Python Library. Test.")
+    con = requests.get(b["url"])
+
+    assert con.status_code == 200
+
+
+def test_list_subdomains() -> None:
+    time.sleep(60)
+    from sxcu import SXCU
+
+    b = SXCU.domain_list(1)
+    req_keys = ["domain", "upload_count", "public", "img_views"]
+
+    assert list(b[0].keys()).sort() == req_keys.sort()
