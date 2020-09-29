@@ -116,7 +116,7 @@ def test_collections() -> None:
     b = SXCU.collection_details(a["collection_id"])
     to_check = ["title", "desc", "id"]
     for i in to_check:
-        assert a[to_check] == b[to_check]
+        assert a[i] == b[i]
 
 
 def test_upload_test() -> None:

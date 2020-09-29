@@ -14,6 +14,7 @@ New Features
 
 * Create a new logo.
 * Added a missing API method :func:`~.SXCU.image_details`.
+* Fix a bug due to subdomain parsing while using ``.sxcu`` files.
 
 For developers
 --------------
