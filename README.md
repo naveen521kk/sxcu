@@ -5,6 +5,8 @@
 [![License](https://img.shields.io/badge/License-Apache2.0-green.svg)](https://opensource.org/licenses/Apache-2.0)
 [![Code Style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 [![Code Quality: flake8](https://img.shields.io/badge/code%20quality-flake8-000000.svg)](https://gitlab.com/pycqa/flake8)
+[![codecov](https://codecov.io/gh/naveen521kk/sxcu/branch/master/graph/badge.svg)](https://codecov.io/gh/naveen521kk/sxcu)
+
 
 # SXCU
 ![sxcu-logo](./logo/readme-logo.png)
