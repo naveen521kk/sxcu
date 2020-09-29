@@ -73,13 +73,13 @@ def test_image_info() -> None:
     img_loc = os.path.join(pathFile, "assets", "yoonjae-baik-F8ZR9BmWD3E-unsplash.jpg")
     # upload image first
     t = SXCU()
+    time.sleep(60)
     con = t.upload_image(file=img_loc, noembed=True)
-    time.sleep(30)
     details = SXCU.image_details(image_url=con["url"])
 
     assert con["url"] == details["url"]
     # Now try using id
-    time.sleep(30)
+    time.sleep(60)
     id_url = con["url"].split("/")[-1].split(".")[0]
     details_id = SXCU.image_details(image_id=id_url)
 
