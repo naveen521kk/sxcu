@@ -44,7 +44,7 @@ class SXCU:
     def __init__(
         self, subdomain: str = None, upload_token: str = None, file_sxcu: str = None
     ) -> None:
-        """This initialise the class
+        """This initialise the handler
 
         Parameters
         ==========
@@ -53,7 +53,11 @@ class SXCU:
         upload_token : :class:`str`, optional
             The upload token that comes along with subdomain
         file_sxcu : :class:`str`,optional
-            The sxcu file you have got. Parses only ``RequestURL``.
+            The sxcu file you have got. Parses only ``RequestURL`` and ``upload_token``.
+
+            .. note ::
+
+                The content in ``.scxu`` file has more priority than passed parameters.
         """
         self.subdomain = subdomain if subdomain else "https://sxcu.net"
         self.upload_token = upload_token
@@ -62,6 +66,7 @@ class SXCU:
             with open(file_sxcu) as sxcu_file:
                 con = json.load(sxcu_file)
             self.subdomain = con["RequestURL"]
+            self.upload_token = con["Arguments"]["token"]
 
     def upload_image(
         self,
@@ -242,6 +247,11 @@ class SXCU:
         ==========
         count : :class:`int`, optional
             Number of domains to return. If count=``-1`` it lists all.
+
+        .. warning::
+
+            The returned list contains bytes. Using :py:func:`str.encode`. Please use
+            :py:func:`bytes.decode` for decoding it.
 
         Returns
         =======

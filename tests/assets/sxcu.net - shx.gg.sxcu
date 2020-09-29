@@ -1,0 +1,9 @@
+{
+    "Name": "sxcu.net - shx.gg",
+    "DestinationType": "ImageUploader",
+    "RequestURL": "https://shx.gg/upload",
+    "FileFormName": "image",
+    "URL": "$json:url$",
+    "ThumbnailURL": "$json:thumb$",
+    "DeletionURL": "$json:del_url$"
+}
