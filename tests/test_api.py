@@ -59,7 +59,7 @@ def test_delete_image() -> None:
 
     from sxcu import SXCU
 
-    time.sleep(30)  # to prevent overloading server
+    time.sleep(60)  # to prevent overloading server
     t = SXCU()
     con = t.upload_image(file=img_loc, noembed=True)
     a = SXCU.delete_image(con["del_url"])
@@ -110,13 +110,12 @@ def test_collections() -> None:
     time.sleep(60)
     from sxcu import SXCU
 
-    a = SXCU.create_collection(
-        "Python Test", unlisted=True, desc="Testing from sxcu Python Library"
-    )
+    uploadInfo = {"title": "Python Test", "desc": "Testing from sxcu Python Library"}
+    a = SXCU.create_collection(unlisted=True, **uploadInfo)
     b = SXCU.collection_details(a["collection_id"])
-    to_check = ["title", "desc", "id"]
+    to_check = ["title", "desc"]
     for i in to_check:
-        assert a[i] == b[i]
+        assert uploadInfo[i] == b[i]
 
 
 def test_upload_test() -> None:
