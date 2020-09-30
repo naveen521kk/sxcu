@@ -106,18 +106,6 @@ def test_sxcu_file_parser() -> None:
     assert list(con.keys()).sort() == expected_keys.sort()
 
 
-def test_collections() -> None:
-    time.sleep(60)
-    from sxcu import SXCU
-
-    uploadInfo = {"title": "Python Test", "desc": "Testing from sxcu Python Library"}
-    a = SXCU.create_collection(unlisted=True, **uploadInfo)
-    b = SXCU.collection_details(a["collection_id"])
-    to_check = ["title", "desc"]
-    for i in to_check:
-        assert uploadInfo[i] == b[i]
-
-
 def test_upload_test() -> None:
     time.sleep(60)
     import requests
@@ -138,3 +126,27 @@ def test_list_subdomains() -> None:
     req_keys = ["domain", "upload_count", "public", "img_views"]
 
     assert list(b[0].keys()).sort() == req_keys.sort()
+
+
+def test_list_subdomains_all() -> None:
+    time.sleep(60)
+    from sxcu import SXCU
+
+    b = SXCU.domain_list(-1)
+    req_keys = ["domain", "upload_count", "public", "img_views"]
+
+    assert list(b[0].keys()).sort() == req_keys.sort()
+
+
+def test_create_link() -> None:
+    time.sleep(60)
+
+    import requests
+
+    from sxcu import SXCU
+
+    t = SXCU()
+    con = t.upload_text("Testing From Python Library")
+
+    c = requests.get(con["url"])
+    assert c.status_code == 200

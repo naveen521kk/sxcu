@@ -173,7 +173,7 @@ class SXCU:
 
         Returns
         =======
-        :class:`dict` or :class:`list`
+        :class:`dict`
             The returned JSON from the request.
         """
         data = {
