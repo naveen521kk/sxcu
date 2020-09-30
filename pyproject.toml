@@ -1,9 +1,22 @@
 [tool.poetry]
 name = "sxcu"
-version = "0.1.0-beta.0"
+version = "0.1.0b0"
 description = "Python API wraper for sxcu.net"
 authors = [
     "Naveen M K <naveen@syrusdark.website>"
+]
+maintainers = [
+    "Naveen M K <naveen@syrusdark.website>"
+]
+keywords = [
+    "api",
+    "sxcu",
+    "sharex"
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Operating System :: OS Independent",
+    "Topic :: Internet",
 ]
 license = "Apache-2.0"
 readme = "README.md"
@@ -16,8 +29,6 @@ packages = [
 [tool.poetry.dependencies]
 python = "^3.6"
 importlib-metadata = {version = "*", python = "<3.8"}
-tox = "^3.20.0"
-pytest = "^6.0.2"
 requests = "^2.24.0"
 
 [tool.poetry.dev-dependencies]
@@ -25,6 +36,8 @@ pre-commit = {version = "^2.7.1", python = ">=3.6.1"}
 coverage = {version = "^5.2.1", extras = ["toml"]}
 sphinx = "^3.2.1"
 sphinx-rtd-theme = "^0.5.0"
+tox = "^3.20.0"
+pytest = "^6.0.2"
 
 [tool.black]
 line-length = 88
