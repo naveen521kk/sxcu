@@ -235,7 +235,7 @@ class SXCU:
         }
         if desc:
             data["desc"] = desc
-        con = requests.post("https://sxcu.net/api", data=data)
+        con = requests.post("https://sxcu.net/api/", data=data)
         return con.json()
 
     @staticmethod
