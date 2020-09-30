@@ -62,6 +62,7 @@ class SXCU:
         self.subdomain = subdomain if subdomain else "https://sxcu.net"
         self.upload_token = upload_token
         self.file_sxcu = file_sxcu
+        self.api_endpoint = "https://sxcu.net/api"
         if file_sxcu:
             with open(file_sxcu) as sxcu_file:
                 con = json.load(sxcu_file)
@@ -120,6 +121,85 @@ class SXCU:
             res = requests.post(url=url, files=files, data=data)
         return res.json()
 
+    def create_link(self, link: str) -> Union[dict, list]:
+        """Creates a new link.
+
+        Parameters
+        ==========
+        link : :class:`str`
+            The link to which you want to redirect.
+
+        Returns
+        =======
+        :class:`dict` or :class:`list`
+            The returned JSON from the request.
+        """
+        con = requests.post(self.subdomain, data={"link": link})
+        return con.json()
+
+    @staticmethod
+    def edit_collection(
+        collection_id: str,
+        collection_token: str,
+        title: str = None,
+        desc: str = None,
+        unlisted: bool = False,
+        regen_token: bool = False,
+        empty_collection: bool = False,
+        delete_collection: bool = False,
+    ) -> dict:
+        """Edit an existing collection.
+
+        Parameters
+        ==========
+        collection_id : :class:`str`
+            The ID of the collection to be edited.
+        collection_token : :class:`str`
+            The current token of that collection.
+        title : :class:`str`, optional
+            The new title of the collection.
+        desc : :class:`str`, optional
+            The new description of the collection.
+        unlisted : :class:`bool`, optional
+            If ``True`` the collection will be made unlisted.
+        regen_token : :class:`bool`, optional
+            If ``True``, it will generate a new token for the collection
+            and return it in the response.
+        empty_collection : :class:`bool`, optional
+            If ``True`` it will disassociate all of the images in the collection from it.
+        delete_collection : :class:`bool`, optional
+            If ``True`` it  will disassociate all of the images in the collection from it
+            and delete the collection.
+
+        Returns
+        =======
+        :class:`dict`
+            The returned JSON from the request.
+        """
+        data = {
+            "action": "edit_collection",
+            "collection_id": collection_id,
+            "collection_token": collection_token,
+        }
+        if title:
+            data["title"] = title
+        if desc:
+            data["desc"] = desc
+        if unlisted:
+            data["unlisted"] = unlisted
+        if regen_token:
+            data["regen_token"] = ""
+        if empty_collection:
+            data["empty_collection"] = ""
+        if delete_collection:
+            data["delete_collection"] = ""
+        con = requests.post("https://sxcu.net/api/", data=data)
+        final = con.json()
+        if isinstance(final, list):
+            final = dict()
+            final["token"] = None
+        return final
+
     @staticmethod
     def create_collection(
         title: str,
@@ -174,22 +254,6 @@ class SXCU:
             The returned JSON from the request.
         """
         con = requests.get(f"https://sxcu.net/c/{collection_id}.json")
-        return con.json()
-
-    def create_link(self, link: str) -> Union[dict, list]:
-        """Creates a new link.
-
-        Parameters
-        ==========
-        link : :class:`str`
-            The link to which you want to redirect.
-
-        Returns
-        =======
-        :class:`dict` or :class:`list`
-            The returned JSON from the request.
-        """
-        con = requests.post(self.subdomain, data={"link": link})
         return con.json()
 
     @staticmethod
