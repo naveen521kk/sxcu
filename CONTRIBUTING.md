@@ -1,5 +1,7 @@
 # Contributing
 
+Please open an new issue for feature requests and mark your interest on any issue open before working on it.
+
 ### Development Environment
 #### Poetry
 This project uses [Poetry](https://python-poetry.org/docs/) for management. You need to have `poetry` installed and
@@ -36,25 +38,15 @@ source .venv/bin/activate
 
 #### Lint your code
 
-##### Using tox
-```sh
-poetry run tox -e lint
-```
+This project is configured using pre-commit.
 
-##### Manually
 ```sh
 poetry run pre-commit install
 poetry run pre-commit run --all-files
 ```
 
 #### Run test suite
-
-##### Using tox (with coverage)
-```sh
-poetry run tox -e clean,py38,report
-```
-
-##### Using pytest
+This project uses Pytest for testing.
 ```sh
 poetry run pytest
 ```
