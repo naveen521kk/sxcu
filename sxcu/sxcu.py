@@ -195,7 +195,7 @@ class SXCU:
             data["delete_collection"] = ""
         con = requests.post("https://sxcu.net/api/", data=data)
         final = con.json()
-        if con.text == "":
+        if isinstance(final, list):
             final = dict()
             final["token"] = None
         return final
