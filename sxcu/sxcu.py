@@ -193,7 +193,7 @@ class SXCU:
             data["empty_collection"] = ""
         if delete_collection:
             data["delete_collection"] = ""
-        con = requests.post("https://sxcu.net/api", data=data)
+        con = requests.post("https://sxcu.net/api/", data=data)
         final = con.json()
         if "token" not in final.keys():
             final["token"] = None
