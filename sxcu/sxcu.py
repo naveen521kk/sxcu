@@ -137,8 +137,8 @@ class SXCU:
         con = requests.post(self.subdomain, data={"link": link})
         return con.json()
 
+    @staticmethod
     def edit_collection(
-        self,
         collection_id: str,
         collection_token: str,
         title: str = None,
@@ -193,7 +193,7 @@ class SXCU:
             data["empty_collection"] = ""
         if delete_collection:
             data["delete_collection"] = ""
-        con = requests.post(self.api_endpoint, data=data)
+        con = requests.post("https://sxcu.net/api", data=data)
         final = con.json()
         if "token" not in final.keys():
             final["token"] = None
