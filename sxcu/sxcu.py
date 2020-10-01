@@ -139,7 +139,7 @@ class SXCU:
             if self.subdomain[-1] == "/"
             else self.subdomain + "/shorten"
         )
-        con = requests.post(self.subdomain, data={"link": link})
+        con = requests.post(url, data={"link": link})
         return con.json()
 
     @staticmethod
