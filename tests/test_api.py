@@ -138,6 +138,19 @@ def test_list_subdomains_all() -> None:
     assert list(b[0].keys()).sort() == req_keys.sort()
 
 
+def test_upload_text() -> None:
+    time.sleep(60)
+
+    import requests
+
+    from sxcu import SXCU
+
+    con = SXCU.upload_text("Testing From Python Library")
+
+    c = requests.get(con["url"])
+    assert c.status_code == 200
+
+
 def test_create_link() -> None:
     time.sleep(60)
 
@@ -146,7 +159,7 @@ def test_create_link() -> None:
     from sxcu import SXCU
 
     t = SXCU()
-    con = t.upload_text("Testing From Python Library")
+    con = t.create_link("https://github.com/naveen521kk/sxcu")
 
     c = requests.get(con["url"])
     assert c.status_code == 200
