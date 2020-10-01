@@ -134,6 +134,11 @@ class SXCU:
         :class:`dict` or :class:`list`
             The returned JSON from the request.
         """
+        url = (
+            self.subdomain + "shorten"
+            if self.subdomain[-1] == "/"
+            else self.subdomain + "/shorten"
+        )
         con = requests.post(self.subdomain, data={"link": link})
         return con.json()
 
