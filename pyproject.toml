@@ -33,6 +33,7 @@ requests = "^2.24.0"
 typer = {extras = ["all"], version = "^0.3.2"}
 colorama = "^0.4.3"
 pyperclip = "^1.8.0"
+rich = "^8.0.0"
 
 [tool.poetry.dev-dependencies]
 pre-commit = {version = "^2.7.1", python = ">=3.6.1"}

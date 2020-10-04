@@ -3,6 +3,8 @@ from pathlib import Path
 
 import pyperclip
 import typer
+from rich.console import Console
+from rich.table import Table
 
 from .sxcu import SXCU
 
@@ -21,6 +23,7 @@ app = typer.Typer()
 ERROR_COLOR = typer.colors.BRIGHT_RED
 IMAGE_FORMAT_NOT_SUPPORTED_MESSAGE = "Image format is not supported"
 IMAGE_NOT_READABLE_MESSAGE = "Image file isn't readable."
+console = Console()
 
 
 @app.callback(help="CLI for accessing sxcu.net api.")
@@ -36,7 +39,6 @@ def upload(image: Path) -> None:
     Upload an Image to https://sxcu.net
     """
     image_absolute_path = image.absolute()
-    typer.echo(image_absolute_path)
     if not image.is_file():
         typer.secho("Image file doesn't exists", fg=ERROR_COLOR)
         raise typer.Exit(code=1)
@@ -49,11 +51,19 @@ def upload(image: Path) -> None:
     if image.suffix in allowed_file_types:
         handler = SXCU()
         result = handler.upload_image(image_absolute_path)
-        a = typer.style("Image Url:", fg=typer.colors.GREEN, bold=True)
-        b = typer.style(result["url"], fg=typer.colors.YELLOW, bold=True)
         pyperclip.copy(result["url"])
-        typer.echo(a)
-        typer.echo(b)
+        table = Table(title="Image Details")
+        table.add_column("Details", justify="center", style="green")
+        table.add_column("URL", justify="center", style="cyan")
+        table.add_row("Upload URL:", result["url"])
+        table.add_row("Delete URL:", result["del_url"])
+        table.add_row("Thumb URL", result["thumb"])
+        console.print(table)
+        console.print(
+            "Url has been Copied to Clipboard",
+            style="YELLOW UNDERLINE",
+            justify="center",
+        )
     else:
         error_message = typer.style(IMAGE_FORMAT_NOT_SUPPORTED_MESSAGE, fg=ERROR_COLOR)
         typer.echo(error_message)
