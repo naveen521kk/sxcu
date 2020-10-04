@@ -17,6 +17,9 @@ docs/source/reference/**
 .org-id-locations
 *_archive
 
+*.code-workspace
+.vscode
+
 # flymake-mode
 *_flymake.*
 
