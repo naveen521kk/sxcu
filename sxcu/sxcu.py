@@ -30,11 +30,7 @@ class og_properties:
             Using ``json.dumps`` the content of JSON file is dumped.
         """
         return json.dumps(
-            {
-                "color": self.color,
-                "title": self.title,
-                "description": self.description,
-            }
+            {"color": self.color, "title": self.title, "description": self.description,}
         )
 
 
@@ -68,7 +64,8 @@ class SXCU:
                 con = json.load(sxcu_file)
             # requests url already contain `/upload` removing that.
             self.subdomain = "/".join(con["RequestURL"].split("/")[:-1])
-            self.upload_token = con["Arguments"]["token"]
+            if "Argument" in con.keys():
+                self.upload_token = con["Arguments"]["token"]
 
     def upload_image(
         self,
@@ -207,10 +204,7 @@ class SXCU:
 
     @staticmethod
     def create_collection(
-        title: str,
-        private: bool = False,
-        unlisted: bool = False,
-        desc: str = None,
+        title: str, private: bool = False, unlisted: bool = False, desc: str = None,
     ) -> Union[dict, list]:
         """Create a new collection on sxcu.net.
 
