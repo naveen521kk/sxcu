@@ -68,7 +68,7 @@ class SXCU:
                 con = json.load(sxcu_file)
             # requests url already contain `/upload` removing that.
             self.subdomain = "/".join(con["RequestURL"].split("/")[:-1])
-            if "Arguments" in con.keys():
+            if "Arguments" in con:
                 self.upload_token = con["Arguments"]["token"]
 
     def upload_image(
