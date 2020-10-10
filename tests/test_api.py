@@ -108,7 +108,7 @@ def test_sxcu_file_parser() -> None:
 def test_sxcu_file_parser_no_argument() -> None:
     from sxcu import SXCU
 
-    sxcu_file = os.path.join(pathFile, "assets", "sxcu.net - why-am-i-he.re")
+    sxcu_file = os.path.join(pathFile, "assets", "sxcu.net - why-am-i-he.re.sxcu")
     time.sleep(60)
     t = SXCU(file_sxcu=sxcu_file)
     con = t.upload_image(file=img_loc, noembed=True)
