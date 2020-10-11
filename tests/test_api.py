@@ -105,6 +105,21 @@ def test_sxcu_file_parser() -> None:
     expected_keys = ["url", "del_url", "thumb"]
     assert list(con.keys()).sort() == expected_keys.sort()
 
+def test_sxcu_file_parser_no_argument() -> None:
+    from sxcu import SXCU
+
+    sxcu_file = os.path.join(pathFile, "assets", "sxcu.net - why-am-i-he.re")
+    time.sleep(60)
+    t = SXCU(file_sxcu=sxcu_file)
+    con = t.upload_image(file=img_loc, noembed=True)
+
+    # test domain
+    assert con["url"].startswith("https://why-am-i-he.re")
+
+    # test keys
+    expected_keys = ["url", "del_url", "thumb"]
+    assert list(con.keys()).sort() == expected_keys.sort()
+
 
 def test_upload_test() -> None:
     time.sleep(60)
@@ -163,3 +178,4 @@ def test_create_link() -> None:
 
     c = requests.get(con["url"])
     assert c.status_code == 200
+
