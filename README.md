@@ -17,7 +17,7 @@
 
 ![sxcu-logo](https://github.com/naveen521kk/sxcu/raw/master/logo/readme-logo.png)
 <p align="center">
-A friendly API wrapper around [sxcu.net](https://sxcu.net)
+A friendly API wrapper around (https://sxcu.net
 </p>
 
 ## Installation
