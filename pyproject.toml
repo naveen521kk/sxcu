@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "sxcu"
-version = "1.1.0"
+version = "1.0.0"
 description = "Python API wraper for sxcu.net"
 authors = [
     "Naveen M K <naveen@syrusdark.website>"
@@ -28,7 +28,6 @@ packages = [
 
 [tool.poetry.dependencies]
 python = "^3.6"
-importlib-metadata = {version = "*", python = "<3.8"}
 requests = "^2.24.0"
 
 [tool.poetry.dev-dependencies]
@@ -36,7 +35,6 @@ pre-commit = {version = "^2.7.1", python = ">=3.6.1"}
 coverage = {version = "^5.2.1", extras = ["toml"]}
 sphinx = "^3.2.1"
 sphinx-rtd-theme = "^0.5.0"
-tox = "^3.20.0"
 pytest = "^6.1.1"
 
 [tool.black]
@@ -54,48 +52,6 @@ addopts = "-ra"
 testpaths = [
     "tests",
 ]
-
-[tool.tox]
-legacy_tox_ini = """
-[tox]
-minversion = 3.13.0
-isolated_build = True
-envlist = py
-
-[testenv]
-whitelist_externals = poetry
-setenv =COVERAGE_FILE=.coverage/data.{envname}
-commands =
-    poetry install --no-root
-    pytest--cov --cov-report=term {posargs}
-
-[testenv:lint]
-skip_install = True
-deps =
-    pre-commit
-commands =
-    pre-commit run --all-files {posargs}
-
-[testenv:report]
-skip_install = true
-deps =
-    coverage[toml]
-setenv =
-    COVERAGE_FILE=.coverage/data
-commands =
-    coverage combine
-    coverage report
-    coverage html
-
-[testenv:clean]
-skip_install = true
-deps =
-    coverage[toml]
-setenv =
-    COVERAGE_FILE=.coverage/data
-commands = coverage erase
-
-"""
 
 [tool.coverage.run]
 branch = true

@@ -1,19 +1,45 @@
-[![PyPI Version](https://img.shields.io/pypi/v/sxcu)](https://pypi.org/project/sxcu/)
-[![Python Versions](https://img.shields.io/pypi/pyversions/sxcu)](https://pypi.org/project/sxcu/)
-[![Python Wheel](https://img.shields.io/pypi/wheel/sxcu)](https://pypi.org/project/sxcu/)
-[![Documentation Status](https://readthedocs.org/projects/sxcu/badge/?version=latest)](https://sxcu.syrusdark.website/en/latest/?badge=latest)
-[![License](https://img.shields.io/badge/License-Apache2.0-green.svg)](https://opensource.org/licenses/Apache-2.0)
-[![Code Style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
-[![Code Quality: flake8](https://img.shields.io/badge/code%20quality-flake8-000000.svg)](https://gitlab.com/pycqa/flake8)
-[![codecov](https://codecov.io/gh/naveen521kk/sxcu/branch/master/graph/badge.svg)](https://codecov.io/gh/naveen521kk/sxcu)
+# SXCU Python API Wrapper
 
+<p align="center">
+  <a href="https://pypi.org/project/sxcu/">
+    <img src="https://img.shields.io/pypi/v/sxcu" alt="sxcu PyPI Version">
+  </a>
+  <a href="https://sxcu.syrusdark.website">
+    <img src="https://readthedocs.org/projects/sxcu/badge/?version=latest" alt="sxcu Documentation Status">
+  </a>
+  <a href="https://opensource.org/licenses/Apache-2.0">
+    <img src="https://img.shields.io/badge/License-Apache2.0-green.svg" alt"sxcu License">
+  </a>
+  <a href="https://codecov.io/gh/naveen521kk/sxcu">
+    <img src="https://codecov.io/gh/naveen521kk/sxcu/branch/master/graph/badge.svg" alt="sxcu codecov">
+  </a>
+</p>
 
-# SXCU
-![sxcu-logo](./logo/readme-logo.png)
+![sxcu-logo](https://github.com/naveen521kk/sxcu/raw/master/logo/readme-logo.png)
+<p align="center">
+A friendly API wrapper around [sxcu.net](https://sxcu.net)
+</p>
 
-Python API wraper for sxcu.net. Pretty much everything is explained in `doc strings`.
+## Installation
 
-Docs at https://sxcu.syrusdark.website/en/latest
+The package is published on
+[PyPI](https://pypi.org/project/sxcu/) and can be installed by running:
+```sh
+pip install sxcu
+```
+
+## Basic Use
+
+Easily query the sxcu.net from you Python code. The data returned from the sxcu.net
+API is mapped to python resources:
+
+```python
+>>> import sxcu
+>>> con = sxcu.SXCU()
+>>> con.upload_image("foo.jpg")
+{'url': 'https://sxcu.net/2kW7IT', 'del_url': 'https://sxcu.net/d/2kW7IT/455c7e40-9e3b-43fa-a95a-ac17dd920e55', 'thumb': 'https://sxcu.net/t/2kW7IT.jpeg'}
+```
+Ready for more? Look at our whole [documentation](https://sxcu.syrusdark.website/) on Read The Docs.
 
 ## Contributing
 Please refer to [CONTRIBUTING.md](CONTRIBUTING.md) file for more information on how to
