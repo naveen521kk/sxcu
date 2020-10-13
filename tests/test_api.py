@@ -105,6 +105,7 @@ def test_sxcu_file_parser() -> None:
     expected_keys = ["url", "del_url", "thumb"]
     assert list(con.keys()).sort() == expected_keys.sort()
 
+
 def test_sxcu_file_parser_no_argument() -> None:
     from sxcu import SXCU
 
@@ -178,4 +179,3 @@ def test_create_link() -> None:
 
     c = requests.get(con["url"])
     assert c.status_code == 200
-
