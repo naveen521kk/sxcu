@@ -24,22 +24,24 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
 
-      - name: Get full python version
-        id: full-python-version
-        shell: bash
-        run: echo ::set-output name=version::$(python -c "import sys; print('-'.join(str(v) for v in sys.version_info))")
+      - name: Build using Pyinstaller (Windows) 
+        if: matrix.ox = 'windows'
+        shell: cmd
+        run: |
+            python -m venv main
+            main\scripts\activate
+            pip install .
+            pip install pyinstaller
+            pyinstaller sxcu_cli.py --name="sxcu" --onefile
 
-      - name: Install Pyinstaller
+      - name: Build using Pyinstaller (Non-Windows)
         shell: bash
-        run: python -m pip install pyinstaller
-
-      - name: Install deps
-        shell: bash
-        run: pip install .
-
-      - name: Build using Pyinstaller
-        shell: bash
-        run: pyinstaller sxcu_cli.py --name="sxcu" --onefile
+        run: |
+            python -m venv main
+            source main/bin/activate
+            pip install .
+            pip install pyinstaller
+            pyinstaller sxcu_cli.py --name="sxcu" --onefile
 
       - name: Upload Executable
         uses: actions/upload-artifact@v2
