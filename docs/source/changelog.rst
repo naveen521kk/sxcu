@@ -6,10 +6,16 @@
 Changelog
 *********
 
+sxcu-v1.0.2
+===========
+[TOB]
+
+
 sxcu-v1.0.1
 ===========
 
-[TOD]
+* Fixed an issue in reading ``.sxcu`` file. (PR-10)
+* Fixed ``__version__`` and removed a dependency.
 
 sxcu-v1.0.0
 ===========
