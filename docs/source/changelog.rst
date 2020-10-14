@@ -6,8 +6,19 @@
 Changelog
 *********
 
-sxcu-v0.1.0-beta.0
-==================
+sxcu-v1.0.2
+===========
+[TOB]
+
+
+sxcu-v1.0.1
+===========
+
+* Fixed an issue in reading ``.sxcu`` file. (PR-10)
+* Fixed ``__version__`` and removed a dependency.
+
+sxcu-v1.0.0
+===========
 
 New Features
 ------------
@@ -15,6 +26,9 @@ New Features
 * Create a new logo.
 * Added a missing API method :func:`~.SXCU.image_details`.
 * Fix a bug due to subdomain parsing while using ``.sxcu`` files.
+* Add a missing endpoint of :func:`edit_collection`.
+* Fixed a bug in :func:`create_link`
+
 
 For developers
 --------------
@@ -23,6 +37,7 @@ For developers
 * Added a few Tests.
 * Enforce formatting with pre-commit.
 * Added test Coverage
+* Linting For Pull Requests Added.
 
 sxcu-v0.1.0-alpha.0
 ===================
