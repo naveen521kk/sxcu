@@ -1,11 +1,13 @@
-"""Python API wrapper for sxcu.net subdomains
+"""Python API wrapper for sxcu.net
 """
 import json
 from typing import Union
 
-import requests
+from .__client__ import RequestClient
 
 __all__ = ["og_properties", "SXCU"]
+
+requests = RequestClient()
 
 
 class og_properties:
@@ -119,7 +121,7 @@ class SXCU:
         )
         with open(file, "rb") as img_file:
             files = {"image": img_file}
-            res = requests.post(url=url, files=files, data=data)
+            res = requests.post(url, files=files, data=data)
         return res.json()
 
     def create_link(self, link: str) -> Union[dict, list]:
