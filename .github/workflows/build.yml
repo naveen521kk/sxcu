@@ -37,7 +37,7 @@ jobs:
         shell: bash
         run: poetry install
 
-	  - name: Build using Pyinstaller
+      - name: Build using Pyinstaller
         shell: bash
         run: pyinstaller sxcu_cli.py --name="sxcu" --onefile
 
