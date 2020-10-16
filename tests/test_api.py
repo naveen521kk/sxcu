@@ -29,6 +29,7 @@ def test_ogproperties() -> None:
 
 
 def test_upload_keys_default_domain() -> None:
+    time.sleep(60)
     from sxcu import SXCU
 
     t = SXCU()
