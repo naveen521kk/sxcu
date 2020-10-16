@@ -48,7 +48,7 @@ A small example using this can be
 
     import sxcu
     connector = sxcu.SXCU()
-	props = sxcu.og_properties(color="#000",description="some random post",title="I love SXCU")
+    props = sxcu.og_properties(color="#000",description="some random post",title="I love SXCU")
     result = connector.upload_image("foo.png")
     print(result["url"])
 
