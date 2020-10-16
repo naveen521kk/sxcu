@@ -1,8 +1,4 @@
 # SXCU Python API Wrapper
-<!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-1-orange.svg?style=flat-square)](#contributors-)
-<!-- ALL-CONTRIBUTORS-BADGE:END -->
-
 <p align="center">
   <a href="https://pypi.org/project/sxcu/">
     <img src="https://img.shields.io/pypi/v/sxcu" alt="sxcu PyPI Version">
@@ -22,6 +18,11 @@
 <p align="center">
 A friendly API wrapper around https://sxcu.net.
 </p>
+
+
+<!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
+[![All Contributors](https://img.shields.io/badge/all_contributors-1-orange.svg?style=flat-square)](#contributors-)
+<!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 ## Installation
 
