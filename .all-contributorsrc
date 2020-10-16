@@ -1,0 +1,25 @@
+{
+  "files": [
+    "README.md"
+  ],
+  "imageSize": 100,
+  "commit": false,
+  "contributors": [
+    {
+      "login": "naveen521kk",
+      "name": "Naveen M K",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/49693820?v=4",
+      "profile": "https://naveen.syrusdark.website",
+      "contributions": [
+        "code",
+        "doc"
+      ]
+    }
+  ],
+  "contributorsPerLine": 7,
+  "projectName": "sxcu",
+  "projectOwner": "naveen521kk",
+  "repoType": "github",
+  "repoHost": "https://github.com",
+  "skipCi": true
+}
