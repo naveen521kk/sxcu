@@ -1,3 +1,11 @@
+"""
+    __logger__.py
+    ~~~~~~~~~~~~~
+
+    Simple defines the logger used across the module.
+
+"""
+
 import logging
 
 logger = logging.getLogger("sxcu")

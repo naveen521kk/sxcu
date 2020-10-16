@@ -6,7 +6,12 @@
 Changelog
 *********
 
-sxcu-v1.0.2
+sxcu-v2.0.1
+===========
+
+[TOB]
+
+sxcu-v2.0.0
 ===========
 
 * Introduced a logger class so that users can know what
