@@ -14,9 +14,9 @@ really happened. User's can just set a logging handle and
 it will automatically write logs as in any other library.
 
 * Improved Interface with Requests. Instead of Directly
-calling it now logs them and goes through ``__client``.
+calling it now logs them and goes through ``__client__``.
 
-* Moved version to ``__version`` and added other meta data
+* Moved version to ``__version__`` and added other meta data
 to it.
 
 * Now it handle's server response codes. Previously it was
