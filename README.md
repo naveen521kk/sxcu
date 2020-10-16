@@ -58,7 +58,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
 <!-- markdownlint-disable -->
 <table>
   <tr>
-    <td align="center"><a href="https://naveen.syrusdark.website"><img src="https://avatars1.githubusercontent.com/u/49693820?v=4" width="100px;" alt=""/><br /><sub><b>Naveen M K</b></sub></a><br /><a href="https://github.com/naveen521kk/sxcu/commits?author=naveen521kk" title="Code">💻</a> <a href="https://github.com/naveen521kk/sxcu/commits?author=naveen521kk" title="Documentation">📖</a></td>
+    <td align="center"><a href="https://naveen.syrusdark.website"><img src="https://avatars1.githubusercontent.com/u/49693820?v=4" width="100px;" alt=""/><br /><sub><b>Naveen M K</b></sub></a><br /><a href="https://github.com/naveen521kk/sxcu/commits?author=naveen521kk" title="Code">💻</a> <a href="https://github.com/naveen521kk/sxcu/commits?author=naveen521kk" title="Documentation">📖</a> <a href="#maintenance-naveen521kk" title="Maintenance">🚧</a> <a href="#projectManagement-naveen521kk" title="Project Management">📆</a> <a href="https://github.com/naveen521kk/sxcu/pulls?q=is%3Apr+reviewed-by%3Anaveen521kk" title="Reviewed Pull Requests">👀</a> <a href="https://github.com/naveen521kk/sxcu/commits?author=naveen521kk" title="Tests">⚠️</a> <a href="#platform-naveen521kk" title="Packaging/porting to new platform">📦</a></td>
   </tr>
 </table>
 
