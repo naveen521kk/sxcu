@@ -8,7 +8,7 @@
     :license: Apache-2.0 , see LICENSE for details.
 
 """
-from .__version__ import __author__  # noqa F401; noqa F401
+from .__version__ import __author__  # noqa F401
 from .__version__ import __copyright__  # noqa F401
 from .__version__ import __description__  # noqa F401
 from .__version__ import __license__  # noqa F401
