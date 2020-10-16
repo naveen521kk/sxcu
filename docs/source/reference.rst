@@ -14,3 +14,6 @@ Python API Reference
 
    ~SXCU
    ~og_properties
+   ~__client__
+   ~__logger__
+   ~constants
