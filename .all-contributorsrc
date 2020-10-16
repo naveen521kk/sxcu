@@ -12,7 +12,12 @@
       "profile": "https://naveen.syrusdark.website",
       "contributions": [
         "code",
-        "doc"
+        "doc",
+        "maintenance",
+        "projectManagement",
+        "review",
+        "test",
+        "platform"
       ]
     }
   ],
