@@ -16,6 +16,7 @@ jobs:
       matrix:
         os: [ubuntu-latest, macos-latest, windows-latest]
         python-version: [3.8.3]
+        python-arch: ["x86","x64"]
     steps:
       - uses: actions/checkout@v2
 
@@ -23,6 +24,7 @@ jobs:
         uses: actions/setup-python@v2
         with:
           python-version: ${{ matrix.python-version }}
+          architecture: ${{ matrix.python-arch }}
 
       - name: Build using Pyinstaller (Windows) 
         if: runner.os == 'windows'
