@@ -1,3 +1,11 @@
+"""
+
+    __client__.py
+    ~~~~~~~~~~~~~
+
+    This module wraps aroud ``Requests`` for logging
+    and checking purpose.
+"""
 import requests
 
 from .__logger__ import logger
@@ -17,6 +25,7 @@ class RequestClient:
         ==========
         headers : :class:`str`, optional
             The extra header needed to be added to the Request.
+
         """
         if headers and isinstance(headers, dict):
             self.headers = headers
@@ -37,7 +46,8 @@ class RequestClient:
 
             .. important ::
 
-                The header would overide the default header.
+                    The header would overide the default header.
+
         """
         logger.debug(f"Trying to do a Post Requests to {url}")
         headers = self.headers if headers is None else headers
@@ -61,7 +71,8 @@ class RequestClient:
 
             .. important ::
 
-                The header would overide the default header.
+                    The header would overide the default header.
+
         """
         logger.debug(f"Trying to do Get Requests to {url}")
         headers = self.headers if headers is None else headers

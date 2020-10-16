@@ -41,3 +41,33 @@ Using the class
 .. autosummary::
 
     ~og_properties
+
+A small example using this can be
+
+.. code-block:: python
+
+    import sxcu
+    connector = sxcu.SXCU()
+	props = sxcu.og_properties(color="#000",description="some random post",title="I love SXCU")
+    result = connector.upload_image("foo.png")
+    print(result["url"])
+
+Creating a Short Link
+*********************
+
+The reference for it is
+
+.. autosummary::
+
+    ~SXCU.create_link
+
+A small example illustrating it can be.
+
+.. code-block:: python
+
+    import sxcu
+    connector = sxcu.SXCU()
+    result = connector.create_link("https://sxcu.syrusdark.website")
+    print(result["url"])
+
+should print a shortened URL.

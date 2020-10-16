@@ -1,3 +1,12 @@
+"""
+
+    constants.py
+    ~~~~~~~~~~~~
+
+    Some useful constants which contains status code
+    and helps in error handling.
+
+"""
 from .__version__ import __version__
 
 status_code_upload_image = {
