@@ -22,10 +22,10 @@ class RequestClient:
             self.headers = headers
         else:
             self.headers = HEADERS
-        logger.DEBUG(f"Headers set as: {self.headers}")
+        logger.debug(f"Headers recieved are: {self.headers}")
 
     def post(
-        self, url: str, headers: dict = None, **kwargs # noqa ANN003
+        self, url: str, headers: dict = None, **kwargs  # noqa ANN003
     ) -> requests.models.Response:
         """Pass all the parameter to :func:`requests.post`.
         Also, adding the neccessary headers. Also, the newly passed header
@@ -39,13 +39,18 @@ class RequestClient:
 
                 The header would overide the default header.
         """
+        logger.debug(f"Trying to do a Post Requests to {url}")
         headers = self.headers if headers is None else headers
         con = requests.post(url, headers=headers, **kwargs)
-        logger.DEBUG(f"Recieved Headers: {con.headers}")
-        print(url)
+        logger.debug(f"Recieved Headers from {url}: {con.headers}")
+        logger.debug(f"status_code returned was:{con.status_code}")
+        response = con.text
+        logger.info(f"Recieved Response: {response}")
         return con
 
-    def get(self, url: str, headers: dict = None, **kwargs) -> requests.models.Response: # noqa ANN003
+    def get(
+        self, url: str, headers: dict = None, **kwargs  # noqa ANN003
+    ) -> requests.models.Response:
         """Pass all the parameter to :func:`requests.get`.
         Also, adding the neccessary headers. Also, the newly passed header
         would overide the default.
@@ -58,7 +63,11 @@ class RequestClient:
 
                 The header would overide the default header.
         """
+        logger.debug(f"Trying to do Get Requests to {url}")
         headers = self.headers if headers is None else headers
-        print(url)
         con = requests.get(url=url, headers=headers, **kwargs)
+        logger.debug(f"Recieved Headers from {url}: {con.headers}")
+        # TODO: Don't use json instead implement a custom class here.
+        response = con.text
+        logger.info(f"Recieved Response: {response}")
         return con

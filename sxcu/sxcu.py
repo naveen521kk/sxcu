@@ -4,10 +4,17 @@ import json
 from typing import Union
 
 from .__client__ import RequestClient
+from .__logger__ import logger
+from .constants import (
+    status_code_create_link,
+    status_code_general,
+    status_code_upload_image,
+    status_code_upload_text,
+)
 
 __all__ = ["og_properties", "SXCU"]
 
-requests = RequestClient()
+request_handler = RequestClient()
 
 
 class og_properties:
@@ -62,7 +69,7 @@ class SXCU:
                 The content in ``.scxu`` file has more priority than passed parameters.
         """
         self.subdomain = subdomain if subdomain else "https://sxcu.net"
-        self.upload_token = upload_token
+        self.upload_token = upload_token  # Not logging upload_token
         self.file_sxcu = file_sxcu
         self.api_endpoint = "https://sxcu.net/api"
         if file_sxcu:
@@ -72,6 +79,7 @@ class SXCU:
             self.subdomain = "/".join(con["RequestURL"].split("/")[:-1])
             if "Arguments" in con:
                 self.upload_token = con["Arguments"]["token"]
+        logger.debug(f"subdomain is:{self.subdomain}")
 
     def upload_image(
         self,
@@ -121,8 +129,16 @@ class SXCU:
         )
         with open(file, "rb") as img_file:
             files = {"image": img_file}
-            res = requests.post(url, files=files, data=data)
-        return res.json()
+            res = request_handler.post(url, files=files, data=data)
+        if res.status_code in status_code_upload_image:
+            logger.error(
+                f"The status_code was {res.status_code} which was expected to be 200."
+            )
+            logger.error(
+                f"The reason for this error is {status_code_upload_image['desc']}"
+            )
+            raise Exception(status_code_upload_image["desc"])
+        return res.json()  # TODO: Don't use json instead implement a custom class here.
 
     def create_link(self, link: str) -> Union[dict, list]:
         """Creates a new link.
@@ -142,8 +158,16 @@ class SXCU:
             if self.subdomain[-1] == "/"
             else self.subdomain + "/shorten"
         )
-        con = requests.post(url, data={"link": link})
-        return con.json()
+        res = request_handler.post(url, data={"link": link})
+        if res.status_code in status_code_create_link:
+            logger.error(
+                f"The status_code was {res.status_code} which was expected to be 200."
+            )
+            logger.error(
+                f"The reason for this error is {status_code_create_link['desc']}"
+            )
+            raise Exception(status_code_create_link["desc"])
+        return res.json()
 
     @staticmethod
     def edit_collection(
@@ -201,8 +225,14 @@ class SXCU:
             data["empty_collection"] = ""
         if delete_collection:
             data["delete_collection"] = ""
-        con = requests.post("https://sxcu.net/api/", data=data)
-        final = con.json()
+        res = request_handler.post("https://sxcu.net/api/", data=data)
+        if res.status_code in status_code_general:
+            logger.error(
+                f"The status_code was {res.status_code} which was expected to be 200."
+            )
+            logger.error(f"The reason for this error is {status_code_general['desc']}")
+            raise Exception(status_code_general["desc"])
+        final = res.json()
         if isinstance(final, list):
             final = dict()
             final["token"] = None
@@ -244,8 +274,14 @@ class SXCU:
         }
         if desc:
             data["desc"] = desc
-        con = requests.post("https://sxcu.net/api/", data=data)
-        return con.json()
+        res = request_handler.post("https://sxcu.net/api/", data=data)
+        if res.status_code in status_code_general:
+            logger.error(
+                f"The status_code was {res.status_code} which was expected to be 200."
+            )
+            logger.error(f"The reason for this error is {status_code_general['desc']}")
+            raise Exception(status_code_general["desc"])
+        return res.json()
 
     @staticmethod
     def collection_details(collection_id: str) -> Union[dict, list]:
@@ -261,8 +297,14 @@ class SXCU:
         :class:`dict` or :class:`list`
             The returned JSON from the request.
         """
-        con = requests.get(f"https://sxcu.net/c/{collection_id}.json")
-        return con.json()
+        res = request_handler.get(f"https://sxcu.net/c/{collection_id}.json")
+        if res.status_code in status_code_general:
+            logger.error(
+                f"The status_code was {res.status_code} which was expected to be 200."
+            )
+            logger.error(f"The reason for this error is {status_code_general['desc']}")
+            raise Exception(status_code_general["desc"])
+        return res.json()
 
     @staticmethod
     def upload_text(text: str) -> Union[dict, list]:
@@ -278,8 +320,16 @@ class SXCU:
         :class:`dict` or :class:`list`
             The returned JSON from the request.
         """
-        con = requests.post("https://cancer-co.de/upload", data={"text": text})
-        return con.json()
+        res = request_handler.post("https://cancer-co.de/upload", data={"text": text})
+        if res.status_code in status_code_upload_text:
+            logger.error(
+                f"The status_code was {res.status_code} which was expected to be 200."
+            )
+            logger.error(
+                f"The reason for this error is {status_code_upload_image['desc']}"
+            )
+            raise Exception(status_code_upload_text["desc"])
+        return res.json()
 
     @staticmethod
     def image_details(image_id: str = None, image_url: str = None) -> Union[dict, list]:
@@ -309,8 +359,14 @@ class SXCU:
             image_url = f"https://sxcu.net/{image_id}.json"
         if image_url[-5:-1] != ".json":
             image_url += ".json"
-        con = requests.get(image_url)
-        return con.json()
+        res = request_handler.get(image_url)
+        if res.status_code in status_code_general:
+            logger.error(
+                f"The status_code was {res.status_code} which was expected to be 200."
+            )
+            logger.error(f"The reason for this error is {status_code_general['desc']}")
+            raise Exception(status_code_general["desc"])
+        return res.json()
 
     @staticmethod
     def domain_list(count: int = -1) -> list:
@@ -331,11 +387,17 @@ class SXCU:
         :class:`list`
             The returned JSON from the request.
         """
-        con = requests.get("https://sxcu.net/api?action=domains")
+        res = request_handler.get("https://sxcu.net/api?action=domains")
+        if res.status_code in status_code_general:
+            logger.error(
+                f"The status_code was {res.status_code} which was expected to be 200."
+            )
+            logger.error(f"The reason for this error is {status_code_general['desc']}")
+            raise Exception(status_code_general["desc"])
         if count == -1:
-            to_encode = con.json()
+            to_encode = res.json()
         else:
-            to_encode = con.json()[:count]
+            to_encode = res.json()[:count]
         for i in enumerate(to_encode):
             temp = {}
             for j in i[1]:
@@ -357,5 +419,5 @@ class SXCU:
         :class:`bool`
             Deleted or not
         """
-        con = requests.get(delete_url)
+        con = request_handler.get(delete_url)
         return bool(con.status_code == 200)
