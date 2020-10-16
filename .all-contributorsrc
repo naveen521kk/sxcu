@@ -19,6 +19,16 @@
         "test",
         "platform"
       ]
+    },
+    {
+      "login": "shahprog",
+      "name": "shahprog",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/40076722?v=4",
+      "profile": "https://github.com/shahprog",
+      "contributions": [
+        "bug",
+        "code"
+      ]
     }
   ],
   "contributorsPerLine": 7,
