@@ -8,7 +8,20 @@ Changelog
 
 sxcu-v1.0.2
 ===========
-[TOB]
+
+* Introduced a logger class so that users can know what
+really happened. User's can just set a logging handle and
+it will automatically write logs as in any other library.
+
+* Improved Interface with Requests. Instead of Directly
+calling it now logs them and goes through ``__client``.
+
+* Moved version to ``__version`` and added other meta data
+to it.
+
+* Now it handle's server response codes. Previously it was
+rising JSON decode Error which was unexpected and could cause
+problems.
 
 
 sxcu-v1.0.1
