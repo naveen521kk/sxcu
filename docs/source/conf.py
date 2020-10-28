@@ -12,6 +12,7 @@
 #
 import os
 import sys
+from importlib.metadata import version as importlib_metadata_version
 
 sys.path.insert(0, os.path.abspath("../.."))
 
@@ -22,7 +23,7 @@ copyright = "2020, Naveen M K"
 author = "Naveen M K"
 
 # The full version, including alpha/beta/rc tags
-release = "v0.1.0a0"
+release = importlib_metadata_version("sxcu")
 
 
 # -- General configuration ---------------------------------------------------
