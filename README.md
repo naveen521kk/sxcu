@@ -19,11 +19,6 @@
 A friendly API wrapper around https://sxcu.net.
 </p>
 
-
-<!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-2-orange.svg?style=flat-square)](#contributors-)
-<!-- ALL-CONTRIBUTORS-BADGE:END -->
-
 ## Installation
 
 The package is published on
@@ -48,6 +43,10 @@ Ready for more? Look at our whole [documentation](https://sxcu.syrusdark.website
 ## Contributing
 Please refer to [CONTRIBUTING.md](CONTRIBUTING.md) file for more information on how to
 contribute to this project.
+
+<!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
+[![All Contributors](https://img.shields.io/badge/all_contributors-2-orange.svg?style=flat-square)](#contributors-)
+<!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 ## Contributors ✨
 
