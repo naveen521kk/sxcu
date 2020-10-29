@@ -12,6 +12,6 @@ To view the ``DEBUG`` logs you would need to configure the ``logging`` module to
     logging.basicConfig(level=logging.DEBUG)
     import sxcu
     a=sxcu.SXCU()
- 
+
 Now all the debug logs are printed to ``stout``. You could also configure it to
 write to a file but that is out the scope of this documentation.
