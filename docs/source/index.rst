@@ -25,9 +25,9 @@ SXCU can be installed using ``pip``
    :caption: Contents:
 
    examples
+   logging
    reference
    changelog
-   logging
 
 
 Indices and tables
