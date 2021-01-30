@@ -11,6 +11,8 @@ sxcu-v2.0.1
 
 [TOB]
 
+* Rename ``og_properties`` to ``OGProperties``.
+
 sxcu-v2.0.0
 ===========
 

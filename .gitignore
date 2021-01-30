@@ -1,5 +1,6 @@
 ## source: https://raw.githubusercontent.com/github/gitignore/master/Global/Diff.gitignore*.patch
 *.diff
+.vscode
 ## source: https://raw.githubusercontent.com/github/gitignore/master/Global/Emacs.gitignore# -*- mode: gitignore; -*-
 *~
 \#*\#

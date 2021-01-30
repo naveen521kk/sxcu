@@ -15,7 +15,7 @@ __all__ = ["RequestClient"]
 
 
 class RequestClient:
-    """``RequestClient`` is internally used to communicated with
+    """:class:`RequestClient` is internally used to communicated with
     ``Requests`` Library.
     """
 
@@ -23,7 +23,7 @@ class RequestClient:
         """This initaite the handlers.
         Parameters
         ==========
-        headers : :class:`str`, optional
+        headers : :class:`dict`, optional
             The extra header needed to be added to the Request.
 
         """

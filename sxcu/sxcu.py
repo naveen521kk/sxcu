@@ -12,15 +12,15 @@ from .constants import (
     status_code_upload_text,
 )
 
-__all__ = ["og_properties", "SXCU"]
+__all__ = ["OGProperties", "SXCU"]
 
 request_handler = RequestClient()
 
 
-class og_properties:
+class OGProperties:
     """
     This is a helper class for main SXCU function. This helps you to reuse
-    the ``og_properties``.
+    the :class:`OGProperties`.
     """
 
     def __init__(
@@ -87,7 +87,7 @@ class SXCU:
         collection: str = None,
         collection_token: str = None,
         noembed: bool = False,
-        og_properties: og_properties = None,
+        og_properties: OGProperties = None,
     ) -> Union[dict, list]:
         """This uploads image to sxcu
 
@@ -102,7 +102,7 @@ class SXCU:
         noembed : :class:`bool`, optional
             If ``True``, the uploader will return a direct URL to the uploaded image, instead of
             a dedicated page.
-        og_properties : :class:`og_properties`, optional
+        og_properties : :class:`OGProperties`, optional
             This will configure the OpenGraph properties of the file's page, effectively
             changing the way it embeds in various websites and apps.
 

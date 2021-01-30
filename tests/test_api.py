@@ -9,9 +9,9 @@ img_loc = os.path.join(pathFile, "assets", "sharex.png")
 
 
 def test_ogproperties() -> None:
-    from sxcu import SXCU, og_properties
+    from sxcu import SXCU, OGProperties
 
-    og = og_properties(
+    og = OGProperties(
         color="#000", title="Some title", description="A cool description!"
     )
     con = json.dumps(
