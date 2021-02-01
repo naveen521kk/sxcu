@@ -15,4 +15,4 @@ from .__version__ import __license__  # noqa F401
 from .__version__ import __title__  # noqa F401
 from .__version__ import __url__  # noqa F401
 from .__version__ import __version__  # noqa F401
-from .sxcu import SXCU, og_properties  # noqa F401
+from .sxcu import SXCU, OGProperties  # noqa F401
