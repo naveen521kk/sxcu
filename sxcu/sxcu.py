@@ -24,11 +24,16 @@ class OGProperties:
     """
 
     def __init__(
-        self, color: str = None, description: str = None, title: str = None
+        self,
+        color: str = None,
+        description: str = None,
+        title: str = None,
+        discord_hide_url: bool = False,
     ) -> None:
         self.color = color
         self.description = description
         self.title = title
+        self.discord_hide_url = discord_hide_url
 
     def export(self) -> str:
         """Exports the Property set to a JSON file.
@@ -43,6 +48,7 @@ class OGProperties:
                 "color": self.color,
                 "title": self.title,
                 "description": self.description,
+                "discord_hide_url": self.discord_hide_url,
             }
         )
 
