@@ -1,6 +1,8 @@
 import os
 import time
 
+from sxcu import SXCU
+
 collection_details = []
 pathFile = os.path.dirname(os.path.abspath(__file__))
 img_loc = os.path.join(pathFile, "assets", "sharex.png")
@@ -9,8 +11,6 @@ img_loc = os.path.join(pathFile, "assets", "sharex.png")
 def test_create_collections() -> None:
     time.sleep(120)
     global collection_details
-    from sxcu import SXCU
-
     uploadInfo = {
         "title": "Python Test",
         "desc": "Testing from sxcu Python Library",
@@ -26,8 +26,6 @@ def test_create_collections() -> None:
 
 def test_upload_image_to_collection() -> None:
     time.sleep(60)
-    from sxcu import SXCU
-
     t = SXCU()
     con = t.upload_image(
         file=img_loc,

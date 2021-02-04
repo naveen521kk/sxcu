@@ -3,13 +3,15 @@ import os
 import time
 
 import pytest
+import requests
+
+from sxcu import SXCU, OGProperties
 
 pathFile = os.path.dirname(os.path.abspath(__file__))
 img_loc = os.path.join(pathFile, "assets", "sharex.png")
 
 
 def test_ogproperties() -> None:
-    from sxcu import SXCU, OGProperties
 
     og = OGProperties(
         color="#000", title="Some title", description="A cool description!"
@@ -28,9 +30,8 @@ def test_ogproperties() -> None:
     assert a is not None
 
 
-def test_upload_keys_default_domain() -> None:
+def test_upload_keys_default_domain_and_delete_image() -> None:
     time.sleep(60)
-    from sxcu import SXCU
 
     t = SXCU()
     con = t.upload_image(file=img_loc)
@@ -39,13 +40,12 @@ def test_upload_keys_default_domain() -> None:
         list(con.keys()).sort() == expected_keys.sort()
     )  # sorting because keys are arraged different
 
+    a = SXCU.delete_image(con["del_url"])
+    assert a is True
+
 
 @pytest.mark.xfail(run=False, reason="sxcu optimises images")
 def test_upload_image_default_domain() -> None:
-    import requests
-
-    from sxcu import SXCU
-
     t = SXCU()
     con = t.upload_image(file=img_loc, noembed=True)
 
@@ -56,19 +56,7 @@ def test_upload_image_default_domain() -> None:
 # TODO: Test subdomains
 
 
-def test_delete_image() -> None:
-
-    from sxcu import SXCU
-
-    time.sleep(60)  # to prevent overloading server
-    t = SXCU()
-    con = t.upload_image(file=img_loc, noembed=True)
-    a = SXCU.delete_image(con["del_url"])
-    assert a is True
-
-
 def test_image_info() -> None:
-    from sxcu import SXCU
 
     # upload image first
     t = SXCU()
@@ -92,7 +80,6 @@ def test_image_info() -> None:
 
 
 def test_sxcu_file_parser() -> None:
-    from sxcu import SXCU
 
     sxcu_file = os.path.join(pathFile, "assets", "sxcu.net - python.is-ne.at.sxcu")
     time.sleep(60)
@@ -108,7 +95,6 @@ def test_sxcu_file_parser() -> None:
 
 
 def test_sxcu_file_parser_no_argument() -> None:
-    from sxcu import SXCU
 
     sxcu_file = os.path.join(pathFile, "assets", "sxcu.net - why-am-i-he.re.sxcu")
     time.sleep(120)
@@ -123,12 +109,7 @@ def test_sxcu_file_parser_no_argument() -> None:
     assert list(con.keys()).sort() == expected_keys.sort()
 
 
-def test_upload_test() -> None:
-    time.sleep(60)
-    import requests
-
-    from sxcu import SXCU
-
+def test_upload_text() -> None:
     b = SXCU.upload_text("Hello, from sxcu Python Library. Test.")
     con = requests.get(b["url"])
 
@@ -137,7 +118,6 @@ def test_upload_test() -> None:
 
 def test_list_subdomains() -> None:
     time.sleep(60)
-    from sxcu import SXCU
 
     b = SXCU.domain_list(1)
     req_keys = ["domain", "upload_count", "public", "img_views"]
@@ -146,37 +126,14 @@ def test_list_subdomains() -> None:
 
 
 def test_list_subdomains_all() -> None:
-    time.sleep(60)
-    from sxcu import SXCU
-
     b = SXCU.domain_list(-1)
     req_keys = ["domain", "upload_count", "public", "img_views"]
 
     assert list(b[0].keys()).sort() == req_keys.sort()
 
 
-def test_upload_text() -> None:
-    time.sleep(60)
-
-    import requests
-
-    from sxcu import SXCU
-
-    con = SXCU.upload_text("Testing From Python Library")
-
-    c = requests.get(con["url"])
-    assert c.status_code == 200
-
-
 def test_create_link() -> None:
-    time.sleep(60)
-
-    import requests
-
-    from sxcu import SXCU
-
     t = SXCU()
     con = t.create_link("https://github.com/naveen521kk/sxcu")
-
     c = requests.get(con["url"])
     assert c.status_code == 200
