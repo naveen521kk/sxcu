@@ -21,6 +21,7 @@ def test_ogproperties() -> None:
             "color": "#000",
             "title": "Some title",
             "description": "A cool description!",
+            "discord_hide_url": False,
         }
     )
     assert con == og.export()
