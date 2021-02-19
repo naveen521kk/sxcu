@@ -31,7 +31,7 @@ class RequestClient:
             self.headers = headers
         else:
             self.headers = HEADERS
-        logger.debug(f"Headers recieved are: {self.headers}")
+        logger.debug("Headers recieved are: %s", self.headers)
 
     def post(
         self, url: str, headers: dict = None, **kwargs  # noqa ANN003
@@ -49,13 +49,13 @@ class RequestClient:
                     The header would overide the default header.
 
         """
-        logger.debug(f"Trying to do a Post Requests to {url}")
+        logger.debug("Trying to do a Post Requests to %s", url)
         headers = self.headers if headers is None else headers
         con = requests.post(url, headers=headers, **kwargs)
-        logger.debug(f"Recieved Headers from {url}: {con.headers}")
-        logger.debug(f"status_code returned was:{con.status_code}")
+        logger.debug("Recieved Headers from %s: %s", url, con.headers)
+        logger.debug("status_code returned was:%s", con.status_code)
         response = con.text
-        logger.info(f"Recieved Response: {response}")
+        logger.info("Recieved Response: %s", response)
         return con
 
     def get(
@@ -74,11 +74,11 @@ class RequestClient:
                     The header would overide the default header.
 
         """
-        logger.debug(f"Trying to do Get Requests to {url}")
+        logger.debug("Trying to do Get Requests to %s", url)
         headers = self.headers if headers is None else headers
         con = requests.get(url=url, headers=headers, **kwargs)
-        logger.debug(f"Recieved Headers from {url}: {con.headers}")
-        # TODO: Don't use json instead implement a custom class here.
+        logger.debug("Recieved Headers from %s: %s", url, con.headers)
+        # Don't use json instead implement a custom class here?
         response = con.text
-        logger.info(f"Recieved Response: {response}")
+        logger.info("Recieved Response: %s", response)
         return con

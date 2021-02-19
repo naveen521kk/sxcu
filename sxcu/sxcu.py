@@ -1,7 +1,7 @@
 """Python API wrapper for sxcu.net
 """
 import json
-from typing import Union
+from typing import Dict, Union
 
 from .__client__ import RequestClient
 from .__logger__ import logger
@@ -52,6 +52,28 @@ class OGProperties:
             }
         )
 
+    @classmethod
+    def from_json(cls, contents: str) -> "OGProperties":
+        """Import the Property set from parsing JSON.
+
+        Parameters
+        ==========
+        contents: :class:`str`
+            The contents in JSON which needs to be parsed.
+
+        Returns
+        =======
+        :class:`str`
+            Using ``json.dumps`` the content of JSON file is dumped.
+        """
+        _dict = json.loads(contents)
+
+        color = _dict["color"]
+        description = _dict["description"]
+        title = _dict["title"]
+        discord_hide_url = _dict["discord_hide_url"]
+        return cls(color, description, title, discord_hide_url)
+
 
 class SXCU:
     """The Main class for sxcu.net request"""
@@ -85,7 +107,7 @@ class SXCU:
             self.subdomain = "/".join(con["RequestURL"].split("/")[:-1])
             if "Arguments" in con:
                 self.upload_token = con["Arguments"]["token"]
-        logger.debug(f"subdomain is:{self.subdomain}")
+        logger.debug("subdomain: %s", self.subdomain)
 
     def upload_image(
         self,
@@ -102,12 +124,14 @@ class SXCU:
         file : :class:`str`, optional
             The path of File to Upload
         collection : :class:`str`, optional
-            The collection ID to which you want to upload to if you want to upload to a collection
+            The collection ID to which you want to upload to if
+            you want to upload to a collection
         collection_token : :class:`str`, optional
-            The collection upload token if one is required by the collection you're uploading to.
+            The collection upload token if one is required by the
+            collection you're uploading to.
         noembed : :class:`bool`, optional
-            If ``True``, the uploader will return a direct URL to the uploaded image, instead of
-            a dedicated page.
+            If ``True``, the uploader will return a direct URL to the
+            uploaded image, instead of a dedicated page.
         og_properties : :class:`OGProperties`, optional
             This will configure the OpenGraph properties of the file's page, effectively
             changing the way it embeds in various websites and apps.
@@ -138,13 +162,14 @@ class SXCU:
             res = request_handler.post(url, files=files, data=data)
         if res.status_code in status_code_upload_image:
             logger.error(
-                f"The status_code was {res.status_code} which was expected to be 200."
+                "The status_code was %s which was expected to be 200.", res.status_code
             )
             logger.error(
-                f"The reason for this error is {status_code_upload_image['desc']}"
+                "The reason for this error is: %s", status_code_upload_image["desc"]
             )
             raise Exception(status_code_upload_image["desc"])
-        return res.json()  # TODO: Don't use json instead implement a custom class here.
+        # Don't use json instead implement a custom class here.
+        return res.json()
 
     def create_link(self, link: str) -> Union[dict, list]:
         """Creates a new link.
@@ -167,10 +192,10 @@ class SXCU:
         res = request_handler.post(url, data={"link": link})
         if res.status_code in status_code_create_link:
             logger.error(
-                f"The status_code was {res.status_code} which was expected to be 200."
+                "The status_code was %s which was expected to be 200.", res.status_code
             )
             logger.error(
-                f"The reason for this error is {status_code_create_link['desc']}"
+                "The reason for this error is: %s", status_code_create_link["desc"]
             )
             raise Exception(status_code_create_link["desc"])
         return res.json()
@@ -204,17 +229,18 @@ class SXCU:
             If ``True``, it will generate a new token for the collection
             and return it in the response.
         empty_collection : :class:`bool`, optional
-            If ``True`` it will disassociate all of the images in the collection from it.
+            If ``True`` it will disassociate all of the images
+            in the collection from it.
         delete_collection : :class:`bool`, optional
-            If ``True`` it  will disassociate all of the images in the collection from it
-            and delete the collection.
+            If ``True`` it  will disassociate all of the
+            images in the collection from it and delete the collection.
 
         Returns
         =======
         :class:`dict`
             The returned JSON from the request.
         """
-        data = {
+        data: Dict[str, Union[str, bool]] = {
             "action": "edit_collection",
             "collection_id": collection_id,
             "collection_token": collection_token,
@@ -234,9 +260,13 @@ class SXCU:
         res = request_handler.post("https://sxcu.net/api/", data=data)
         if res.status_code in status_code_general:
             logger.error(
-                f"The status_code was {res.status_code} which was expected to be 200."
+                "The status_code was %s which was expected to be 200.",
+                res.status_code,
             )
-            logger.error(f"The reason for this error is {status_code_general['desc']}")
+            logger.error(
+                "The reason for this error is: %s",
+                status_code_general["desc"],
+            )
             raise Exception(status_code_general["desc"])
         final = res.json()
         if isinstance(final, list):
@@ -283,15 +313,20 @@ class SXCU:
         res = request_handler.post("https://sxcu.net/api/", data=data)
         if res.status_code in status_code_general:
             logger.error(
-                f"The status_code was {res.status_code} which was expected to be 200."
+                "The status_code was %s which was expected to be 200.",
+                res.status_code,
             )
-            logger.error(f"The reason for this error is {status_code_general['desc']}")
+            logger.error(
+                "The reason for this error is %s",
+                status_code_general["desc"],
+            )
             raise Exception(status_code_general["desc"])
         return res.json()
 
     @staticmethod
     def collection_details(collection_id: str) -> Union[dict, list]:
-        """Get collection details and list of images (if any are uploaded) for a given collection
+        """Get collection details and list of images (if any are uploaded)
+        for a given collection
 
         Parameters
         ==========
@@ -306,9 +341,10 @@ class SXCU:
         res = request_handler.get(f"https://sxcu.net/c/{collection_id}.json")
         if res.status_code in status_code_general:
             logger.error(
-                f"The status_code was {res.status_code} which was expected to be 200."
+                "The status_code was %s which was expected to be 200.",
+                res.status_code,
             )
-            logger.error(f"The reason for this error is {status_code_general['desc']}")
+            logger.error("The reason for this error is %s", status_code_general["desc"])
             raise Exception(status_code_general["desc"])
         return res.json()
 
@@ -329,10 +365,12 @@ class SXCU:
         res = request_handler.post("https://cancer-co.de/upload", data={"text": text})
         if res.status_code in status_code_upload_text:
             logger.error(
-                f"The status_code was {res.status_code} which was expected to be 200."
+                "The status_code was %s which was expected to be 200.",
+                res.status_code,
             )
             logger.error(
-                f"The reason for this error is {status_code_upload_image['desc']}"
+                "The reason for this error is %s",
+                status_code_upload_image["desc"],
             )
             raise Exception(status_code_upload_text["desc"])
         return res.json()
@@ -349,10 +387,12 @@ class SXCU:
 
             .. note ::
 
-                The ``image_id`` can be from any subdomain also as alway the id would be same.
+                The ``image_id`` can be from any subdomain also
+                as alway the id would be same.
 
         imageUrl : :class:`str`
-            The image URL returned of sucessful upload.For example, ``https://sxcu.net/QNeo92``.
+            The image URL returned of sucessful upload.
+            For example, ``https://sxcu.net/QNeo92``.
 
         Returns
         =======
@@ -368,9 +408,13 @@ class SXCU:
         res = request_handler.get(image_url)
         if res.status_code in status_code_general:
             logger.error(
-                f"The status_code was {res.status_code} which was expected to be 200."
+                "The status_code was %s which was expected to be 200.",
+                res.status_code,
             )
-            logger.error(f"The reason for this error is {status_code_general['desc']}")
+            logger.error(
+                "The reason for this error is %s",
+                status_code_general["desc"],
+            )
             raise Exception(status_code_general["desc"])
         return res.json()
 
@@ -396,9 +440,13 @@ class SXCU:
         res = request_handler.get("https://sxcu.net/api?action=domains")
         if res.status_code in status_code_general:
             logger.error(
-                f"The status_code was {res.status_code} which was expected to be 200."
+                "The status_code was %s which was expected to be 200.",
+                res.status_code,
             )
-            logger.error(f"The reason for this error is {status_code_general['desc']}")
+            logger.error(
+                "The reason for this error is %s",
+                status_code_general["desc"],
+            )
             raise Exception(status_code_general["desc"])
         if count == -1:
             to_encode = res.json()

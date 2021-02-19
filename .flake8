@@ -5,5 +5,6 @@ max-complexity = 18
 select = A, B,C,E,F,W,T4,B9
 extend-exclude =
     .venv/
+    logo/
 suppress-dummy-args = true
 allow-untyped-def = true

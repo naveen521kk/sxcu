@@ -30,6 +30,13 @@ def test_ogproperties() -> None:
 
     assert a is not None
 
+def test_import_og_preoperties() -> None:
+    og = OGProperties(
+        color="#000", title="Some title", description="A cool description!"
+    )
+    exp = og.export()
+    con = OGProperties.from_json(exp)
+    assert con.export() == og.export()
 
 def test_upload_keys_default_domain_and_delete_image() -> None:
     time.sleep(60)

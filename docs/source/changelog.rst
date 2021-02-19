@@ -6,10 +6,14 @@
 Changelog
 *********
 
+sxcu-v3.0.1
+===========
+[TOB]
+
+* Added ``OGProperties.from_json()`` method.
+
 sxcu-v3.0.0
 ===========
-
-[TOB]
 
 * Rename ``og_properties`` to ``OGProperties``.
 * Add support for ``discord_hide_url``.

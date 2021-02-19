@@ -28,7 +28,10 @@ status_code_upload_image = {
     },
     "407": {
         "message": "Subdomain is private, a valid upload token is required",
-        "desc": "The sub domain you tried to upload to is private, and requires a valid upload token in order to upload to it.",
+        "desc": (
+            "The sub domain you tried to upload to is private,"
+            "and requires a valid upload token in order to upload to it."
+        ),
     },
     "409": {
         "message": "No file sent",
@@ -36,7 +39,10 @@ status_code_upload_image = {
     },
     "410": {
         "message": "Collection is private but no collection token provided",
-        "desc": "The collection you tried to upload to is set to private and requires a collection token in order to upload to it.",
+        "desc": (
+            "The collection you tried to upload to is set to private and requires"
+            "a collection token in order to upload to it."
+        ),
     },
     "412": {
         "message": "User-agent header not set",
@@ -56,12 +62,18 @@ status_code_upload_image = {
     },
     "422": {
         "message": "Malformed JSON in OpenGraph properties",
-        "desc": "The OpenGraph properties JSON array could not be properly parsed, and is most likely malformed.",
+        "desc": (
+            "The OpenGraph properties JSON array could not be properly"
+            "parsed, and is most likely malformed."
+        ),
     },
     "429": {"message": None, "desc": "The request exceeded the rate limit."},
     "500": {
         "message": "The file was not uploaded due to an unknown error",
-        "desc": "An unknown error has occurred while processing the file, try again later.",
+        "desc": (
+            "An unknown error has occurred while processing the"
+            "file, try again later."
+        ),
     },
 }
 status_code_upload_text = {

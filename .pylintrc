@@ -1,0 +1,9 @@
+[MASTER]
+ignore-patterns=
+	logo/
+	tests/
+
+[FORMAT]
+max-line-length=88
+max-module-lines=500
+max-args = 8
