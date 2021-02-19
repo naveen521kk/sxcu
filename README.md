@@ -12,6 +12,12 @@
   <a href="https://codecov.io/gh/naveen521kk/sxcu">
     <img src="https://codecov.io/gh/naveen521kk/sxcu/branch/master/graph/badge.svg" alt="sxcu codecov">
   </a>
+  <a href="https://lgtm.com/projects/g/naveen521kk/sxcu/alerts/">
+    <img alt="Total alerts" src="https://img.shields.io/lgtm/alerts/g/naveen521kk/sxcu.svg?logo=lgtm&logoWidth=18"/>
+  </a>
+  <a href="https://lgtm.com/projects/g/naveen521kk/sxcu/context:python">
+    <img alt="Language grade: Python" src="https://img.shields.io/lgtm/grade/python/g/naveen521kk/sxcu.svg?logo=lgtm&logoWidth=18"/>
+  </a>
 </p>
 
 ![sxcu-logo](https://github.com/naveen521kk/sxcu/raw/master/logo/readme-logo.png)
