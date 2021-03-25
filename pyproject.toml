@@ -37,21 +37,29 @@ sphinx = "^3.5.3"
 sphinx-rtd-theme = "^0.5.1"
 pytest = "^6.1.2"
 pylint = "^2.7.2"
+black = {version = "^20.8b1", allow-prereleases = true}
 
 [tool.black]
 line-length = 88
 target-python = "3.8"
 
 [tool.isort]
-profile = "black"
 src_paths = ["sxcu", "test"]
-known_first_party = "sxcu"
+multi_line_output = 3
+include_trailing_comma = true
+force_grid_wrap = 0
+use_parentheses = true
+ensure_newline_before_comments = true
+line_length = 88
 
 [tool.pytest.ini_options]
 minversion = "6.0"
 addopts = "-ra"
 testpaths = [
     "tests",
+]
+markers = [
+    "slow: marks tests as slow (deselect with '-m \"not slow\"')"
 ]
 
 [tool.coverage.run]
@@ -61,9 +69,6 @@ data_file = ".coverage/data"
 # we only care about these packages
 source = [
     "sxcu",
-]
-omit = [
-    "tests/*",
 ]
 
 [tool.coverage.paths]

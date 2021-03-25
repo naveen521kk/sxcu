@@ -10,7 +10,7 @@ from sxcu import SXCU, OGProperties
 pathFile = os.path.dirname(os.path.abspath(__file__))
 img_loc = os.path.join(pathFile, "assets", "sharex.png")
 
-
+@pytest.mark.slow
 def test_ogproperties() -> None:
 
     og = OGProperties(
@@ -30,7 +30,8 @@ def test_ogproperties() -> None:
 
     assert a is not None
 
-def test_import_og_preoperties() -> None:
+
+def test_import_og_properties() -> None:
     og = OGProperties(
         color="#000", title="Some title", description="A cool description!"
     )
@@ -38,6 +39,7 @@ def test_import_og_preoperties() -> None:
     con = OGProperties.from_json(exp)
     assert con.export() == og.export()
 
+@pytest.mark.slow
 def test_upload_keys_default_domain_and_delete_image() -> None:
     time.sleep(60)
 
@@ -51,7 +53,7 @@ def test_upload_keys_default_domain_and_delete_image() -> None:
     a = SXCU.delete_image(con["del_url"])
     assert a is True
 
-
+@pytest.mark.slow
 @pytest.mark.xfail(run=False, reason="sxcu optimises images")
 def test_upload_image_default_domain() -> None:
     t = SXCU()
@@ -63,7 +65,7 @@ def test_upload_image_default_domain() -> None:
 
 # TODO: Test subdomains
 
-
+@pytest.mark.slow
 def test_image_info() -> None:
 
     # upload image first
@@ -86,7 +88,7 @@ def test_image_info() -> None:
     except AttributeError:
         assert True
 
-
+@pytest.mark.slow
 def test_sxcu_file_parser() -> None:
 
     sxcu_file = os.path.join(pathFile, "assets", "sxcu.net - python.is-ne.at.sxcu")
@@ -101,7 +103,7 @@ def test_sxcu_file_parser() -> None:
     expected_keys = ["url", "del_url", "thumb"]
     assert list(con.keys()).sort() == expected_keys.sort()
 
-
+@pytest.mark.slow
 def test_sxcu_file_parser_no_argument() -> None:
 
     sxcu_file = os.path.join(pathFile, "assets", "sxcu.net - why-am-i-he.re.sxcu")
