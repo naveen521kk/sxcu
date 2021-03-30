@@ -36,7 +36,7 @@ coverage = {version = "^5.5", extras = ["toml"]}
 sphinx = "^3.5.3"
 sphinx-rtd-theme = "^0.5.1"
 pytest = "^6.1.2"
-pylint = "^2.7.2"
+pylint = "^2.7.3"
 black = {version = "^20.8b1", allow-prereleases = true}
 
 [tool.black]
