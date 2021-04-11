@@ -14,4 +14,5 @@ Python API Reference
 
    ~SXCU
    ~og_properties
+   ~exceptions.SXCUError
    ~__client__.RequestClient
