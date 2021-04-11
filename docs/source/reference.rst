@@ -13,6 +13,6 @@ Python API Reference
    :toctree: reference
 
    ~SXCU
-   ~og_properties
+   ~OGProperties
    ~exceptions.SXCUError
    ~__client__.RequestClient
