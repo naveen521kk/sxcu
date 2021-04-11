@@ -11,6 +11,7 @@ from .constants import (
     status_code_upload_image,
     status_code_upload_text,
 )
+from .exceptions import SXCUError
 
 __all__ = ["OGProperties", "SXCU"]
 
@@ -160,14 +161,15 @@ class SXCU:
         with open(file, "rb") as img_file:
             files = {"image": img_file}
             res = request_handler.post(url, files=files, data=data)
-        if res.status_code in status_code_upload_image:
+        if str(res.status_code) in status_code_upload_image:
             logger.error(
                 "The status_code was %s which was expected to be 200.", res.status_code
             )
             logger.error(
-                "The reason for this error is: %s", status_code_upload_image["desc"]
+                "The reason for this error is: %s",
+                status_code_upload_image[str(res.status_code)]["desc"],
             )
-            raise Exception(status_code_upload_image["desc"])
+            raise SXCUError(status_code_upload_image[str(res.status_code)]["desc"])
         # Don't use json instead implement a custom class here.
         return res.json()
 
@@ -190,14 +192,15 @@ class SXCU:
             else self.subdomain + "/shorten"
         )
         res = request_handler.post(url, data={"link": link})
-        if res.status_code in status_code_create_link:
+        if str(res.status_code) in status_code_create_link:
             logger.error(
                 "The status_code was %s which was expected to be 200.", res.status_code
             )
             logger.error(
-                "The reason for this error is: %s", status_code_create_link["desc"]
+                "The reason for this error is: %s",
+                status_code_create_link[str(res.status_code)]["desc"],
             )
-            raise Exception(status_code_create_link["desc"])
+            raise SXCUError(status_code_create_link[str(res.status_code)]["desc"])
         return res.json()
 
     @staticmethod
@@ -258,16 +261,16 @@ class SXCU:
         if delete_collection:
             data["delete_collection"] = ""
         res = request_handler.post("https://sxcu.net/api/", data=data)
-        if res.status_code in status_code_general:
+        if str(res.status_code) in status_code_general:
             logger.error(
                 "The status_code was %s which was expected to be 200.",
                 res.status_code,
             )
             logger.error(
                 "The reason for this error is: %s",
-                status_code_general["desc"],
+                status_code_general[str(res.status_code)]["desc"],
             )
-            raise Exception(status_code_general["desc"])
+            raise SXCUError(status_code_general[str(res.status_code)]["desc"])
         final = res.json()
         if isinstance(final, list):
             final = dict()
@@ -311,16 +314,16 @@ class SXCU:
         if desc:
             data["desc"] = desc
         res = request_handler.post("https://sxcu.net/api/", data=data)
-        if res.status_code in status_code_general:
+        if str(res.status_code) in status_code_general:
             logger.error(
                 "The status_code was %s which was expected to be 200.",
                 res.status_code,
             )
             logger.error(
                 "The reason for this error is %s",
-                status_code_general["desc"],
+                status_code_general[str(res.status_code)]["desc"],
             )
-            raise Exception(status_code_general["desc"])
+            raise SXCUError(status_code_general[str(res.status_code)]["desc"])
         return res.json()
 
     @staticmethod
@@ -339,13 +342,16 @@ class SXCU:
             The returned JSON from the request.
         """
         res = request_handler.get(f"https://sxcu.net/c/{collection_id}.json")
-        if res.status_code in status_code_general:
+        if str(res.status_code) in status_code_general:
             logger.error(
                 "The status_code was %s which was expected to be 200.",
                 res.status_code,
             )
-            logger.error("The reason for this error is %s", status_code_general["desc"])
-            raise Exception(status_code_general["desc"])
+            logger.error(
+                "The reason for this error is %s",
+                status_code_general[str(res.status_code)]["desc"],
+            )
+            raise SXCUError(status_code_general[str(res.status_code)]["desc"])
         return res.json()
 
     @staticmethod
@@ -363,16 +369,16 @@ class SXCU:
             The returned JSON from the request.
         """
         res = request_handler.post("https://cancer-co.de/upload", data={"text": text})
-        if res.status_code in status_code_upload_text:
+        if str(res.status_code) in status_code_upload_text:
             logger.error(
                 "The status_code was %s which was expected to be 200.",
                 res.status_code,
             )
             logger.error(
                 "The reason for this error is %s",
-                status_code_upload_image["desc"],
+                status_code_upload_image[str(res.status_code)]["desc"],
             )
-            raise Exception(status_code_upload_text["desc"])
+            raise SXCUError(status_code_upload_text[str(res.status_code)]["desc"])
         return res.json()
 
     @staticmethod
@@ -406,16 +412,16 @@ class SXCU:
         if image_url[-5:-1] != ".json":
             image_url += ".json"
         res = request_handler.get(image_url)
-        if res.status_code in status_code_general:
+        if str(res.status_code) in status_code_general:
             logger.error(
                 "The status_code was %s which was expected to be 200.",
                 res.status_code,
             )
             logger.error(
                 "The reason for this error is %s",
-                status_code_general["desc"],
+                status_code_general[str(res.status_code)]["desc"],
             )
-            raise Exception(status_code_general["desc"])
+            raise SXCUError(status_code_general[str(res.status_code)]["desc"])
         return res.json()
 
     @staticmethod
@@ -438,16 +444,16 @@ class SXCU:
             The returned JSON from the request.
         """
         res = request_handler.get("https://sxcu.net/api?action=domains")
-        if res.status_code in status_code_general:
+        if str(res.status_code) in status_code_general:
             logger.error(
                 "The status_code was %s which was expected to be 200.",
                 res.status_code,
             )
             logger.error(
                 "The reason for this error is %s",
-                status_code_general["desc"],
+                status_code_general[str(res.status_code)]["desc"],
             )
-            raise Exception(status_code_general["desc"])
+            raise SXCUError(status_code_general[str(res.status_code)]["desc"])
         if count == -1:
             to_encode = res.json()
         else:
