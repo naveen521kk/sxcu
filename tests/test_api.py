@@ -1,43 +1,16 @@
-import json
+
 import os
 import time
 
 import pytest
 import requests
 
-from sxcu import SXCU, OGProperties
+from sxcu import SXCU
 
 pathFile = os.path.dirname(os.path.abspath(__file__))
 img_loc = os.path.join(pathFile, "assets", "sharex.png")
 
-@pytest.mark.slow
-def test_ogproperties() -> None:
 
-    og = OGProperties(
-        color="#000", title="Some title", description="A cool description!"
-    )
-    con = json.dumps(
-        {
-            "color": "#000",
-            "title": "Some title",
-            "description": "A cool description!",
-            "discord_hide_url": False,
-        }
-    )
-    assert con == og.export()
-    t = SXCU()
-    a = t.upload_image(file=img_loc, og_properties=og)
-
-    assert a is not None
-
-
-def test_import_og_properties() -> None:
-    og = OGProperties(
-        color="#000", title="Some title", description="A cool description!"
-    )
-    exp = og.export()
-    con = OGProperties.from_json(exp)
-    assert con.export() == og.export()
 
 @pytest.mark.slow
 def test_upload_keys_default_domain_and_delete_image() -> None:
@@ -118,14 +91,14 @@ def test_sxcu_file_parser_no_argument() -> None:
     expected_keys = ["url", "del_url", "thumb"]
     assert list(con.keys()).sort() == expected_keys.sort()
 
-
+@pytest.mark.slow
 def test_upload_text() -> None:
     b = SXCU.upload_text("Hello, from sxcu Python Library. Test.")
     con = requests.get(b["url"])
 
     assert con.status_code == 200
 
-
+@pytest.mark.slow
 def test_list_subdomains() -> None:
     time.sleep(60)
 
@@ -134,14 +107,14 @@ def test_list_subdomains() -> None:
 
     assert list(b[0].keys()).sort() == req_keys.sort()
 
-
+@pytest.mark.slow
 def test_list_subdomains_all() -> None:
     b = SXCU.domain_list(-1)
     req_keys = ["domain", "upload_count", "public", "img_views"]
 
     assert list(b[0].keys()).sort() == req_keys.sort()
 
-
+@pytest.mark.slow
 def test_create_link() -> None:
     t = SXCU()
     con = t.create_link("https://github.com/naveen521kk/sxcu")
