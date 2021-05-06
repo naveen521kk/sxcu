@@ -11,6 +11,9 @@ sxcu-v3.0.1
 [TOB]
 
 * Added ``OGProperties.from_json()`` method.
+* Fix broken Error Handler. It raises :class:`SXCUError` when 
+  there is an error from server now.
+* Update API details. (slightly)
 
 sxcu-v3.0.0
 ===========

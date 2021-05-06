@@ -19,7 +19,7 @@ sys.path.insert(0, os.path.abspath("../.."))
 
 # -- Project information -----------------------------------------------------
 project = "SXCU"
-copyright = "2020, Naveen M K"
+copyright = "2020-2021, Naveen M K"
 author = "Naveen M K"
 
 # The full version, including alpha/beta/rc tags
