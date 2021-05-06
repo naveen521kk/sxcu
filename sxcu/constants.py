@@ -50,7 +50,7 @@ status_code_upload_image = {
     },
     "413": {
         "message": "File is over the size limit",
-        "desc": "Uploaded file is larger than 95 MB.",
+        "desc": "Uploaded file is larger than 95 MB or smaller than 12B",
     },
     "415": {
         "message": "File type not allowed.",
