@@ -49,7 +49,7 @@ status_code_upload_image = {
         "desc": "The request did not contain a User-Agent header.",
     },
     "413": {
-        "message": "File is over the size limit",
+        "message": "File is over the size limit or under the minimum size limit",
         "desc": "Uploaded file is larger than 95 MB or smaller than 12B",
     },
     "415": {
