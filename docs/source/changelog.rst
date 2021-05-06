@@ -6,9 +6,13 @@
 Changelog
 *********
 
-sxcu-v3.0.1
+sxcu-v*
+=======
+
+[TBD]
+
+sxcu-v3.1.0
 ===========
-[TOB]
 
 * Added ``OGProperties.from_json()`` method.
 * Fix broken Error Handler. It raises :class:`SXCUError` when 
