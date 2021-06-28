@@ -11,6 +11,11 @@ sxcu-v*
 
 [TBD]
 
+sxcu-v3.2.0
+===========
+
+* Update for new API changes
+
 sxcu-v3.1.0
 ===========
 
