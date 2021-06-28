@@ -49,8 +49,12 @@ status_code_upload_image = {
         "desc": "The request did not contain a User-Agent header.",
     },
     "413": {
-        "message": "File is over the size limit or under the minimum size limit",
-        "desc": "Uploaded file is larger than 95 MB or smaller than 12B",
+        "message": "File is over the maximum size limit",
+        "desc": "Uploaded file is larger than 95 MB",
+    },
+    "414": {
+        "message": "og_properties object is too long",
+        "desc": "The minified og_properties is longer than 250 characters",
     },
     "415": {
         "message": "File type not allowed.",
@@ -59,6 +63,10 @@ status_code_upload_image = {
     "416": {
         "message": "Invalid collection token",
         "desc": "The specified collection token does not match the collection's token.",
+    },
+    "417": {
+        "message": "File is under the minimum size limit",
+        "desc": "Uploaded file is smaller than 12 B",
     },
     "422": {
         "message": "Malformed JSON in OpenGraph properties",
