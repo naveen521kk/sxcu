@@ -3,7 +3,7 @@
   <a href="https://pypi.org/project/sxcu/">
     <img src="https://img.shields.io/pypi/v/sxcu" alt="sxcu PyPI Version">
   </a>
-  <a href="https://sxcu.syrusdark.website">
+  <a href="https://sxcu.readthedocs.io">
     <img src="https://readthedocs.org/projects/sxcu/badge/?version=latest" alt="sxcu Documentation Status">
   </a>
   <a href="https://opensource.org/licenses/Apache-2.0">
@@ -44,7 +44,7 @@ API is mapped to python resources:
 >>> con.upload_image("foo.jpg")
 {'url': 'https://sxcu.net/2kW7IT', 'del_url': 'https://sxcu.net/d/2kW7IT/455c7e40-9e3b-43fa-a95a-ac17dd920e55', 'thumb': 'https://sxcu.net/t/2kW7IT.jpeg'}
 ```
-Ready for more? Look at our whole [documentation](https://sxcu.syrusdark.website/) on Read The Docs.
+Ready for more? Look at our whole [documentation](https://sxcu.readthedocs.io/) on Read The Docs.
 
 ## Contributing
 Please refer to [CONTRIBUTING.md](CONTRIBUTING.md) file for more information on how to
