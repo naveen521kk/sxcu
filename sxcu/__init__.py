@@ -9,4 +9,5 @@
 
 """
 from .__version__ import *  # noqa F401
-from .sxcu import SXCU, OGProperties  # noqa F401
+from .og_properties import OGProperties  # noqa F401
+from .sxcu import SXCU  # noqa F401
