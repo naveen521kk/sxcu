@@ -124,4 +124,5 @@ status_code_create_link = {
 status_code_general = {
     "429": {"message": None, "desc": "The request exceeded the rate limit."},
 }
-HEADERS = {"User-Agent": f"python-sxcu-{__version__}"}
+HEADERS = {"User-Agent": f"PySXCU/{__version__}"}
+# see https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/User-Agent#syntax
