@@ -39,11 +39,8 @@ jobs:
       - name: Run pytest
         shell: bash
         run: |
-           python -m coverage run --branch -m pytest
-           coverage combine
-           coverage report
-           coverage html
-           coverage xml
+           python -m pytest
+
       - uses: codecov/codecov-action@v1
         with:
           file: ./.coverage/coverage.xml
