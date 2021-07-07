@@ -6,6 +6,7 @@ from typing import Dict, Union
 from .__client__ import RequestClient
 from .__logger__ import logger
 from .constants import (
+    _DefaulDomains,
     status_code_create_link,
     status_code_general,
     status_code_upload_image,
@@ -43,7 +44,7 @@ class SXCU:
         self.subdomain = subdomain if subdomain else "https://sxcu.net"
         self.upload_token = upload_token  # Not logging upload_token
         self.file_sxcu = file_sxcu
-        self.api_endpoint = "https://sxcu.net/api"
+        self.api_endpoint = _DefaulDomains.API_ENDPOINT.value
         if file_sxcu:
             with open(file_sxcu) as sxcu_file:
                 con = json.load(sxcu_file)
@@ -203,7 +204,7 @@ class SXCU:
             data["empty_collection"] = ""
         if delete_collection:
             data["delete_collection"] = ""
-        res = request_handler.post("https://sxcu.net/api/", data=data)
+        res = request_handler.post(_DefaulDomains.API_ENDPOINT.value, data=data)
         if str(res.status_code) in status_code_general:
             logger.error(
                 "The status_code was %s which was expected to be 200.",
@@ -256,7 +257,10 @@ class SXCU:
         }
         if desc:
             data["desc"] = desc
-        res = request_handler.post("https://sxcu.net/api/", data=data)
+        res = request_handler.post(
+            _DefaulDomains.API_ENDPOINT.value,
+            data=data,
+        )
         if str(res.status_code) in status_code_general:
             logger.error(
                 "The status_code was %s which was expected to be 200.",
@@ -284,7 +288,9 @@ class SXCU:
         :class:`dict` or :class:`list`
             The returned JSON from the request.
         """
-        res = request_handler.get(f"https://sxcu.net/c/{collection_id}.json")
+        res = request_handler.get(
+            _DefaulDomains.COLLECTION_DETAILS.value.format(collection_id=collection_id),
+        )
         if str(res.status_code) in status_code_general:
             logger.error(
                 "The status_code was %s which was expected to be 200.",
@@ -311,7 +317,10 @@ class SXCU:
         :class:`dict` or :class:`list`
             The returned JSON from the request.
         """
-        res = request_handler.post("https://cancer-co.de/upload", data={"text": text})
+        res = request_handler.post(
+            _DefaulDomains.UPLOAD_TEXT.value,
+            data={"text": text},
+        )
         if str(res.status_code) in status_code_upload_text:
             logger.error(
                 "The status_code was %s which was expected to be 200.",
@@ -351,7 +360,7 @@ class SXCU:
         if image_url is None and image_id is None:
             raise AttributeError("Either one of image_id or image_url is necessary")
         if image_url is None:
-            image_url = f"https://sxcu.net/{image_id}.json"
+            image_url = _DefaulDomains.IMAGE_DETAILS.value.format(image_id=image_id)
         if image_url[-5:-1] != ".json":
             image_url += ".json"
         res = request_handler.get(image_url)
@@ -386,7 +395,7 @@ class SXCU:
         :class:`list`
             The returned JSON from the request.
         """
-        res = request_handler.get("https://sxcu.net/api?action=domains")
+        res = request_handler.get(_DefaulDomains.DOMAINS_LIST.value)
         if str(res.status_code) in status_code_general:
             logger.error(
                 "The status_code was %s which was expected to be 200.",

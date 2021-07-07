@@ -7,7 +7,25 @@
     and helps in error handling.
 
 """
+__all__ = []
+from enum import Enum
+
 from .__version__ import __version__
+
+SXCU_ERROR_CODE = 400
+
+
+class _DefaulDomains(Enum):
+    """DefaulDomains A Emum representing all the default API
+    URL's to use.
+    """
+
+    DOMAINS_LIST = "https://sxcu.net/api?action=domains"
+    IMAGE_DETAILS = "https://sxcu.net/{image_id}.json"
+    UPLOAD_TEXT = "https://cancer-co.de/upload"
+    COLLECTION_DETAILS = "https://sxcu.net/c/{collection_id}.json"
+    API_ENDPOINT = "https://sxcu.net/api/"
+
 
 status_code_upload_image = {
     "403": {
