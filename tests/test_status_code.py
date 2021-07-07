@@ -1,10 +1,17 @@
-from sxcu.exceptions import SXCUError
-import pytest
-import requests
-from sxcu import SXCU
-from sxcu.constants import *
 import os
 from inspect import getfullargspec
+
+import pytest
+import requests
+
+from sxcu import SXCU
+from sxcu.constants import (
+    status_code_create_link,
+    status_code_general,
+    status_code_upload_image,
+    status_code_upload_text,
+)
+from sxcu.exceptions import SXCUError
 
 handler = SXCU()
 pathFile = os.path.dirname(os.path.abspath(__file__))
