@@ -1,3 +1,4 @@
+import json
 import time
 from pathlib import Path
 
@@ -126,3 +127,59 @@ def test_create_link() -> None:
     con = _t.create_link("https://github.com/naveen521kk/sxcu")
     _c = requests.get(con["url"])
     assert _c.status_code == 200
+
+
+def test_sxcu_file_init():
+    sxcu_file = Path(FILE_PATH, "assets", "sxcu.net - why-am-i-he.re.sxcu")
+    _t = SXCU(file_sxcu=sxcu_file)
+    assert _t.subdomain == "https://why-am-i-he.re"
+
+
+def test_sxcu_file_init_with_token():
+    sxcu_file = Path(FILE_PATH, "assets", "sxcu.net - python.is-ne.at.sxcu")
+    _t = SXCU(file_sxcu=sxcu_file)
+    assert _t.subdomain == "https://python.is-ne.at"
+    assert _t.upload_token == "b8893b47-0e90-4fce-ad46-4264161a3a72"
+
+
+class MockUploadResponse:
+    def __init__(self, status_code, response) -> None:
+        self._status_code = status_code
+        self._response = response
+
+    @property
+    def text(self):
+        return self._response
+
+    @property
+    def headers(self):
+        return {}
+
+    @property
+    def status_code(self):
+        return self._status_code
+
+    def json(self):
+        return json.loads(self._response)
+
+
+def test_upload_mock(monkeypatch):
+    response = json.dumps(
+        {
+            "url": "https://sxcu.net/53BhgPNB1",
+            "del_url": "https://sxcu.net/d/53BhgPNB1/81388fb6-8d20-4c8e-b256-f5472c88e062",
+            "thumb": "https://sxcu.net/t/53BhgPNB1.png",
+        }
+    )
+
+    def mock_get(*args, **kwargs):
+        assert "token" in kwargs["data"]
+        assert kwargs["data"]["token"] == "b8893b47-0e90-4fce-ad46-4264161a3a72"
+        return MockUploadResponse(200, response)
+
+    monkeypatch.setattr(requests, "post", mock_get)
+
+    sxcu_file = Path(FILE_PATH, "assets", "sxcu.net - python.is-ne.at.sxcu")
+    _t = SXCU(file_sxcu=sxcu_file)
+    a = _t.upload_image(IMG_LOC)
+    assert json.dumps(a) == response
