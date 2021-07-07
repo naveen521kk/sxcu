@@ -1,5 +1,6 @@
 import os
 import time
+import pytest
 
 from sxcu import SXCU
 
@@ -7,7 +8,7 @@ collection_details = []
 pathFile = os.path.dirname(os.path.abspath(__file__))
 img_loc = os.path.join(pathFile, "assets", "sharex.png")
 
-
+@pytest.mark.slow
 def test_create_collections() -> None:
     time.sleep(120)
     global collection_details
@@ -23,7 +24,7 @@ def test_create_collections() -> None:
     for i in to_check:
         assert uploadInfo[i] == b[i]
 
-
+@pytest.mark.slow
 def test_upload_image_to_collection() -> None:
     time.sleep(60)
     t = SXCU()
@@ -36,7 +37,7 @@ def test_upload_image_to_collection() -> None:
 
     assert con["url"].startswith("https://sxcu.net")
 
-
+@pytest.mark.slow
 def test_edit_collection_no_delete() -> None:
     time.sleep(120)
     from sxcu import SXCU
@@ -51,7 +52,7 @@ def test_edit_collection_no_delete() -> None:
 
     assert con["token"] is None
 
-
+@pytest.mark.slow
 def test_edit_collection_regen_token() -> None:
     time.sleep(120)
     from sxcu import SXCU
@@ -65,7 +66,7 @@ def test_edit_collection_regen_token() -> None:
     assert con["token"] is not None
     collection_details["collection_token"] = con["token"]
 
-
+@pytest.mark.slow
 def test_edit_collection_empty_collection() -> None:
     time.sleep(120)
 
@@ -79,7 +80,7 @@ def test_edit_collection_empty_collection() -> None:
 
     assert con["token"] is None
 
-
+@pytest.mark.slow
 def test_edit_collection_delete_collection() -> None:
     time.sleep(120)
 
