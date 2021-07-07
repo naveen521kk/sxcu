@@ -1,7 +1,7 @@
 import pytest
 from sxcu import SXCU, OGProperties
 import json
-from .test_api import img_loc
+from .test_api import IMG_LOC
 
 
 @pytest.mark.slow
@@ -20,7 +20,7 @@ def test_ogproperties() -> None:
     )
     assert con == og.export()
     t = SXCU()
-    a = t.upload_image(file=img_loc, og_properties=og)
+    a = t.upload_image(file=IMG_LOC, og_properties=og)
 
     assert a is not None
 
