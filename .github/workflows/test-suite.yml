@@ -73,5 +73,6 @@ jobs:
            python -m pytest
 
       - uses: codecov/codecov-action@v1
+        if: always()
         with:
           file: ./.coverage/coverage.xml
