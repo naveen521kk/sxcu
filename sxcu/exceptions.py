@@ -9,3 +9,7 @@ class SXCUError(Exception):
     See error_codes and message list for more information in
     https://sxcu.net.
     """
+
+
+class CLIError(Exception):
+    """Raised when failed to parse CLI args."""
