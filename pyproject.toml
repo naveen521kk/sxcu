@@ -21,7 +21,7 @@ classifiers = [
 license = "Apache-2.0"
 readme = "README.md"
 repository = "https://github.com/naveen521kk/sxcu"
-documentation = "https://sxcu.syrusdark.website/en/latest"
+documentation = "https://sxcu.readthedocs.io/en/latest"
 packages = [
     { include = "sxcu" }
 ]
