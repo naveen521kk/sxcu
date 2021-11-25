@@ -3,10 +3,10 @@ name = "sxcu"
 version = "3.2.0"
 description = "Python API wraper for sxcu.net"
 authors = [
-    "Naveen M K <naveen@syrusdark.website>"
+    "Naveen M K <naveen521kk@gmail.com>"
 ]
 maintainers = [
-    "Naveen M K <naveen@syrusdark.website>"
+    "Naveen M K <naveen521kk@gmail.com>"
 ]
 keywords = [
     "api",
