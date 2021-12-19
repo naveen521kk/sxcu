@@ -16,9 +16,9 @@ __all__ = [
     "__copyright__",
 ]
 __title__ = "sxcu"
-__description__ = "Python API wraper for sxcu.net"
+__description__ = "Python API wrapper for sxcu.net"
 __url__ = "https://sxcu.readthedocs.io"
 __version__ = "2.0.0"
 __author__ = "Naveen M K"
 __license__ = "Apache 2.0"
-__copyright__ = "Copyright 2021 Naveen M K"
+__copyright__ = "Copyright 2021, Naveen M K"
