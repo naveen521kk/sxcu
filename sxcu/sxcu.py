@@ -1,12 +1,12 @@
 """Python API wrapper for sxcu.net
 """
 import json
-from typing import Dict, Union
+import typing as T
 
 from .__client__ import RequestClient
 from .__logger__ import logger
 from .constants import (
-    _DefaulDomains,
+    _DefaultDomains,
     status_code_create_link,
     status_code_general,
     status_code_upload_image,
@@ -42,9 +42,9 @@ class SXCU:
                 The content in ``.scxu`` file has more priority than passed parameters.
         """
         self.subdomain = subdomain if subdomain else "https://sxcu.net"
-        self.upload_token = upload_token  # Not logging upload_token
+        self.upload_token = upload_token  # Don't log upload_token
         self.file_sxcu = file_sxcu
-        self.api_endpoint = _DefaulDomains.API_ENDPOINT.value
+        self.api_endpoint = _DefaultDomains.API_ENDPOINT.value
         if file_sxcu:
             with open(file_sxcu) as sxcu_file:
                 con = json.load(sxcu_file)
@@ -61,7 +61,7 @@ class SXCU:
         collection_token: str = None,
         noembed: bool = False,
         og_properties: OGProperties = None,
-    ) -> Union[dict, list]:
+    ) -> T.Union[dict, list]:
         """This uploads image to sxcu
 
         Parameters
@@ -117,7 +117,7 @@ class SXCU:
         # Don't use json instead implement a custom class here.
         return res.json()
 
-    def create_link(self, link: str) -> Union[dict, list]:
+    def create_link(self, link: str) -> T.Union[dict, list]:
         """Creates a new link.
 
         Parameters
@@ -187,7 +187,7 @@ class SXCU:
         :class:`dict`
             The returned JSON from the request.
         """
-        data: Dict[str, Union[str, bool]] = {
+        data: T.Dict[str, T.Union[str, bool]] = {
             "action": "edit_collection",
             "collection_id": collection_id,
             "collection_token": collection_token,
@@ -204,7 +204,7 @@ class SXCU:
             data["empty_collection"] = ""
         if delete_collection:
             data["delete_collection"] = ""
-        res = request_handler.post(_DefaulDomains.API_ENDPOINT.value, data=data)
+        res = request_handler.post(_DefaultDomains.API_ENDPOINT.value, data=data)
         if str(res.status_code) in status_code_general:
             logger.error(
                 "The status_code was %s which was expected to be 200.",
@@ -227,7 +227,7 @@ class SXCU:
         private: bool = False,
         unlisted: bool = False,
         desc: str = None,
-    ) -> Union[dict, list]:
+    ) -> T.Union[dict, list]:
         """Create a new collection on sxcu.net.
 
         .. note::
@@ -258,7 +258,7 @@ class SXCU:
         if desc:
             data["desc"] = desc
         res = request_handler.post(
-            _DefaulDomains.API_ENDPOINT.value,
+            _DefaultDomains.API_ENDPOINT.value,
             data=data,
         )
         if str(res.status_code) in status_code_general:
@@ -274,7 +274,7 @@ class SXCU:
         return res.json()
 
     @staticmethod
-    def collection_details(collection_id: str) -> Union[dict, list]:
+    def collection_details(collection_id: str) -> T.Union[dict, list]:
         """Get collection details and list of images (if any are uploaded)
         for a given collection
 
@@ -289,7 +289,7 @@ class SXCU:
             The returned JSON from the request.
         """
         res = request_handler.get(
-            _DefaulDomains.COLLECTION_DETAILS.value.format(collection_id=collection_id),
+            _DefaultDomains.COLLECTION_DETAILS.value.format(collection_id=collection_id),
         )
         if str(res.status_code) in status_code_general:
             logger.error(
@@ -304,7 +304,7 @@ class SXCU:
         return res.json()
 
     @staticmethod
-    def upload_text(text: str) -> Union[dict, list]:
+    def upload_text(text: str) -> T.Union[dict, list]:
         """Uploads an text to sxcu.net (via cancer-co.de)
 
         Parameters
@@ -318,7 +318,7 @@ class SXCU:
             The returned JSON from the request.
         """
         res = request_handler.post(
-            _DefaulDomains.UPLOAD_TEXT.value,
+            _DefaultDomains.UPLOAD_TEXT.value,
             data={"text": text},
         )
         if str(res.status_code) in status_code_upload_text:
@@ -334,7 +334,7 @@ class SXCU:
         return res.json()
 
     @staticmethod
-    def image_details(image_id: str = None, image_url: str = None) -> Union[dict, list]:
+    def image_details(image_id: str = None, image_url: str = None) -> T.Union[dict, list]:
         """Get basic details about an image on sxcu.net or any of its subdomain
 
         Parameters
@@ -360,7 +360,7 @@ class SXCU:
         if image_url is None and image_id is None:
             raise AttributeError("Either one of image_id or image_url is necessary")
         if image_url is None:
-            image_url = _DefaulDomains.IMAGE_DETAILS.value.format(image_id=image_id)
+            image_url = _DefaultDomains.IMAGE_DETAILS.value.format(image_id=image_id)
         if image_url[-5:-1] != ".json":
             image_url += ".json"
         res = request_handler.get(image_url)
@@ -395,7 +395,7 @@ class SXCU:
         :class:`list`
             The returned JSON from the request.
         """
-        res = request_handler.get(_DefaulDomains.DOMAINS_LIST.value)
+        res = request_handler.get(_DefaultDomains.DOMAINS_LIST.value)
         if str(res.status_code) in status_code_general:
             logger.error(
                 "The status_code was %s which was expected to be 200.",
