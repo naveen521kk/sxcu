@@ -15,8 +15,8 @@ from .__version__ import __version__
 SXCU_ERROR_CODE = 400
 
 
-class _DefaulDomains(Enum):
-    """DefaulDomains A Emum representing all the default API
+class _DefaultDomains(Enum):
+    """DefaultDomains A Emum representing all the default API
     URL's to use.
     """
 
@@ -124,5 +124,5 @@ status_code_create_link = {
 status_code_general = {
     "429": {"message": None, "desc": "The request exceeded the rate limit."},
 }
-HEADERS = {"User-Agent": f"PySXCU/{__version__}"}
+HEADERS = {"User-Agent": f"PySXCU/{__version__} (https://pypi.org/project/sxcu/)"}
 # see https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/User-Agent#syntax
