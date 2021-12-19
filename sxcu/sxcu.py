@@ -1,6 +1,7 @@
 """Python API wrapper for sxcu.net
 """
 import json
+import warnings
 import typing as T
 
 from .__client__ import RequestClient
@@ -39,7 +40,7 @@ class SXCU:
 
             .. note ::
 
-                The content in ``.scxu`` file has more priority than passed parameters.
+                The content in ``.sxcu`` file has more priority than passed parameters.
         """
         self.subdomain = subdomain if subdomain else "https://sxcu.net"
         self.upload_token = upload_token  # Don't log upload_token
@@ -48,38 +49,51 @@ class SXCU:
         if file_sxcu:
             with open(file_sxcu) as sxcu_file:
                 con = json.load(sxcu_file)
-            # requests url already contain `/upload` removing that.
-            self.subdomain = "/".join(con["RequestURL"].split("/")[:-1])
+            # requests url already contain `/api/files/create` remove that.
+            self.subdomain = "/".join(con["RequestURL"].split("/")[:-3])
             if "Arguments" in con:
                 self.upload_token = con["Arguments"]["token"]
         logger.debug("subdomain: %s", self.subdomain)
 
-    def upload_image(
+    def upload_image(self, *args, **kwargs):
+        warnings.warn(
+            "SXCU.upload_image is deprecated. "
+            "Use SXCU.upload_file instead.",
+            DeprecationWarning,
+            stacklevel=2,
+        )
+        self.upload_file(*args, **kwargs)
+
+    def upload_file(
         self,
         file: str,
-        collection: str = None,
-        collection_token: str = None,
-        noembed: bool = False,
-        og_properties: OGProperties = None,
+        collection: T.Optional[str] = None,
+        collection_token: T.Optional[str] = None,
+        noembed: T.Optional[bool] = False,
+        og_properties: T.Optional[OGProperties] = None,
+        self_destruct: bool = False,
     ) -> T.Union[dict, list]:
         """This uploads image to sxcu
 
         Parameters
         ==========
-        file : :class:`str`, optional
+        file:
             The path of File to Upload
-        collection : :class:`str`, optional
+        collection:
             The collection ID to which you want to upload to if
             you want to upload to a collection
-        collection_token : :class:`str`, optional
+        collection_token:
             The collection upload token if one is required by the
             collection you're uploading to.
-        noembed : :class:`bool`, optional
+        noembed:
             If ``True``, the uploader will return a direct URL to the
             uploaded image, instead of a dedicated page.
-        og_properties : :class:`OGProperties`, optional
+        og_properties:
             This will configure the OpenGraph properties of the file's page, effectively
             changing the way it embeds in various websites and apps.
+        self_destruct:
+            If ``True``, the file will be deleted automatically after
+            24 hours.
 
         Returns
         =======
@@ -97,13 +111,15 @@ class SXCU:
             data["noembed"] = ""
         if og_properties:
             data["og_properties"] = og_properties.export()
+        if self_destruct:
+            data["self_destruct"] = ""
         url = (
-            self.subdomain + "upload"
+            self.subdomain + "files/create"
             if self.subdomain[-1] == "/"
-            else self.subdomain + "/upload"
+            else self.subdomain + "/files/create"
         )
         with open(file, "rb") as img_file:
-            files = {"image": img_file}
+            files = {"file": img_file}
             res = request_handler.post(url, files=files, data=data)
         if str(res.status_code) in status_code_upload_image:
             logger.error(
@@ -131,9 +147,9 @@ class SXCU:
             The returned JSON from the request.
         """
         url = (
-            self.subdomain + "shorten"
+            self.subdomain + "links/create"
             if self.subdomain[-1] == "/"
-            else self.subdomain + "/shorten"
+            else self.subdomain + "/links/create"
         )
         res = request_handler.post(url, data={"link": link})
         if str(res.status_code) in status_code_create_link:
@@ -189,7 +205,6 @@ class SXCU:
         """
         data: T.Dict[str, T.Union[str, bool]] = {
             "action": "edit_collection",
-            "collection_id": collection_id,
             "collection_token": collection_token,
         }
         if title:
@@ -204,7 +219,8 @@ class SXCU:
             data["empty_collection"] = ""
         if delete_collection:
             data["delete_collection"] = ""
-        res = request_handler.post(_DefaultDomains.API_ENDPOINT.value, data=data)
+        url = _DefaultDomains.EDIT_COLLECTIONS.value.format(collection_id = collection_id)
+        res = request_handler.post(url, data=data)
         if str(res.status_code) in status_code_general:
             logger.error(
                 "The status_code was %s which was expected to be 200.",
@@ -334,7 +350,7 @@ class SXCU:
         return res.json()
 
     @staticmethod
-    def image_details(image_id: str = None, image_url: str = None) -> T.Union[dict, list]:
+    def file_details(image_id: str = None, image_url: str = None) -> T.Union[dict, list]:
         """Get basic details about an image on sxcu.net or any of its subdomain
 
         Parameters

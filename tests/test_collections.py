@@ -28,7 +28,7 @@ def test_create_collections() -> None:
 def test_upload_image_to_collection() -> None:
     time.sleep(60)
     t = SXCU()
-    con = t.upload_image(
+    con = t.upload_file(
         file=img_loc,
         collection=collection_details["collection_id"],
         collection_token=collection_details["collection_token"],

@@ -43,7 +43,7 @@ def test_upload_image_status_code(monkeypatch, status_code):
     monkeypatch.setattr(requests, "post", mock_get)
 
     with pytest.raises(SXCUError) as exc_info:
-        handler.upload_image(file=img_loc)
+        handler.upload_file(file=img_loc)
     assert str(exc_info.value) == status_code_upload_image[str(status_code)]["desc"]
 
 
@@ -103,7 +103,7 @@ def test_image_details(monkeypatch, status_code):
     monkeypatch.setattr(requests, "get", mock_post)
 
     with pytest.raises(SXCUError) as exc_info:
-        handler.image_details(image_id="test")
+        handler.file_details(image_id="test")
     assert str(exc_info.value) == status_code_general[str(status_code)]["desc"]
 
 

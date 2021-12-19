@@ -108,7 +108,7 @@ def handle_upload_command(args: typing.Any) -> None:
         tmpath = Path(tmpdir, "tmp.jpg")
         with tmpath.open("wb") as f:
             f.write(img_data)
-        res = sxcu_handler.upload_image(tmpath)
+        res = sxcu_handler.upload_file(tmpath)
         print_result(res)
 
 

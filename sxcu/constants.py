@@ -20,10 +20,11 @@ class _DefaultDomains(Enum):
     URL's to use.
     """
 
-    DOMAINS_LIST = "https://sxcu.net/api?action=domains"
-    IMAGE_DETAILS = "https://sxcu.net/{image_id}.json"
+    DOMAINS_LIST = "https://sxcu.net/api/subdomain"
+    IMAGE_DETAILS = "https://sxcu.net/api/files/{image_id}"
     UPLOAD_TEXT = "https://cancer-co.de/upload"
-    COLLECTION_DETAILS = "https://sxcu.net/c/{collection_id}.json"
+    COLLECTION_DETAILS = "https://sxcu.net/api/collections/{collection_id}"
+    EDIT_COLLECTIONS = "https://sxcu.net/api//collections/edit/{collection_id}"
     API_ENDPOINT = "https://sxcu.net/api/"
 
 
