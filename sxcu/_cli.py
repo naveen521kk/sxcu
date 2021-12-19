@@ -18,7 +18,7 @@ from .sxcu import SXCU
 
 custom_theme = Theme({"error": "bold red", "warning": "magenta", "code": "green"})
 console = Console(theme=custom_theme)
-SUCESS_MESSAGE_COLOR = "YELLOW Underline"
+SUCCESS_MESSAGE_COLOR = "YELLOW Underline"
 FORMAT = "%(message)s"
 logging.basicConfig(
     format=FORMAT,
@@ -51,7 +51,7 @@ def handle_paste_subcommand(args: typing.Any) -> None:
         console.print(table)
         console.print(
             "Url has been Copied to Clipboard",
-            style=SUCESS_MESSAGE_COLOR,
+            style=SUCCESS_MESSAGE_COLOR,
             justify="center",
         )
 
@@ -86,13 +86,13 @@ def handle_upload_command(args: typing.Any) -> None:
         console.print(table)
         console.print(
             "Url has been Copied to Clipboard",
-            style=SUCESS_MESSAGE_COLOR,
+            style=SUCCESS_MESSAGE_COLOR,
             justify="center",
         )
 
     if args.img_path and args.img:
         raise CLIError(
-            "Recieved both [code]img_path[/code] and "
+            "Received both [code]img_path[/code] and "
             "[code]img[/code]. Expected only one of them."
         )
     img = args.img
