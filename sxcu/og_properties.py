@@ -5,7 +5,7 @@ __all__ = [
 ]
 
 import json
-
+import typing as T
 
 class OGProperties:
     """
@@ -15,15 +15,17 @@ class OGProperties:
 
     def __init__(
         self,
-        color: str = None,
-        description: str = None,
-        title: str = None,
+        color: T.Union[str, bool] = None,
+        description: T.Union[str, bool] = None,
+        title: T.Union[str, bool] = None,
         discord_hide_url: bool = False,
+        site_name: T.Union[str, bool] = None
     ) -> None:
         self.color = color
         self.description = description
         self.title = title
         self.discord_hide_url = discord_hide_url
+        self.site_name = site_name
 
     def export(self) -> str:
         """Exports the Property set to a JSON file.
@@ -35,10 +37,11 @@ class OGProperties:
         """
         return json.dumps(
             {
-                "color": self.color,
-                "title": self.title,
-                "description": self.description,
+                "color": self.color or False,
+                "title": self.title or False,
+                "description": self.description or False,
                 "discord_hide_url": self.discord_hide_url,
+                "site_name": self.site_name or False
             }
         )
 
@@ -62,4 +65,5 @@ class OGProperties:
         description = _dict["description"]
         title = _dict["title"]
         discord_hide_url = _dict["discord_hide_url"]
-        return cls(color, description, title, discord_hide_url)
+        site_name = _dict["site_name"]
+        return cls(color, description, title, discord_hide_url, site_name)
