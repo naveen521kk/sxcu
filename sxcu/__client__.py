@@ -6,8 +6,9 @@
     This module wraps aroud ``Requests`` for logging
     and checking purpose.
 """
-import requests  # pylint: disable=import-error
 import typing as T
+
+import requests  # pylint: disable=import-error
 
 from .__logger__ import logger
 from .constants import HEADERS

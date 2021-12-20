@@ -1,16 +1,16 @@
 """Python API wrapper for sxcu.net
 """
 import json
-import warnings
 import typing as T
+import warnings
 
 from .__client__ import RequestClient
 from .__logger__ import logger
+from ._utils import join_url, raise_error
 from .constants import (
-    _DefaultDomains,
-    status_code_create_link,
+    SXCU_SUCCESS_CODE,
+    DefaultDomains,
     status_code_general,
-    status_code_upload_image,
     status_code_upload_text,
 )
 from .exceptions import SXCUError
@@ -45,7 +45,7 @@ class SXCU:
         self.subdomain = subdomain if subdomain else "https://sxcu.net"
         self.upload_token = upload_token  # Don't log upload_token
         self.file_sxcu = file_sxcu
-        self.api_endpoint = _DefaultDomains.API_ENDPOINT.value
+        self.api_endpoint = DefaultDomains.API_ENDPOINT.value
         if file_sxcu:
             with open(file_sxcu) as sxcu_file:
                 con = json.load(sxcu_file)
@@ -55,14 +55,20 @@ class SXCU:
                 self.upload_token = con["Arguments"]["token"]
         logger.debug("subdomain: %s", self.subdomain)
 
-    def upload_image(self, *args, **kwargs):
+    def _get_api_endpoint(self, default_domain: bool = False) -> str:
+        return (
+            join_url("https://sxcu.net", "/api")
+            if default_domain
+            else join_url(self.subdomain, "/api")
+        )
+
+    def upload_image(self, *args: T.Any, **kwargs: T.Any) -> T.Union[dict, list]:
         warnings.warn(
-            "SXCU.upload_image is deprecated. "
-            "Use SXCU.upload_file instead.",
+            "SXCU.upload_image() is deprecated. " "Use SXCU.upload_file() instead.",
             DeprecationWarning,
             stacklevel=2,
         )
-        self.upload_file(*args, **kwargs)
+        return self.upload_file(*args, **kwargs)
 
     def upload_file(
         self,
@@ -99,6 +105,11 @@ class SXCU:
         =======
         :class:`dict` or :class:`list`
             The returned JSON from the request.
+
+        Raises
+        ======
+        :class:`~.SXCUError`:
+            Any error from the request side.
         """
         data = {}
         if self.upload_token:
@@ -113,23 +124,15 @@ class SXCU:
             data["og_properties"] = og_properties.export()
         if self_destruct:
             data["self_destruct"] = ""
-        url = (
-            self.subdomain + "files/create"
-            if self.subdomain[-1] == "/"
-            else self.subdomain + "/files/create"
-        )
+        url = join_url(self._get_api_endpoint(default_domain=False), "/files/create")
         with open(file, "rb") as img_file:
             files = {"file": img_file}
             res = request_handler.post(url, files=files, data=data)
-        if str(res.status_code) in status_code_upload_image:
-            logger.error(
-                "The status_code was %s which was expected to be 200.", res.status_code
+        if res.status_code != SXCU_SUCCESS_CODE:
+            error_response = res.json()
+            raise_error(
+                res.status_code, error_response["code"], error_response["error"]
             )
-            logger.error(
-                "The reason for this error is: %s",
-                status_code_upload_image[str(res.status_code)]["desc"],
-            )
-            raise SXCUError(status_code_upload_image[str(res.status_code)]["desc"])
         # Don't use json instead implement a custom class here.
         return res.json()
 
@@ -146,29 +149,21 @@ class SXCU:
         :class:`dict` or :class:`list`
             The returned JSON from the request.
         """
-        url = (
-            self.subdomain + "links/create"
-            if self.subdomain[-1] == "/"
-            else self.subdomain + "/links/create"
-        )
+        url = join_url(self._get_api_endpoint(), "/links/create")
         res = request_handler.post(url, data={"link": link})
-        if str(res.status_code) in status_code_create_link:
-            logger.error(
-                "The status_code was %s which was expected to be 200.", res.status_code
+        if res.status_code != SXCU_SUCCESS_CODE:
+            error_response = res.json()
+            raise_error(
+                res.status_code, error_response["code"], error_response["error"]
             )
-            logger.error(
-                "The reason for this error is: %s",
-                status_code_create_link[str(res.status_code)]["desc"],
-            )
-            raise SXCUError(status_code_create_link[str(res.status_code)]["desc"])
         return res.json()
 
     @staticmethod
     def edit_collection(
         collection_id: str,
         collection_token: str,
-        title: str = None,
-        desc: str = None,
+        title: T.Optional[str] = None,
+        desc: T.Optional[str] = None,
         unlisted: bool = False,
         regen_token: bool = False,
         empty_collection: bool = False,
@@ -178,23 +173,23 @@ class SXCU:
 
         Parameters
         ==========
-        collection_id : :class:`str`
+        collection_id:
             The ID of the collection to be edited.
-        collection_token : :class:`str`
+        collection_token:
             The current token of that collection.
-        title : :class:`str`, optional
+        title:
             The new title of the collection.
-        desc : :class:`str`, optional
+        desc:
             The new description of the collection.
-        unlisted : :class:`bool`, optional
+        unlisted:
             If ``True`` the collection will be made unlisted.
-        regen_token : :class:`bool`, optional
+        regen_token:
             If ``True``, it will generate a new token for the collection
             and return it in the response.
-        empty_collection : :class:`bool`, optional
+        empty_collection:
             If ``True`` it will disassociate all of the images
             in the collection from it.
-        delete_collection : :class:`bool`, optional
+        delete_collection:
             If ``True`` it  will disassociate all of the
             images in the collection from it and delete the collection.
 
@@ -219,18 +214,13 @@ class SXCU:
             data["empty_collection"] = ""
         if delete_collection:
             data["delete_collection"] = ""
-        url = _DefaultDomains.EDIT_COLLECTIONS.value.format(collection_id = collection_id)
+        url = DefaultDomains.EDIT_COLLECTIONS.value.format(collection_id=collection_id)
         res = request_handler.post(url, data=data)
-        if str(res.status_code) in status_code_general:
-            logger.error(
-                "The status_code was %s which was expected to be 200.",
-                res.status_code,
+        if res.status_code != SXCU_SUCCESS_CODE:
+            error_response = res.json()
+            raise_error(
+                res.status_code, error_response["code"], error_response["error"]
             )
-            logger.error(
-                "The reason for this error is: %s",
-                status_code_general[str(res.status_code)]["desc"],
-            )
-            raise SXCUError(status_code_general[str(res.status_code)]["desc"])
         final = res.json()
         if isinstance(final, list):
             final = dict()
@@ -242,7 +232,7 @@ class SXCU:
         title: str,
         private: bool = False,
         unlisted: bool = False,
-        desc: str = None,
+        desc: T.Optional[str] = None,
     ) -> T.Union[dict, list]:
         """Create a new collection on sxcu.net.
 
@@ -274,7 +264,7 @@ class SXCU:
         if desc:
             data["desc"] = desc
         res = request_handler.post(
-            _DefaultDomains.API_ENDPOINT.value,
+            DefaultDomains.API_ENDPOINT.value,
             data=data,
         )
         if str(res.status_code) in status_code_general:
@@ -305,7 +295,7 @@ class SXCU:
             The returned JSON from the request.
         """
         res = request_handler.get(
-            _DefaultDomains.COLLECTION_DETAILS.value.format(collection_id=collection_id),
+            DefaultDomains.COLLECTION_DETAILS.value.format(collection_id=collection_id),
         )
         if str(res.status_code) in status_code_general:
             logger.error(
@@ -334,7 +324,7 @@ class SXCU:
             The returned JSON from the request.
         """
         res = request_handler.post(
-            _DefaultDomains.UPLOAD_TEXT.value,
+            DefaultDomains.UPLOAD_TEXT.value,
             data={"text": text},
         )
         if str(res.status_code) in status_code_upload_text:
@@ -344,13 +334,13 @@ class SXCU:
             )
             logger.error(
                 "The reason for this error is %s",
-                status_code_upload_image[str(res.status_code)]["desc"],
+                status_code_upload_file[str(res.status_code)]["desc"],
             )
             raise SXCUError(status_code_upload_text[str(res.status_code)]["desc"])
         return res.json()
 
     @staticmethod
-    def file_details(image_id: str = None, image_url: str = None) -> T.Union[dict, list]:
+    def file_meta(image_id: str = None, image_url: str = None) -> T.Union[dict, list]:
         """Get basic details about an image on sxcu.net or any of its subdomain
 
         Parameters
@@ -376,7 +366,7 @@ class SXCU:
         if image_url is None and image_id is None:
             raise AttributeError("Either one of image_id or image_url is necessary")
         if image_url is None:
-            image_url = _DefaultDomains.IMAGE_DETAILS.value.format(image_id=image_id)
+            image_url = DefaultDomains.IMAGE_DETAILS.value.format(image_id=image_id)
         if image_url[-5:-1] != ".json":
             image_url += ".json"
         res = request_handler.get(image_url)
@@ -411,7 +401,7 @@ class SXCU:
         :class:`list`
             The returned JSON from the request.
         """
-        res = request_handler.get(_DefaultDomains.DOMAINS_LIST.value)
+        res = request_handler.get(DefaultDomains.DOMAINS_LIST.value)
         if str(res.status_code) in status_code_general:
             logger.error(
                 "The status_code was %s which was expected to be 200.",

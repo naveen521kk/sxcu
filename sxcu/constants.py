@@ -12,10 +12,10 @@ from enum import Enum
 
 from .__version__ import __version__
 
-SXCU_ERROR_CODE = 400
+SXCU_SUCCESS_CODE = 200
 
 
-class _DefaultDomains(Enum):
+class DefaultDomains(Enum):
     """DefaultDomains A Emum representing all the default API
     URL's to use.
     """
@@ -24,7 +24,7 @@ class _DefaultDomains(Enum):
     IMAGE_DETAILS = "https://sxcu.net/api/files/{image_id}"
     UPLOAD_TEXT = "https://cancer-co.de/upload"
     COLLECTION_DETAILS = "https://sxcu.net/api/collections/{collection_id}"
-    EDIT_COLLECTIONS = "https://sxcu.net/api//collections/edit/{collection_id}"
+    EDIT_COLLECTIONS = "https://sxcu.net/api/collections/edit/{collection_id}"
     API_ENDPOINT = "https://sxcu.net/api/"
 
 

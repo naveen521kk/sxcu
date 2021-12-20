@@ -8,7 +8,7 @@ from sxcu import SXCU
 from sxcu.constants import (
     status_code_create_link,
     status_code_general,
-    status_code_upload_image,
+    status_code_upload_file,
     status_code_upload_text,
 )
 from sxcu.exceptions import SXCUError
@@ -35,7 +35,7 @@ class MockResponse:
         return self._status_code
 
 
-@pytest.mark.parametrize("status_code", [int(i) for i in status_code_upload_image])
+@pytest.mark.parametrize("status_code", [int(i) for i in status_code_upload_file])
 def test_upload_image_status_code(monkeypatch, status_code):
     def mock_get(*args, **kwargs):
         return MockResponse(status_code)
@@ -44,7 +44,7 @@ def test_upload_image_status_code(monkeypatch, status_code):
 
     with pytest.raises(SXCUError) as exc_info:
         handler.upload_file(file=img_loc)
-    assert str(exc_info.value) == status_code_upload_image[str(status_code)]["desc"]
+    assert str(exc_info.value) == status_code_upload_file[str(status_code)]["desc"]
 
 
 @pytest.mark.parametrize("status_code", [int(i) for i in status_code_create_link])

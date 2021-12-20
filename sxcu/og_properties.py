@@ -7,6 +7,7 @@ __all__ = [
 import json
 import typing as T
 
+
 class OGProperties:
     """
     This is a helper class for main SXCU function. This helps you to reuse
@@ -19,7 +20,7 @@ class OGProperties:
         description: T.Union[str, bool] = None,
         title: T.Union[str, bool] = None,
         discord_hide_url: bool = False,
-        site_name: T.Union[str, bool] = None
+        site_name: T.Union[str, bool] = None,
     ) -> None:
         self.color = color
         self.description = description
@@ -41,7 +42,7 @@ class OGProperties:
                 "title": self.title or False,
                 "description": self.description or False,
                 "discord_hide_url": self.discord_hide_url,
-                "site_name": self.site_name or False
+                "site_name": self.site_name or False,
             }
         )
 
