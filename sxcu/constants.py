@@ -28,7 +28,7 @@ class DefaultDomains(Enum):
     API_ENDPOINT = "https://sxcu.net/api/"
 
 
-status_code_upload_image = {
+status_code_upload_file = {
     "403": {
         "message": "Invalid upload token",
         "desc": "The specified upload token does not match the domain's upload token.",
