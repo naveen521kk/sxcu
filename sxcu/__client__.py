@@ -7,6 +7,7 @@
     and checking purpose.
 """
 import requests  # pylint: disable=import-error
+import typing as T
 
 from .__logger__ import logger
 from .constants import HEADERS
@@ -39,8 +40,10 @@ class RequestClient:
         """Pass all the parameter to :func:`requests.post`.
         Also, adding the necessary headers. Also, the newly passed header
         would overide the default.
+
         Parameters
         ==========
+
         headers : :class:`str`, optional
             The header needed to be added to the Request.
 
@@ -59,19 +62,20 @@ class RequestClient:
         return con
 
     def get(
-        self, url: str, headers: dict = None, **kwargs  # noqa ANN003
+        self, url: str, headers: T.Optional[dict] = None, **kwargs  # noqa ANN003
     ) -> requests.models.Response:
         """Pass all the parameter to :func:`requests.get`.
         Also, adding the necessary headers. Also, the newly passed header
         would overide the default.
+
         Parameters
         ==========
-        headers : :class:`str`, optional
+
+        headers:
             The header needed to be added to the Request.
 
-            .. important ::
-
-                    The header would overide the default header.
+        .. important ::
+            The :attr:`headers` would overide the default header.
 
         """
         logger.debug("Get Requests to %s", url)
