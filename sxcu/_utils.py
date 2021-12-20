@@ -11,7 +11,7 @@ from .constants import SXCU_SUCCESS_CODE
 from .exceptions import SXCUError
 
 
-def join_url(subdomain, path) -> str:
+def join_url(subdomain: str, path: str) -> str:
     if path[0] != "/":
         path = "/" + path
     if subdomain[-1] != "/":
@@ -19,7 +19,7 @@ def join_url(subdomain, path) -> str:
     return subdomain[:-1] + path
 
 
-def raise_error(status_code, error_code, error):
+def raise_error(status_code: int, error_code: int, error: str) -> None:
     logger.error(
         "The status_code from remote is %s which was expected to be %s.",
         status_code,

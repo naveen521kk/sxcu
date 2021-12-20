@@ -12,6 +12,7 @@ from .constants import (
     DefaultDomains,
     status_code_general,
     status_code_upload_text,
+    status_code_upload_file
 )
 from .exceptions import SXCUError
 from .og_properties import OGProperties
