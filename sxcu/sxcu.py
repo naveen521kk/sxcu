@@ -7,13 +7,7 @@ import warnings
 from .__client__ import RequestClient
 from .__logger__ import logger
 from ._utils import join_url, raise_error
-from .constants import (
-    SXCU_SUCCESS_CODE,
-    DefaultDomains,
-    status_code_general,
-    status_code_upload_file,
-    status_code_upload_text,
-)
+from .constants import SXCU_SUCCESS_CODE, DefaultDomains, status_code_general
 from .exceptions import SXCUError
 from .og_properties import OGProperties
 
@@ -269,17 +263,25 @@ class SXCU:
             DefaultDomains.UPLOAD_TEXT.value,
             data={"text": text},
         )
-        if str(res.status_code) in status_code_upload_text:
-            logger.error(
-                "The status_code was %s which was expected to be 200.",
-                res.status_code,
+        if res.status_code != SXCU_SUCCESS_CODE:
+            error_response = res.json()
+            raise_error(
+                res.status_code, error_response["code"], error_response["error"]
             )
-            logger.error(
-                "The reason for this error is %s",
-                status_code_upload_file[str(res.status_code)]["desc"],
-            )
-            raise SXCUError(status_code_upload_text[str(res.status_code)]["desc"])
         return res.json()
+
+    @staticmethod
+    def image_details(*args: T.Any, **kwargs: T.Any) -> T.Union[dict, list]:
+        """This method is deprecated.
+
+        Use :meth:`~.SXCU.file_meta` instead.
+        """
+        warnings.warn(
+            "SXCU.image_details() is deprecated. " "Use SXCU.file_meta() instead.",
+            DeprecationWarning,
+            stacklevel=2,
+        )
+        return SXCU.file_meta(*args, **kwargs)
 
     @staticmethod
     def file_meta(image_id: str = None, image_url: str = None) -> T.Union[dict, list]:
