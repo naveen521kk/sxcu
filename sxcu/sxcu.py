@@ -64,6 +64,9 @@ class SXCU:
         )
 
     def upload_image(self, *args: T.Any, **kwargs: T.Any) -> T.Union[dict, list]:
+        """This method is deprecated.
+        Use :meth:`~.SXCU.upload_file` instead.
+        """
         warnings.warn(
             "SXCU.upload_image() is deprecated. " "Use SXCU.upload_file() instead.",
             DeprecationWarning,
