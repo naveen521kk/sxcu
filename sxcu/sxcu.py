@@ -187,7 +187,7 @@ class SXCU:
         :class:`dict` or :class:`list`
             The returned JSON from the request.
         """
-        url = join_url(DefaultDomains.API_ENDPOINT.value, '/collections/create')
+        url = join_url(DefaultDomains.API_ENDPOINT.value, "/collections/create")
         data = {
             "title": title,
             "private": private,
@@ -207,7 +207,7 @@ class SXCU:
         return res.json()
 
     @staticmethod
-    def collection_details(*args: T.Any, **kwargs: T.Any) -> T.Union[dict,list]:
+    def collection_details(*args: T.Any, **kwargs: T.Any) -> T.Union[dict, list]:
         """This method is deprecated.
         Use :meth:`~.SXCU.collection_meta` instead.
         """
@@ -234,7 +234,9 @@ class SXCU:
         :class:`dict` or :class:`list`
             The returned JSON from the request.
         """
-        url = join_url(DefaultDomains.API_ENDPOINT.value, f'/collections/{collection_id}')
+        url = join_url(
+            DefaultDomains.API_ENDPOINT.value, f"/collections/{collection_id}"
+        )
         res = request_handler.get(
             url,
         )
