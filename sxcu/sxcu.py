@@ -207,9 +207,22 @@ class SXCU:
         return res.json()
 
     @staticmethod
-    def collection_details(collection_id: str) -> T.Union[dict, list]:
+    def collection_details(*args: T.Any, **kwargs: T.Any) -> T.Union[dict,list]:
+        """This method is deprecated.
+        Use :meth:`~.SXCU.collection_meta` instead.
+        """
+        warnings.warn(
+            "SXCU.collection_details() is deprecated. "
+            "Use SXCU.collection_meta() instead.",
+            DeprecationWarning,
+            stacklevel=2,
+        )
+        return SXCU.collection_meta(*args, **kwargs)
+
+    @staticmethod
+    def collection_meta(collection_id: str) -> T.Union[dict, list]:
         """Get collection details and list of images (if any are uploaded)
-        for a given collection
+        for a given collection.
 
         Parameters
         ==========
@@ -221,19 +234,16 @@ class SXCU:
         :class:`dict` or :class:`list`
             The returned JSON from the request.
         """
+        url = join_url(DefaultDomains.API_ENDPOINT.value, f'/collections/{collection_id}')
         res = request_handler.get(
-            DefaultDomains.COLLECTION_DETAILS.value.format(collection_id=collection_id),
+            url,
         )
-        if str(res.status_code) in status_code_general:
-            logger.error(
-                "The status_code was %s which was expected to be 200.",
-                res.status_code,
+        if res.status_code != SXCU_SUCCESS_CODE:
+            error_response = res.json()
+            raise_error(
+                res.status_code, error_response["code"], error_response["error"]
             )
-            logger.error(
-                "The reason for this error is %s",
-                status_code_general[str(res.status_code)]["desc"],
-            )
-            raise SXCUError(status_code_general[str(res.status_code)]["desc"])
+
         return res.json()
 
     @staticmethod
