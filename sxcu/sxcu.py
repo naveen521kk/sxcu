@@ -368,7 +368,7 @@ class SXCU:
 
         .. warning::
 
-            The returned list contains bytes encoded using :py:func:`str.encode`. 
+            The returned list contains bytes encoded using :py:func:`str.encode`.
             Please use :py:func:`bytes.decode` for decoding it.
 
         Returns
