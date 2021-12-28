@@ -7,8 +7,7 @@ import warnings
 from .__client__ import RequestClient
 from .__logger__ import logger
 from ._utils import get_id_from_url, join_url, raise_error
-from .constants import SXCU_SUCCESS_CODE, DefaultDomains, status_code_general
-from .exceptions import SXCUError
+from .constants import SXCU_SUCCESS_CODE, DefaultDomains
 from .og_properties import OGProperties
 
 __all__ = ["SXCU"]
@@ -346,7 +345,20 @@ class SXCU:
         return res.json()
 
     @staticmethod
-    def domain_list(count: int = -1) -> list:
+    def domain_list(*args: T.Any, **kwargs: T.Any) -> T.Union[dict, list]:
+        """This method is deprecated.
+
+        Use :meth:`~.SXCU.list_subdomain` instead.
+        """
+        warnings.warn(
+            "SXCU.domain_list() is deprecated. " "Use SXCU.list_subdomain() instead.",
+            DeprecationWarning,
+            stacklevel=2,
+        )
+        return SXCU.list_subdomain(*args, **kwargs)
+
+    @staticmethod
+    def list_subdomain(count: int = -1) -> list:
         """This lists all the public domains available, sorted by upload count.
 
         Parameters
@@ -356,25 +368,21 @@ class SXCU:
 
         .. warning::
 
-            The returned list contains bytes. Using :py:func:`str.encode`. Please use
-            :py:func:`bytes.decode` for decoding it.
+            The returned list contains bytes encoded using :py:func:`str.encode`. 
+            Please use :py:func:`bytes.decode` for decoding it.
 
         Returns
         =======
         :class:`list`
             The returned JSON from the request.
         """
-        res = request_handler.get(DefaultDomains.DOMAINS_LIST.value)
-        if str(res.status_code) in status_code_general:
-            logger.error(
-                "The status_code was %s which was expected to be 200.",
-                res.status_code,
+        url = join_url(DefaultDomains.API_ENDPOINT.value, "/subdomains")
+        res = request_handler.get(url)
+        if res.status_code != SXCU_SUCCESS_CODE:
+            error_response = res.json()
+            raise_error(
+                res.status_code, error_response["code"], error_response["error"]
             )
-            logger.error(
-                "The reason for this error is %s",
-                status_code_general[str(res.status_code)]["desc"],
-            )
-            raise SXCUError(status_code_general[str(res.status_code)]["desc"])
         if count == -1:
             to_encode = res.json()
         else:

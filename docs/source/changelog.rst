@@ -26,6 +26,8 @@ Breaking changes
   instead.
 * Deprecate :attr:`~.SXCU.image_details`. Use :attr:`~.SXCU.file_meta`
   instead.
+* Deprecate :attr:`~.SXCU.domain_list`. Use :attr:`~.SXCU.list_subdomain`
+  instead.
 
 New Features
 ------------
