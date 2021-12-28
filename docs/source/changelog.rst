@@ -44,7 +44,7 @@ Other changes
 
 * Miscellaneous typo fixes.
 * Slightly improve language in request handler.
-* 
+* Changed the default user agent to contain a URL to this project.
 
 sxcu-v3.2.0
 ===========
