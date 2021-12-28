@@ -6,7 +6,7 @@ import warnings
 
 from .__client__ import RequestClient
 from .__logger__ import logger
-from ._utils import join_url, raise_error
+from ._utils import get_id_from_url, join_url, raise_error
 from .constants import SXCU_SUCCESS_CODE, DefaultDomains, status_code_general
 from .exceptions import SXCUError
 from .og_properties import OGProperties
@@ -284,12 +284,17 @@ class SXCU:
         return SXCU.file_meta(*args, **kwargs)
 
     @staticmethod
-    def file_meta(image_id: str = None, image_url: str = None) -> T.Union[dict, list]:
+    def file_meta(
+        file_id: str = None,
+        file_url: str = None,
+        image_id: str = None,
+        image_url: str = None,
+    ) -> T.Union[dict, list]:
         """Get basic details about an image on sxcu.net or any of its subdomain
 
         Parameters
         ==========
-        image_id : :class:`str`
+        file_id : :class:`str`
             The id of the image. For example, if ``https://sxcu.net/QNeo92`` is the
             image URL then ``QNeo92`` will be the ``image_id``.
 
@@ -298,32 +303,46 @@ class SXCU:
                 The ``image_id`` can be from any subdomain also
                 as alway the id would be same.
 
-        imageUrl : :class:`str`
-            The image URL returned of sucessful upload.
+        file_url : :class:`str`
+            The image URL returned of successfully upload.
             For example, ``https://sxcu.net/QNeo92``.
+            Either one of :param:`file_id` or :param:`file_url`
+            is required.
 
         Returns
         =======
         :class:`dict` or :class:`list`
             The returned JSON from the request.
         """
-        if image_url is None and image_id is None:
-            raise AttributeError("Either one of image_id or image_url is necessary")
-        if image_url is None:
-            image_url = DefaultDomains.IMAGE_DETAILS.value.format(image_id=image_id)
-        if image_url[-5:-1] != ".json":
-            image_url += ".json"
-        res = request_handler.get(image_url)
-        if str(res.status_code) in status_code_general:
-            logger.error(
-                "The status_code was %s which was expected to be 200.",
-                res.status_code,
+        if image_url is not None:
+            warnings.warn(
+                "The parameter 'image_url' is deprecated. " "Use 'file_url' instead.",
+                DeprecationWarning,
+                stacklevel=2,
             )
-            logger.error(
-                "The reason for this error is %s",
-                status_code_general[str(res.status_code)]["desc"],
+            if file_url is None:
+                file_url = image_url
+        if image_id is not None:
+            warnings.warn(
+                "The parameter 'image_id' is deprecated. " "Use 'file_id' instead.",
+                DeprecationWarning,
+                stacklevel=2,
             )
-            raise SXCUError(status_code_general[str(res.status_code)]["desc"])
+            if file_id is None:
+                file_id = image_id
+
+        if file_id is None:
+            if file_url is None:
+                raise AttributeError("Either one of file_id or file_url is necessary")
+            else:
+                file_id = get_id_from_url(image_url)
+        url = join_url(DefaultDomains.API_ENDPOINT.value, f"/files/{file_id}")
+        res = request_handler.get(url)
+        if res.status_code != SXCU_SUCCESS_CODE:
+            error_response = res.json()
+            raise_error(
+                res.status_code, error_response["code"], error_response["error"]
+            )
         return res.json()
 
     @staticmethod
