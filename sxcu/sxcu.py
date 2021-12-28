@@ -1,5 +1,6 @@
 """Python API wrapper for sxcu.net
 """
+import io
 import json
 import typing as T
 import warnings
@@ -19,7 +20,7 @@ class SXCU:
     """The Main class for sxcu.net request"""
 
     def __init__(
-        self, subdomain: str = None, upload_token: str = None, file_sxcu: str = None
+        self, subdomain: str = None, upload_token: str = None, sxcu_config: T.Union[str, io.StringIO] = None
     ) -> None:
         """This initialise the handler
 
@@ -29,8 +30,8 @@ class SXCU:
             The subdomain you get from sxcu.net
         upload_token : :class:`str`, optional
             The upload token that comes along with subdomain
-        file_sxcu : :class:`str`,optional
-            The sxcu file you have got. Parses only ``RequestURL`` and ``upload_token``.
+        sxcu_config : :class:`str`,optional
+            The sxcu configuration you have. Parses only ``RequestURL`` and ``upload_token``.
 
             .. note ::
 
@@ -38,11 +39,17 @@ class SXCU:
         """
         self.subdomain = subdomain if subdomain else "https://sxcu.net"
         self.upload_token = upload_token  # Don't log upload_token
-        self.file_sxcu = file_sxcu
+        self.sxcu_config = sxcu_config
         self.api_endpoint = DefaultDomains.API_ENDPOINT.value
-        if file_sxcu:
-            with open(file_sxcu) as sxcu_file:
-                con = json.load(sxcu_file)
+        if sxcu_config:
+            if isinstance(sxcu_config, io.StringIO):
+                con = json.load(sxcu_config)
+            else:
+                try:
+                    con = json.loads(sxcu_config)
+                except json.JSONDecodeError:
+                    with open(sxcu_config) as sxcu_file:
+                        con = json.load(sxcu_file)
             # requests url already contain `/api/files/create` remove that.
             self.subdomain = "/".join(con["RequestURL"].split("/")[:-3])
             if "Arguments" in con:
@@ -69,7 +76,7 @@ class SXCU:
 
     def upload_file(
         self,
-        file: str,
+        file: T.Union[str, bytes, io.BytesIO],
         collection: T.Optional[str] = None,
         collection_token: T.Optional[str] = None,
         noembed: T.Optional[bool] = False,
@@ -122,9 +129,14 @@ class SXCU:
         if self_destruct:
             data["self_destruct"] = ""
         url = join_url(self._get_api_endpoint(default_domain=False), "/files/create")
-        with open(file, "rb") as img_file:
-            files = {"file": img_file}
-            res = request_handler.post(url, files=files, data=data)
+        if isinstance(file, io.BytesIO):
+            files = {"file": file}
+        elif isinstance(file, bytes):
+            files = {"file": io.BytesIO(file)}
+        else:
+            with open(file, "rb") as img_file:
+                files = {"file": img_file}
+        res = request_handler.post(url, files=files, data=data)
         if res.status_code != SXCU_SUCCESS_CODE:
             error_response = res.json()
             raise_error(

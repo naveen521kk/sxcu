@@ -68,7 +68,7 @@ def test_sxcu_file_parser() -> None:
 
     sxcu_file = Path(FILE_PATH, "assets", "sxcu.net - python.is-ne.at.sxcu")
     time.sleep(60)
-    _t = SXCU(file_sxcu=sxcu_file)
+    _t = SXCU(sxcu_config=sxcu_file)
     con = _t.upload_file(file=IMG_LOC, noembed=True)
 
     # test domain
@@ -84,7 +84,7 @@ def test_sxcu_file_parser_no_argument() -> None:
 
     sxcu_file = Path(FILE_PATH, "assets", "sxcu.net - why-am-i-he.re.sxcu")
     time.sleep(120)
-    t = SXCU(file_sxcu=sxcu_file)
+    t = SXCU(sxcu_config=sxcu_file)
     con = t.upload_file(file=IMG_LOC, noembed=True)
 
     # test domain
@@ -131,13 +131,13 @@ def test_create_link() -> None:
 
 def test_sxcu_file_init():
     sxcu_file = Path(FILE_PATH, "assets", "sxcu.net - why-am-i-he.re.sxcu")
-    _t = SXCU(file_sxcu=sxcu_file)
+    _t = SXCU(sxcu_config=sxcu_file)
     assert _t.subdomain == "https://why-am-i-he.re"
 
 
 def test_sxcu_file_init_with_token():
     sxcu_file = Path(FILE_PATH, "assets", "sxcu.net - python.is-ne.at.sxcu")
-    _t = SXCU(file_sxcu=sxcu_file)
+    _t = SXCU(sxcu_config=sxcu_file)
     assert _t.subdomain == "https://python.is-ne.at"
     assert _t.upload_token == "b8893b47-0e90-4fce-ad46-4264161a3a72"
 
@@ -180,6 +180,6 @@ def test_upload_mock(monkeypatch):
     monkeypatch.setattr(requests, "post", mock_get)
 
     sxcu_file = Path(FILE_PATH, "assets", "sxcu.net - python.is-ne.at.sxcu")
-    _t = SXCU(file_sxcu=sxcu_file)
+    _t = SXCU(sxcu_config=sxcu_file)
     a = _t.upload_file(IMG_LOC)
     assert json.dumps(a) == response
