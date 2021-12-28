@@ -20,7 +20,7 @@ class SXCU:
     """The Main class for sxcu.net request"""
 
     def __init__(
-        self, subdomain: str = None, upload_token: str = None, sxcu_config: T.Union[str, io.StringIO] = None
+        self, subdomain: str = None, upload_token: str = None, sxcu_config: T.Union[str, dict, io.StringIO] = None
     ) -> None:
         """This initialise the handler
 
@@ -44,12 +44,12 @@ class SXCU:
         if sxcu_config:
             if isinstance(sxcu_config, io.StringIO):
                 con = json.load(sxcu_config)
+            elif isinstance(sxcu_config, dict):
+                con = sxcu_config
             else:
-                try:
-                    con = json.loads(sxcu_config)
-                except json.JSONDecodeError:
-                    with open(sxcu_config) as sxcu_file:
-                        con = json.load(sxcu_file)
+                with open(sxcu_config) as sxcu_file:
+                    con = json.load(sxcu_file)
+            self.sxcu_config = con
             # requests url already contain `/api/files/create` remove that.
             self.subdomain = "/".join(con["RequestURL"].split("/")[:-3])
             if "Arguments" in con:
