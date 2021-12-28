@@ -6,10 +6,45 @@
 Changelog
 *********
 
-sxcu-v*
-=======
+sxcu-v4.0.0
+===========
 
-[TBD]
+This contains support for sxcu.net API v2.
+
+Breaking changes
+----------------
+
+* Removed support for sxcu.net API v1 which is deprecated and would
+  be removed soon.
+* Remove ``edit_collection`` method. I was informed it was to be removed
+  soon from the API.
+* A default logging handler which print debug info is removed. 
+  Please set up your own handler. Details at :ref:`Using Logging`.
+* Deprecate :attr:`~.SXCU.upload_image`. Use :attr:`~.SXCU.upload_file`
+  instead.
+* Deprecate :attr:`~.SXCU.collection_details`. Use :attr:`~.SXCU.collection_meta`
+  instead.
+* Deprecate :attr:`~.SXCU.image_details`. Use :attr:`~.SXCU.file_meta`
+  instead.
+
+New Features
+------------
+
+* Added support for :attr:`~.OGProperties.site_name` in :class:`~.OGProperties`
+* Added support for ``self_destruct`` in :attr:`~.SXCU.upload_file`.
+
+Bug fixes
+---------
+
+* Fix ``sxcu.__version__`` printing displaying wrong version.
+
+
+Other changes
+-------------
+
+* Miscellaneous typo fixes.
+* Slightly improve language in request handler.
+* 
 
 sxcu-v3.2.0
 ===========
