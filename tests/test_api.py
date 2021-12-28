@@ -16,7 +16,7 @@ def test_upload_keys_default_domain_and_delete_image() -> None:
     time.sleep(60)
 
     _t = SXCU()
-    con = _t.upload_image(file=IMG_LOC)
+    con = _t.upload_file(file=IMG_LOC)
     expected_keys = ["url", "del_url", "thumb"]
     assert (
         list(con.keys()).sort() == expected_keys.sort()
@@ -30,7 +30,7 @@ def test_upload_keys_default_domain_and_delete_image() -> None:
 @pytest.mark.xfail(run=False, reason="sxcu optimises images")
 def test_upload_image_default_domain() -> None:
     t = SXCU()
-    con = t.upload_image(file=IMG_LOC, noembed=True)
+    con = t.upload_file(file=IMG_LOC, noembed=True)
 
     con = requests.get(con["url"])
     assert open(IMG_LOC, "rb") == con.content
@@ -45,19 +45,19 @@ def test_image_info() -> None:
     # upload image first
     t = SXCU()
     time.sleep(60)
-    con = t.upload_image(file=IMG_LOC, noembed=True)
-    details = SXCU.image_details(image_url=con["url"])
+    con = t.upload_file(file=IMG_LOC, noembed=True)
+    details = SXCU.file_details(image_url=con["url"])
 
     assert con["url"] == details["url"]
     # Now try using id
     time.sleep(60)
     id_url = con["url"].split("/")[-1].split(".")[0]
-    details_id = SXCU.image_details(image_id=id_url)
+    details_id = SXCU.file_details(image_id=id_url)
 
     assert details_id["url"] == con["url"]
 
     try:
-        SXCU.image_details()
+        SXCU.file_details()
         assert False
     except AttributeError:
         assert True
@@ -69,7 +69,7 @@ def test_sxcu_file_parser() -> None:
     sxcu_file = Path(FILE_PATH, "assets", "sxcu.net - python.is-ne.at.sxcu")
     time.sleep(60)
     _t = SXCU(file_sxcu=sxcu_file)
-    con = _t.upload_image(file=IMG_LOC, noembed=True)
+    con = _t.upload_file(file=IMG_LOC, noembed=True)
 
     # test domain
     assert con["url"].startswith("https://python.is-ne.at")
@@ -85,7 +85,7 @@ def test_sxcu_file_parser_no_argument() -> None:
     sxcu_file = Path(FILE_PATH, "assets", "sxcu.net - why-am-i-he.re.sxcu")
     time.sleep(120)
     t = SXCU(file_sxcu=sxcu_file)
-    con = t.upload_image(file=IMG_LOC, noembed=True)
+    con = t.upload_file(file=IMG_LOC, noembed=True)
 
     # test domain
     assert con["url"].startswith("https://why-am-i-he.re")
@@ -181,5 +181,5 @@ def test_upload_mock(monkeypatch):
 
     sxcu_file = Path(FILE_PATH, "assets", "sxcu.net - python.is-ne.at.sxcu")
     _t = SXCU(file_sxcu=sxcu_file)
-    a = _t.upload_image(IMG_LOC)
+    a = _t.upload_file(IMG_LOC)
     assert json.dumps(a) == response

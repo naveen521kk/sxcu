@@ -20,7 +20,7 @@ def test_ogproperties() -> None:
     )
     assert con == og.export()
     t = SXCU()
-    a = t.upload_image(file=IMG_LOC, og_properties=og)
+    a = t.upload_file(file=IMG_LOC, og_properties=og)
 
     assert a is not None
 

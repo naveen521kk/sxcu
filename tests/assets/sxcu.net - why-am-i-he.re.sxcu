@@ -1,9 +1,11 @@
 {
     "Name": "sxcu.net - why-am-i-he.re",
     "DestinationType": "ImageUploader",
-    "RequestURL": "https://why-am-i-he.re/upload",
-    "FileFormName": "image",
+    "RequestURL": "https://why-am-i-he.re/api/files/create",
+    "FileFormName": "file",
     "URL": "$json:url$",
     "ThumbnailURL": "$json:thumb$",
-    "DeletionURL": "$json:del_url$"
+    "DeletionURL": "$json:del_url$",
+    "ErrorMessage": "$json:error$",
+    "Version": "13.6.1"
 }

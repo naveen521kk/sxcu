@@ -1,12 +1,14 @@
 {
     "Name": "sxcu.net - python.is-ne.at",
     "DestinationType": "ImageUploader",
-    "RequestURL": "https://python.is-ne.at/upload",
-    "FileFormName": "image",
+    "RequestURL": "https://python.is-ne.at/api/files/create",
+    "FileFormName": "file",
     "Arguments": {
         "token": "b8893b47-0e90-4fce-ad46-4264161a3a72"
     },
     "URL": "$json:url$",
     "ThumbnailURL": "$json:thumb$",
-    "DeletionURL": "$json:del_url$"
+    "DeletionURL": "$json:del_url$",
+    "ErrorMessage": "$json:error$",
+    "Version": "13.6.1"
 }
