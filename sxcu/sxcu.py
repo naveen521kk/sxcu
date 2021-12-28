@@ -20,7 +20,10 @@ class SXCU:
     """The Main class for sxcu.net request"""
 
     def __init__(
-        self, subdomain: str = None, upload_token: str = None, sxcu_config: T.Union[str, dict, io.StringIO] = None
+        self,
+        subdomain: str = None,
+        upload_token: str = None,
+        sxcu_config: T.Union[str, dict, io.StringIO] = None,
     ) -> None:
         """This initialise the handler
 
