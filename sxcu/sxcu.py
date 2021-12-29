@@ -24,6 +24,8 @@ class SXCU:
         subdomain: str = None,
         upload_token: str = None,
         sxcu_config: T.Union[str, dict, io.StringIO] = None,
+        *,
+        file_sxcu: str = None,
     ) -> None:
         """This initialise the handler
 
@@ -39,20 +41,27 @@ class SXCU:
             .. note ::
 
                 The content in ``.sxcu`` file has more priority than passed parameters.
+        file_sxcu : :class:`str`, optional
+            File location to sxcu configuration. Kept for backwards compatibility.
+
         """
         self.subdomain = subdomain if subdomain else "https://sxcu.net"
         self.upload_token = upload_token  # Don't log upload_token
-        self.sxcu_config = sxcu_config
+        self.file_sxcu = sxcu_config
         self.api_endpoint = DefaultDomains.API_ENDPOINT.value
-        if sxcu_config:
-            if isinstance(sxcu_config, io.StringIO):
-                con = json.load(sxcu_config)
-            elif isinstance(sxcu_config, dict):
-                con = sxcu_config
-            else:
-                with open(sxcu_config) as sxcu_file:
+        if sxcu_config or file_sxcu:
+            if sxcu_config:
+                if isinstance(sxcu_config, io.StringIO):
+                    con = json.load(sxcu_config)
+                elif isinstance(sxcu_config, dict):
+                    con = sxcu_config
+                else:
+                    with open(sxcu_config) as sxcu_file:
+                        con = json.load(sxcu_file)
+            elif file_sxcu:
+                with open(file_sxcu) as sxcu_file:
                     con = json.load(sxcu_file)
-            self.sxcu_config = con
+            self.file_sxcu = con
             # requests url already contain `/api/files/create` remove that.
             self.subdomain = "/".join(con["RequestURL"].split("/")[:-3])
             if "Arguments" in con:
@@ -79,7 +88,7 @@ class SXCU:
 
     def upload_file(
         self,
-        file: T.Union[str, bytes, io.BytesIO],
+        file: T.Union[str, io.BytesIO],
         collection: T.Optional[str] = None,
         collection_token: T.Optional[str] = None,
         noembed: T.Optional[bool] = False,
@@ -134,12 +143,11 @@ class SXCU:
         url = join_url(self._get_api_endpoint(default_domain=False), "/files/create")
         if isinstance(file, io.BytesIO):
             files = {"file": file}
-        elif isinstance(file, bytes):
-            files = {"file": io.BytesIO(file)}
+            res = request_handler.post(url, files=files, data=data)
         else:
             with open(file, "rb") as img_file:
                 files = {"file": img_file}
-        res = request_handler.post(url, files=files, data=data)
+                res = request_handler.post(url, files=files, data=data)
         if res.status_code != SXCU_SUCCESS_CODE:
             error_response = res.json()
             raise_error(
