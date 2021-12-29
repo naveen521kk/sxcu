@@ -1,3 +1,4 @@
+import io
 import json
 import time
 from pathlib import Path
@@ -9,6 +10,7 @@ from sxcu import SXCU
 
 FILE_PATH = Path(__file__).parent
 IMG_LOC = Path(FILE_PATH, "assets", "sharex.png")
+IMG = b"\x89PNG\r\n\x1a\n\x00\x00\x00\rIHDR\x00\x00\x00\x01\x00\x00\x00\x01\x08\x02\x00\x00\x00\x90wS\xde\x00\x00\x00\x01sRGB\x00\xae\xce\x1c\xe9\x00\x00\x00\x04gAMA\x00\x00\xb1\x8f\x0b\xfca\x05\x00\x00\x00\tpHYs\x00\x00\x0e\xc3\x00\x00\x0e\xc3\x01\xc7o\xa8d\x00\x00\x00\x0cIDAT\x18Wc\xf8\xff\xff?\x00\x05\xfe\x02\xfe\xa75\x81\x84\x00\x00\x00\x00IEND\xaeB`\x82"
 
 
 @pytest.mark.slow
@@ -34,6 +36,14 @@ def test_upload_image_default_domain() -> None:
 
     con = requests.get(con["url"])
     assert open(IMG_LOC, "rb") == con.content
+
+
+@pytest.mark.slow
+def test_upload_with_io_bytes():
+    _t = SXCU()
+    con = _t.upload_file(io.BytesIO(IMG), noembed=True)
+    file = requests.get(con["url"])
+    assert IMG == file.content
 
 
 # TODO: Test subdomains
