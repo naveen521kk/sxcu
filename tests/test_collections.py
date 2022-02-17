@@ -19,7 +19,7 @@ def test_create_collections() -> None:
     }
     a = SXCU.create_collection(unlisted=True, **uploadInfo)
     collection_details = a
-    b = SXCU.collection_details(a["collection_id"])
+    b = SXCU.collection_meta(a["collection_id"])
     to_check = ["title", "desc"]
     for i in to_check:
         assert uploadInfo[i] == b[i]
