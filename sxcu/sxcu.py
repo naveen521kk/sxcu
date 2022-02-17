@@ -49,19 +49,23 @@ class SXCU:
         self.upload_token = upload_token  # Don't log upload_token
         self.file_sxcu = sxcu_config
         self.api_endpoint = DefaultDomains.API_ENDPOINT.value
-        if sxcu_config or file_sxcu:
-            if sxcu_config:
-                if isinstance(sxcu_config, io.StringIO):
-                    con = json.load(sxcu_config)
-                elif isinstance(sxcu_config, dict):
-                    con = sxcu_config
-                else:
-                    with open(sxcu_config) as sxcu_file:
-                        con = json.load(sxcu_file)
-            elif file_sxcu:
-                with open(file_sxcu) as sxcu_file:
+        if file_sxcu:
+            warnings.warn(
+                "file_sxcu parameter is deprecated. " "Use sxcu_config instead.",
+                DeprecationWarning,
+                stacklevel=2,
+            )
+            sxcu_config = file_sxcu
+
+        if sxcu_config:
+            if isinstance(sxcu_config, io.StringIO):
+                con = json.load(sxcu_config)
+            elif isinstance(sxcu_config, dict):
+                con = sxcu_config
+            else:
+                with open(sxcu_config) as sxcu_file:
                     con = json.load(sxcu_file)
-            self.file_sxcu = con
+            self.sxcu_config = con
             # requests url already contain `/api/files/create` remove that.
             self.subdomain = "/".join(con["RequestURL"].split("/")[:-3])
             if "Arguments" in con:
