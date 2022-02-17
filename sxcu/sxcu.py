@@ -147,7 +147,7 @@ class SXCU:
             files = {"file": open(file, "rb")}
         res = request_handler.post(url, files=files, data=data)
         if not isinstance(file, io.BytesIO):
-            files['file'].close()
+            files["file"].close()
         if res.status_code != SXCU_SUCCESS_CODE:
             error_response = res.json()
             raise_error(
