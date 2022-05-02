@@ -100,7 +100,7 @@ class SXCU:
         og_properties: T.Optional[OGProperties] = None,
         self_destruct: bool = False,
         *,
-        file = None,
+        file=None,
     ) -> T.Union[dict, list]:
         """This uploads image to sxcu
 
@@ -157,7 +157,7 @@ class SXCU:
         _file_opened = False
         try:
             if fileobj is None:
-                fileobj = open(name, 'rb')
+                fileobj = open(name, "rb")
                 _file_opened = True
             res = request_handler.post(url, files={"file": fileobj}, data=data)
         finally:
