@@ -100,7 +100,7 @@ class SXCU:
         og_properties: T.Optional[OGProperties] = None,
         self_destruct: bool = False,
         *,
-        file=None,
+        file: str = None,
     ) -> T.Union[dict, list]:
         """This uploads image to sxcu
 
