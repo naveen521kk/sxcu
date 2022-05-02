@@ -6,6 +6,23 @@
 Changelog
 *********
 
+sxcu-v4.1.0
+===========
+
+New Features
+------------
+
+* Allow uploading a file directly from :class:`io.BytesIO`, see ``fileobj`` parameter in :func:`sxcu.SXCU.upload_file`
+* Allow passing :class:`io.StringIO` file as config file in :class:`.SXCU`
+
+
+Other changes
+-------------
+
+* Deprecate ``file_sxcu`` in :class:`.SXCU`, use ``sxcu_config`` instead.
+* Deprecate ``file`` parameter in :func:`sxcu.SXCU.upload_file`, use ``name`` instead.
+
+
 sxcu-v4.0.0
 ===========
 
