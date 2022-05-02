@@ -1,5 +1,6 @@
 """Python API wrapper for sxcu.net
 """
+import io
 import json
 import typing as T
 import warnings
@@ -19,7 +20,12 @@ class SXCU:
     """The Main class for sxcu.net request"""
 
     def __init__(
-        self, subdomain: str = None, upload_token: str = None, file_sxcu: str = None
+        self,
+        subdomain: str = None,
+        upload_token: str = None,
+        sxcu_config: T.Union[str, dict, io.StringIO] = None,
+        *,
+        file_sxcu: str = None,
     ) -> None:
         """This initialise the handler
 
@@ -29,20 +35,37 @@ class SXCU:
             The subdomain you get from sxcu.net
         upload_token : :class:`str`, optional
             The upload token that comes along with subdomain
-        file_sxcu : :class:`str`,optional
-            The sxcu file you have got. Parses only ``RequestURL`` and ``upload_token``.
+        sxcu_config : :class:`str`,optional
+            The sxcu configuration you have. Parses only ``RequestURL`` and ``upload_token``.
 
             .. note ::
 
                 The content in ``.sxcu`` file has more priority than passed parameters.
+        file_sxcu : :class:`str`, optional
+            File location to sxcu configuration. Kept for backwards compatibility.
+
         """
         self.subdomain = subdomain if subdomain else "https://sxcu.net"
         self.upload_token = upload_token  # Don't log upload_token
-        self.file_sxcu = file_sxcu
+        self.file_sxcu = sxcu_config
         self.api_endpoint = DefaultDomains.API_ENDPOINT.value
         if file_sxcu:
-            with open(file_sxcu) as sxcu_file:
-                con = json.load(sxcu_file)
+            warnings.warn(
+                "file_sxcu parameter is deprecated. " "Use sxcu_config instead.",
+                DeprecationWarning,
+                stacklevel=2,
+            )
+            sxcu_config = file_sxcu
+
+        if sxcu_config:
+            if isinstance(sxcu_config, io.StringIO):
+                con = json.load(sxcu_config)
+            elif isinstance(sxcu_config, dict):
+                con = sxcu_config
+            else:
+                with open(sxcu_config) as sxcu_file:
+                    con = json.load(sxcu_file)
+            self.sxcu_config = con
             # requests url already contain `/api/files/create` remove that.
             self.subdomain = "/".join(con["RequestURL"].split("/")[:-3])
             if "Arguments" in con:
@@ -69,19 +92,26 @@ class SXCU:
 
     def upload_file(
         self,
-        file: str,
+        name: str = None,
+        fileobj: io.BytesIO = None,
         collection: T.Optional[str] = None,
         collection_token: T.Optional[str] = None,
         noembed: T.Optional[bool] = False,
         og_properties: T.Optional[OGProperties] = None,
         self_destruct: bool = False,
+        *,
+        file: str = None,
     ) -> T.Union[dict, list]:
         """This uploads image to sxcu
 
         Parameters
         ==========
+        name:
+            The pathname of file to upload.
         file:
-            The path of File to Upload
+            aliased to name, for backwards compatibility.
+        fileobj:
+            If fileobj is given, it is used for reading the file.
         collection:
             The collection ID to which you want to upload to if
             you want to upload to a collection
@@ -121,10 +151,18 @@ class SXCU:
             data["og_properties"] = og_properties.export()
         if self_destruct:
             data["self_destruct"] = ""
+        if file:
+            name = file
         url = join_url(self._get_api_endpoint(default_domain=False), "/files/create")
-        with open(file, "rb") as img_file:
-            files = {"file": img_file}
-            res = request_handler.post(url, files=files, data=data)
+        _file_opened = False
+        try:
+            if fileobj is None:
+                fileobj = open(name, "rb")
+                _file_opened = True
+            res = request_handler.post(url, files={"file": fileobj}, data=data)
+        finally:
+            if _file_opened:
+                fileobj.close()
         if res.status_code != SXCU_SUCCESS_CODE:
             error_response = res.json()
             raise_error(
