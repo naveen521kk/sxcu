@@ -92,19 +92,26 @@ class SXCU:
 
     def upload_file(
         self,
-        file: T.Union[str, io.BytesIO],
+        name: str = None,
+        fileobj: io.BytesIO = None,
         collection: T.Optional[str] = None,
         collection_token: T.Optional[str] = None,
         noembed: T.Optional[bool] = False,
         og_properties: T.Optional[OGProperties] = None,
         self_destruct: bool = False,
+        *,
+        file = None,
     ) -> T.Union[dict, list]:
         """This uploads image to sxcu
 
         Parameters
         ==========
+        name:
+            The pathname of file to upload.
         file:
-            The path of File to Upload
+            aliased to name, for backwards compatibility.
+        fileobj:
+            If fileobj is given, it is used for reading the file.
         collection:
             The collection ID to which you want to upload to if
             you want to upload to a collection
@@ -144,14 +151,18 @@ class SXCU:
             data["og_properties"] = og_properties.export()
         if self_destruct:
             data["self_destruct"] = ""
+        if file:
+            name = file
         url = join_url(self._get_api_endpoint(default_domain=False), "/files/create")
-        if isinstance(file, io.BytesIO):
-            files = {"file": file}
-        else:
-            files = {"file": open(file, "rb")}
-        res = request_handler.post(url, files=files, data=data)
-        if not isinstance(file, io.BytesIO):
-            files["file"].close()
+        _file_opened = False
+        try:
+            if fileobj is None:
+                fileobj = open(name, 'rb')
+                _file_opened = True
+            res = request_handler.post(url, files={"file": fileobj}, data=data)
+        finally:
+            if _file_opened:
+                fileobj.close()
         if res.status_code != SXCU_SUCCESS_CODE:
             error_response = res.json()
             raise_error(
