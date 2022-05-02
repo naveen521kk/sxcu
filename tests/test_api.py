@@ -41,7 +41,7 @@ def test_upload_image_default_domain() -> None:
 @pytest.mark.slow
 def test_upload_with_io_bytes():
     _t = SXCU()
-    con = _t.upload_file(io.BytesIO(IMG), noembed=True)
+    con = _t.upload_file(fileobj=io.BytesIO(IMG), noembed=True)
     file = requests.get(con["url"])
     assert IMG == file.content
 
