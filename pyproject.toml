@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "sxcu"
-version = "4.0.0"
+version = "4.1.0"
 description = "Python API wrapper for sxcu.net"
 authors = [
     "Naveen M K <naveen521kk@gmail.com>"
