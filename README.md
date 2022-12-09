@@ -1,3 +1,5 @@
+<h1 align="center">This project is no longer maintained.</h1>
+
 # SXCU Python API Wrapper
 <p align="center">
   <a href="https://pypi.org/project/sxcu/">
