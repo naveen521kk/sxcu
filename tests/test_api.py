@@ -56,18 +56,18 @@ def test_image_info() -> None:
     t = SXCU()
     time.sleep(60)
     con = t.upload_file(file=IMG_LOC, noembed=True)
-    details = SXCU.file_details(image_url=con["url"])
+    details = SXCU.file_meta(image_url=con["url"])
 
     assert con["url"] == details["url"]
     # Now try using id
     time.sleep(60)
     id_url = con["url"].split("/")[-1].split(".")[0]
-    details_id = SXCU.file_details(image_id=id_url)
+    details_id = SXCU.file_meta(image_id=id_url)
 
     assert details_id["url"] == con["url"]
 
     try:
-        SXCU.file_details()
+        SXCU.file_meta()
         assert False
     except AttributeError:
         assert True
